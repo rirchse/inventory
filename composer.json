@@ -15,7 +15,6 @@
         "laravel/ui": "^4.5"
     },
     "require-dev": {
-        "axn/laravelcollective-form-to-raw-html": "^2.1",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
         "illuminate/console": "^11.3.1",
