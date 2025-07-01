@@ -19,49 +19,113 @@
             <div class="box-header with-border">
               <h3 style="color: #800" class="box-title">Vendor Information</h3>
             </div>
-            {!! Form::open(['route' => 'vendor.store', 'method' => 'POST', 'files' => true]) !!}
+            <form
+                method="POST"
+                action="{{ route('vendor.store') }}"
+                enctype="multipart/form-data"
+            >
+                @csrf
                 <div class="box-body">
                     <div class="col-md-12">
                         
                         <div class="form-group label-floating">
                             {!! html_entity_decode( Form::label('name', 'Name: <span class="text-danger">*</span>', ['class' => 'control-label']) )!!}
-                            {{ Form::text('name', null, ['class' => 'form-control'])}}
+                            <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                value="{{ old('name', null) }}"
+                                class="form-control"
+                            >
                         </div>
                         <div class="form-group label-floating">
                             {!! html_entity_decode( Form::label('business_name', 'Business Name: <span class="text-danger">*</span>', ['class' => 'control-label']) )!!}
-                            {{ Form::text('business_name', null, ['class' => 'form-control'])}}
+                            <input
+                                type="text"
+                                name="business_name"
+                                id="business_name"
+                                value="{{ old('business_name', null) }}"
+                                class="form-control"
+                            >
                         </div>
                         <div class="form-group label-floating">
-                            {{Form::label('address', 'Address:', ['class' => 'control-label'])}}
-                            {!! Form::textarea('address',null,['class'=>'form-control', 'rows' => 2]) !!}
+                            <label
+                                for="address"
+                                class="control-label"
+                            >
+                                Address:
+                            </label>
+                            <textarea
+                                name="address"
+                                id="address"
+                                class="form-control"
+                                rows="2"
+                            >{{ old('address', null) }}</textarea>
                         </div>
                        
                         <div class="form-group label-floating">
-                            {{ Form::label('email', 'Email Address: (Optional)', ['class' => 'control-label']) }}
-                            {{ Form::email('email', null, ['class' => 'form-control']) }}
+                            <label
+                                for="email"
+                                class="control-label"
+                            >
+                                Email Address: (Optional)
+                            </label>
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                value="{{ old('email', null) }}"
+                                class="form-control"
+                            >
                         </div>
                         
                         <div class="form-group label-floating">
                             {!! html_entity_decode( Form::label('contact', 'Contact No: <span class="text-danger">*</span>', ['class' => 'control-label']) )!!}
-                            {{ Form::text('contact', null, ['class' => 'form-control']) }}
+                            <input
+                                type="text"
+                                name="contact"
+                                id="contact"
+                                value="{{ old('contact', null) }}"
+                                class="form-control"
+                            >
                         </div>
                         <div class="form-group label-floating">
-                            {{ Form::label('details', 'Details:', ['class' => 'control-label']) }}
-                            {!! Form::textarea('details',null,['class'=>'form-control', 'rows' => 4, 'cols' => 45]) !!}
+                            <label
+                                for="details"
+                                class="control-label"
+                            >
+                                Details:
+                            </label>
+                            <textarea
+                                name="details"
+                                id="details"
+                                class="form-control"
+                                rows="4"
+                                cols="45"
+                            >{{ old('details', null) }}</textarea>
                         </div>
                     <div class="form-group label-floating">
                         <b>Status:</b> <br>
-                        {{ Form::label('status', 'Active:', ['class' => 'control-label']) }}
+                        <label
+                            for="status"
+                            class="control-label"
+                        >
+                            Active:
+                        </label>
                         {!! Form::checkbox('status', '1','checked'); !!}
                     </div>
                     <div class="form-group label-floating">
                         {{ Form::label('image', 'Image:', ['class' => 'control-label']) }}
-                        {{ Form::file('image') }}
+                        <input
+                            type="file"
+                            name="image"
+                            id="image"
+                        >
                     </div>
                     <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-save"></i> Save</button>
                 </div>
                     <div class="clearfix"></div>
-            {!! Form::close() !!}
+            </form>
           </div> <!-- /.box -->
         </div> <!--/.col (left) -->
       </div> <!-- /.row -->

@@ -56,7 +56,7 @@
                   <td>{{$sale->paid}} tk</td>
                   <td>{{$sale->due}} tk</td>
                   <td>{{date('d M Y', strtotime($sale->sales_date))}}</td>
-                  <td>{{App\User::find($sale->sold_by)?App\User::find($sale->sold_by)->name:''}}</td>
+                  <td>{{App\Models\User::find($sale->sold_by)?App\Models\User::find($sale->sold_by)->name:''}}</td>
                   <td>
                     @if($sale->status == 0)
                     <span class="label label-info">Pending</span>

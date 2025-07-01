@@ -237,7 +237,7 @@
 
   <div class="alert-section" style="">
     <div class="clearfix"></div>
-    <?php echo $__env->make('partials.messages', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make('partials.messages', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
    
     <div class="clearfix"></div>
   </div><?php /**PATH /srv/www/inventory/resources/views/layouts/header.blade.php ENDPATH**/ ?>

@@ -19,19 +19,36 @@
         <div class="box-header with-border">
             <h3 style="color: #800" class="box-title">Search Customer</h3>
         </div>
-      {!! Form::open(['route' => 'customer.search', 'method' => 'POST', 'files' => true]) !!}
+      <form
+          method="POST"
+          action="{{ route('customer.search') }}"
+          enctype="multipart/form-data"
+      >
+          @csrf
         <div class="box-body">
             <div class="col-sm-10">
                 <div class="form-group label-floating">
-                    {{ Form::label('customer', 'Search Customer:', ['class' => 'control-label']) }}
-                    {{ Form::text('customer', null, ['class' => 'form-control', 'required' => '','placeholder'=>'Search by customer name and mobile number'])}}
+                    <label
+                        for="customer"
+                        class="control-label"
+                    >
+                        Search Customer:
+                    </label>
+                    <input
+                        type="text"
+                        name="customer"
+                        id="customer"
+                        value="{{ old('customer', null) }}"
+                        class="form-control"
+                        placeholder="Search by customer name and mobile number"
+                    >
                 </div>            
             </div>
             <div class="col-sm-2"><br>
                 <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-search"> </i> Search</button>
             </div>
             <div class="clearfix"></div>
-            {!! Form::close() !!}
+            </form>
             </div> <!-- /.box-body -->
         </div> <!-- /.box -->
     </div> <!--/.col (left) -->

@@ -62,7 +62,7 @@
                     @endif
                   </td>
                   <td>{{ date('d M Y', strtotime($user->created_at))}}</td>
-                  <td>{{ App\Role::leftJoin('role_user', 'role_user.role_id', 'roles.id')->where('role_user.user_id', $user->id)->first()->name }}</td>
+                  <td>{{ App\Models\Role::leftJoin('role_user', 'role_user.role_id', 'roles.id')->where('role_user.user_id', $user->id)->first()->name }}</td>
                   <td>
                     <a href="{{route('user.show',$user->id)}}" class="label label-info" title="User Details"><i class="fa fa-file-text"></i></a>
                     <a href="{{route('user.edit',$user->id)}}" class="label label-warning" title="Edit this User"><i class="fa fa-edit"></i></a>

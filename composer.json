@@ -15,13 +15,14 @@
         "laravel/ui": "^4.5"
     },
     "require-dev": {
+        "axn/laravelcollective-form-to-raw-html": "^2.1",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
+        "illuminate/console": "^11.3.1",
+        "illuminate/contracts": "^11.3.1",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^8.1.1",
-        "phpunit/phpunit": "^11",
-        "illuminate/contracts":"^11.3.1",
-        "illuminate/console":"^11.3.1"
+        "phpunit/phpunit": "^11"
     },
     "config": {
         "optimize-autoloader": true,

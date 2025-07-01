@@ -28,10 +28,17 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            {!! Form::model($user, ['route' => ['user.update', $user->id], 'method' => 'PUT', 'files' => true]) !!}
+            <form action="{{route('user.update', $user)}}" method="POST" enctype="multipart/form-data">
+              @csrf
+              @method('PUT')
               <div class="box-body">
                 <div class="form-group label-floating">
-                    {{ Form::label('user_role', 'User Permission:', ['class' => 'control-label']) }}
+                    <label
+                        for="user_role"
+                        class="control-label"
+                    >
+                        User Permission:
+                    </label>
                     <select name="user_role" class="form-control">
                         <option value="">Select Permission</option>
                         <option selected value="{{$user_role->id}}">{{$user_role->name.'['.$user_role->description.']'}}</option>
@@ -41,17 +48,50 @@
                     </select>
                 </div>
                 <div class="form-group">
-                  {{ Form::label('name', 'Name:', ['class' => 'control-label']) }}
-                  {{ Form::text('name', $user->name, ['class' => 'form-control'])}}
+                  <label
+                      for="name"
+                      class="control-label"
+                  >
+                      Name:
+                  </label>
+                  <input
+                      type="text"
+                      name="name"
+                      id="name"
+                      value="{{ old('name', $user->name) }}"
+                      class="form-control"
+                  >
                 </div>
                 
                 <div class="form-group">
-                  {{ Form::label('email', 'Email Address:', ['class' => 'control-label']) }}
-                  {{ Form::email('email', $user->email, ['class' => 'form-control'])}}
+                  <label
+                      for="email"
+                      class="control-label"
+                  >
+                      Email Address:
+                  </label>
+                  <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      value="{{ old('email', $user->email) }}"
+                      class="form-control"
+                  >
                 </div>
                 <div class="form-group">
-                  {{ Form::label('contact', 'Contact Number:', ['class' => 'control-label']) }}
-                  {{ Form::text('contact', $user->contact, ['class' => 'form-control'])}}
+                  <label
+                      for="contact"
+                      class="control-label"
+                  >
+                      Contact Number:
+                  </label>
+                  <input
+                      type="text"
+                      name="contact"
+                      id="contact"
+                      value="{{ old('contact', $user->contact) }}"
+                      class="form-control"
+                  >
                 </div>
                 <div class="form-group">
                   <label for="image">Profile Image</label>
@@ -67,7 +107,7 @@
               <div class="box-footer">
                 <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-save"></i> Save</button>
               </div>
-            {!! Form::close() !!}
+            </form>
           </div>
           <!-- /.box -->
 

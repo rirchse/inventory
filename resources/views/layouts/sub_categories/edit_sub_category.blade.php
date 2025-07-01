@@ -31,11 +31,27 @@
         <div class="box-body">
         <div class="col-md-12">         
             <div class="form-group label-floating">
-                {{ Form::label('name', 'Name: *', ['class' => 'control-label']) }}
-                {{ Form::text('name', null, ['class' => 'form-control'])}}
+                <label
+                    for="name"
+                    class="control-label"
+                >
+                    Name: *
+                </label>
+                <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    value="{{ old('name', null) }}"
+                    class="form-control"
+                >
             </div>  
             <div class="form-group label-floating">
-                {{ Form::label('parent_id', 'Select Category: *', ['class' => 'control-label']) }}
+                <label
+                    for="parent_id"
+                    class="control-label"
+                >
+                    Select Category: *
+                </label>
                 <select name="parent_id" class="form-control">
                     <option value="">Select Category</option>
                     @foreach($categoris as $category)
@@ -44,12 +60,28 @@
                 </select>
             </div>       
             <div class="form-group label-floating">
-                {{ Form::label('details', 'Details:', ['class' => 'control-label']) }}
-                {!! Form::textarea('details',null,['class'=>'form-control', 'rows' => 4, 'cols' => 45]) !!}
+                <label
+                    for="details"
+                    class="control-label"
+                >
+                    Details:
+                </label>
+                <textarea
+                    name="details"
+                    id="details"
+                    class="form-control"
+                    rows="4"
+                    cols="45"
+                >{{ old('details', null) }}</textarea>
             </div>
             <div class="form-group label-floating">
               <b>Status:</b> <br>
-              {{ Form::label('status', 'Active:', ['class' => 'control-label']) }}
+              <label
+                  for="status"
+                  class="control-label"
+              >
+                  Active:
+              </label>
               {!! Form::checkbox('status', '1','checked'); !!}
           </div>
         <div class="box-footer">

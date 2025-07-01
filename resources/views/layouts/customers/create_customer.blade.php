@@ -16,84 +16,276 @@
         <div class="box-header with-border">
           <h3 style="color: #800" class="box-title">Customer Information</h3>
       </div>
-      {!! Form::open(['route' => 'customer.store', 'method' => 'POST', 'files' => true]) !!}
+      <form
+          method="POST"
+          action="{{ route('customer.store') }}"
+          enctype="multipart/form-data"
+      >
+          @csrf
       <div class="box-body">
         <div class="col-md-6">
             <h4>Personal Information:</h4>
             <div class="form-group label-floating">
-                {{ Form::label('full_name', 'Full Name of Customer: *', ['class' => 'control-label']) }}
-                {{ Form::text('full_name', null, ['class' => 'form-control', 'placeholder'=>'Customer Full Name'])}}
+                <label
+                    for="full_name"
+                    class="control-label"
+                >
+                    Full Name of Customer: *
+                </label>
+                <input
+                    type="text"
+                    name="full_name"
+                    id="full_name"
+                    value="{{ old('full_name', null) }}"
+                    class="form-control"
+                    placeholder="Customer Full Name"
+                >
             </div>
             <div class="form-group label-floating">
-                {{ Form::label('contact', 'Contact Number: *', ['class' => 'control-label']) }}
-                {{ Form::text('contact', null, ['class' => 'form-control', 'placeholder'=>'Mobile Number'])}}
+                <label
+                    for="contact"
+                    class="control-label"
+                >
+                    Contact Number: *
+                </label>
+                <input
+                    type="text"
+                    name="contact"
+                    id="contact"
+                    value="{{ old('contact', null) }}"
+                    class="form-control"
+                    placeholder="Mobile Number"
+                >
             </div>
             <div class="form-group label-floating">
-                {{ Form::label('email', 'Email(Optional):', ['class' => 'control-label']) }}
-                {{ Form::email('email', null, ['class' => 'form-control','placeholder'=>'Email Address'])}}
+                <label
+                    for="email"
+                    class="control-label"
+                >
+                    Email(Optional):
+                </label>
+                <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    value="{{ old('email', null) }}"
+                    class="form-control"
+                    placeholder="Email Address"
+                >
             </div>
             <div class="form-group label-floating">
-                {{ Form::label('gender', 'Gender:', ['class' => 'control-label']) }}<br>
-                {{Form::radio('gender', ' Male')}} Male &nbsp; &nbsp; 
-                {{Form::radio('gender', 'Female')}} Female
+                <label
+                    for="gender"
+                    class="control-label"
+                >
+                    Gender:
+                </label><br>
+                <input
+                    type="radio"
+                    name="gender"
+                    value=" Male"
+                    @checked (in_array(' Male', (array) old('gender')))
+                > Male &nbsp; &nbsp; 
+                <input
+                    type="radio"
+                    name="gender"
+                    value="Female"
+                    @checked (in_array('Female', (array) old('gender')))
+                > Female
             </div>
             <div class="form-group label-floating">
-                {{ Form::label('care_of', 'Father\'s/Husband Name:', ['class' => 'control-label']) }}
-                {{ Form::text('care_of', null, ['class' => 'form-control'])}}
+                <label
+                    for="care_of"
+                    class="control-label"
+                >
+                    Father's/Husband Name:
+                </label>
+                <input
+                    type="text"
+                    name="care_of"
+                    id="care_of"
+                    value="{{ old('care_of', null) }}"
+                    class="form-control"
+                >
             </div>
             <div class="form-group label-floating">
-                {{ Form::label('phone', 'Home Phone:', ['class' => 'control-label']) }}
-                {{ Form::text('phone', null, ['class' => 'form-control', 'placeholder'=>'Home Phone'])}}
+                <label
+                    for="phone"
+                    class="control-label"
+                >
+                    Home Phone:
+                </label>
+                <input
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    value="{{ old('phone', null) }}"
+                    class="form-control"
+                    placeholder="Home Phone"
+                >
             </div>
             <div class="form-group label-floating">
-                {{ Form::label('date_of_birth', 'Date Of Barth:', ['class' => 'control-label']) }}
-                {{ Form::date('date_of_birth', null, ['class' => 'form-control']) }}
+                <label
+                    for="date_of_birth"
+                    class="control-label"
+                >
+                    Date Of Barth:
+                </label>
+                <input
+                    type="date"
+                    name="date_of_birth"
+                    id="date_of_birth"
+                    value="{{ old('date_of_birth', null) }}"
+                    class="form-control"
+                >
             </div>
             <div class="form-group label-floating">
-                {{ Form::label('present_address', 'Present Address:', ['class' => 'control-label']) }}
-                {{ Form::textarea('present_address', null, ['class' => 'form-control', 'placeholder'=>'Present Address', 'rows' => 2])}}
+                <label
+                    for="present_address"
+                    class="control-label"
+                >
+                    Present Address:
+                </label>
+                <textarea
+                    name="present_address"
+                    id="present_address"
+                    class="form-control"
+                    placeholder="Present Address"
+                    rows="2"
+                >{{ old('present_address', null) }}</textarea>
             </div>
             <div class="form-group label-floating">
-                {{ Form::label('permanent_address', 'Permanent Address: *', ['class' => 'control-label']) }}
-                {{ Form::textarea('permanent_address', null, ['class' => 'form-control', 'placeholder'=>'Permanent Address', 'rows' => 2])}}
+                <label
+                    for="permanent_address"
+                    class="control-label"
+                >
+                    Permanent Address: *
+                </label>
+                <textarea
+                    name="permanent_address"
+                    id="permanent_address"
+                    class="form-control"
+                    placeholder="Permanent Address"
+                    rows="2"
+                >{{ old('permanent_address', null) }}</textarea>
             </div>
         </div>
         <div class="col-md-6">
             <h4>Profession Information:</h4>
             <div class="form-group label-floating">
-                {{ Form::label('profession', 'Profession:', ['class' => 'control-label']) }}
-                {{ Form::text('profession', null, ['class' => 'form-control', 'placeholder'=>'Job Title'])}}
+                <label
+                    for="profession"
+                    class="control-label"
+                >
+                    Profession:
+                </label>
+                <input
+                    type="text"
+                    name="profession"
+                    id="profession"
+                    value="{{ old('profession', null) }}"
+                    class="form-control"
+                    placeholder="Job Title"
+                >
             </div>
             <div class="form-group label-floating">
-                {{ Form::label('organization', 'Organization:', ['class' => 'control-label']) }}
-                {{ Form::text('organization', null, ['class' => 'form-control', 'placeholder'=>'Organization'])}}
+                <label
+                    for="organization"
+                    class="control-label"
+                >
+                    Organization:
+                </label>
+                <input
+                    type="text"
+                    name="organization"
+                    id="organization"
+                    value="{{ old('organization', null) }}"
+                    class="form-control"
+                    placeholder="Organization"
+                >
             </div>
         </div>
         <div class="col-md-6">
             <h4>Referral Information:</h4>
             <div class="form-group label-floating">
-                {{ Form::label('referral', 'Referral Name: *', ['class' => 'control-label']) }}
-                {{ Form::text('referral', null, ['class' => 'form-control', 'placeholder'=>'Referral Name']) }}
+                <label
+                    for="referral"
+                    class="control-label"
+                >
+                    Referral Name: *
+                </label>
+                <input
+                    type="text"
+                    name="referral"
+                    id="referral"
+                    value="{{ old('referral', null) }}"
+                    class="form-control"
+                    placeholder="Referral Name"
+                >
             </div>
             <div class="form-group label-floating">
-                {{ Form::label('referral_contact', 'Referral Contact:', ['class' => 'control-label']) }}
-                {{ Form::text('referral_contact', null, ['class' => 'form-control','placeholder'=>'Referral Contact']) }}
+                <label
+                    for="referral_contact"
+                    class="control-label"
+                >
+                    Referral Contact:
+                </label>
+                <input
+                    type="text"
+                    name="referral_contact"
+                    id="referral_contact"
+                    value="{{ old('referral_contact', null) }}"
+                    class="form-control"
+                    placeholder="Referral Contact"
+                >
             </div>
             <div class="form-group label-floating">
-                {{ Form::label('referral_address', 'Referral Address:', ['class' => 'control-label']) }}
-                {{ Form::textarea('referral_address', null, ['class' => 'form-control', 'placeholder'=>'Referral Address', 'rows' => 2]) }}
+                <label
+                    for="referral_address"
+                    class="control-label"
+                >
+                    Referral Address:
+                </label>
+                <textarea
+                    name="referral_address"
+                    id="referral_address"
+                    class="form-control"
+                    placeholder="Referral Address"
+                    rows="2"
+                >{{ old('referral_address', null) }}</textarea>
             </div>
             <div class="form-group label-floating">
-                {{ Form::label('status', 'Status:', ['class' => 'control-label']) }}<br>
+                <label
+                    for="status"
+                    class="control-label"
+                >
+                    Status:
+                </label><br>
                 Active: {!! Form::checkbox('status', 1); !!}
             </div>
             <div class="form-group label-floating">
                 {{ Form::label('image', 'Photo:', ['class' => 'control-label']) }}
-                {{ Form::file('image', ['class' => 'form-control']) }}
+                <input
+                    type="file"
+                    name="image"
+                    id="image"
+                    class="form-control"
+                >
             </div>
             <div class="form-group label-floating">
-                {{ Form::label('details', 'Details', ['class' => 'control-label']) }}
-                {!! Form::textarea('details', null, ['class'=>'form-control', 'rows' => 4, 'placeholder' => 'Details about this customer']) !!}
+                <label
+                    for="details"
+                    class="control-label"
+                >
+                    Details
+                </label>
+                <textarea
+                    name="details"
+                    id="details"
+                    class="form-control"
+                    rows="4"
+                    placeholder="Details about this customer"
+                >{{ old('details', null) }}</textarea>
             </div>
         </div>
         <div class="clearfix"></div>
@@ -102,7 +294,7 @@
             <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-save"></i> Save</button>
         </div>
       </div>
-        {!! Form::close() !!}
+        </form>
     </div> <!-- /.box -->
 </div> <!--/.col (left) -->
 </div> <!-- /.row -->

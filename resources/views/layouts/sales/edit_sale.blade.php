@@ -29,37 +29,109 @@
               <div class="box-body">
             <div class="col-md-6">
                 <div class="form-group label-floating">
-                    {{ Form::label('customer_name', 'Customer Name (*):', ['class' => 'control-label']) }}
-                    {{ Form::text('customer_name', $sale->full_name, ['class' => 'form-control', 'placeholder' => 'Customer Full Name', 'required'=>''])}}
+                    <label
+                        for="customer_name"
+                        class="control-label"
+                    >
+                        Customer Name (*):
+                    </label>
+                    <input
+                        type="text"
+                        name="customer_name"
+                        id="customer_name"
+                        value="{{ old('customer_name', $sale->full_name) }}"
+                        class="form-control"
+                        placeholder="Customer Full Name"
+                    >
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group label-floating">
-                    {{ Form::label('mobile', 'Mobile (*):', ['class' => 'control-label']) }}
-                    {{ Form::text('mobile', $sale->contact, ['class' => 'form-control', 'min' => 11, 'placeholder' => 'Customer Mobile Number', 'required' => ''])}}
+                    <label
+                        for="mobile"
+                        class="control-label"
+                    >
+                        Mobile (*):
+                    </label>
+                    <input
+                        type="text"
+                        name="mobile"
+                        id="mobile"
+                        value="{{ old('mobile', $sale->contact) }}"
+                        class="form-control"
+                        min="11"
+                        placeholder="Customer Mobile Number"
+                    >
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group label-floating">
-                    {{ Form::label('address', 'Address (*):', ['class' => 'control-label']) }}
-                    {{ Form::textarea('address', $sale->address, ['class' => 'form-control', 'rows' => 4, 'placeholder' => 'Customer Address', 'required' => ''])}}
+                    <label
+                        for="address"
+                        class="control-label"
+                    >
+                        Address (*):
+                    </label>
+                    <textarea
+                        name="address"
+                        id="address"
+                        class="form-control"
+                        rows="4"
+                        placeholder="Customer Address"
+                    >{{ old('address', $sale->address) }}</textarea>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group label-floating">
-                    {{ Form::label('email', 'Email Address (Optional):', ['class' => 'control-label']) }}
-                    {{ Form::email('email', $sale->email, ['class' => 'form-control', 'placeholder'=>'Email Address (Optional)'])}}
+                    <label
+                        for="email"
+                        class="control-label"
+                    >
+                        Email Address (Optional):
+                    </label>
+                    <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        value="{{ old('email', $sale->email) }}"
+                        class="form-control"
+                        placeholder="Email Address (Optional)"
+                    >
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-6" style="padding-left:0">
                     <div class="form-group">
-                        {{ Form::label('order_no', 'Order Number:', ['class' => 'control-label']) }}
-                        {{ Form::text('order_no', $sale->order_no, ['class' => 'form-control', 'required' => '', 'placeholder' => 'example: 10000'])}}
+                        <label
+                            for="order_no"
+                            class="control-label"
+                        >
+                            Order Number:
+                        </label>
+                        <input
+                            type="text"
+                            name="order_no"
+                            id="order_no"
+                            value="{{ old('order_no', $sale->order_no) }}"
+                            class="form-control"
+                            placeholder="example: 10000"
+                        >
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-6" style="padding-right:0">
                     <div class="form-group">
-                        {{ Form::label('sales_date', 'Sales Date:', ['class' => 'control-label']) }}
-                        {{ Form::date('sales_date', date('Y-m-d', strtotime($sale->sales_date)), ['class' => 'form-control', 'required' => '','placeholder'=>'Sale Date'])}}
+                        <label
+                            for="sales_date"
+                            class="control-label"
+                        >
+                            Sales Date:
+                        </label>
+                        <input
+                            type="date"
+                            name="sales_date"
+                            id="sales_date"
+                            value="{{ old('sales_date', date('Y-m-d', strtotime($sale->sales_date))) }}"
+                            class="form-control"
+                            placeholder="Sale Date"
+                        >
                     </div>
                 </div>
             </div>
@@ -115,37 +187,79 @@
                         <tr>
                             <td>Sub-Total (tk): </td>
                             <th>
-                                {{ Form::text('sub_total', $sale->sub_total, ['class'=>'form-control', 'id' => 'sub_total', 'style' => 'max-width:100px', 'required' => '']) }}
+                                <input
+                                    type="text"
+                                    name="sub_total"
+                                    value="{{ old('sub_total', $sale->sub_total) }}"
+                                    class="form-control"
+                                    id="sub_total"
+                                    style="max-width:100px"
+                                >
                             </th>
                         </tr>
                         <tr>
                             <td>Discount (tk): </td>
                             <th>
-                                {{ Form::text('discount', $sale->discount, ['class'=>'form-control', 'id' => 'discount', 'style' => 'max-width:100px']) }}
+                                <input
+                                    type="text"
+                                    name="discount"
+                                    value="{{ old('discount', $sale->discount) }}"
+                                    class="form-control"
+                                    id="discount"
+                                    style="max-width:100px"
+                                >
                             </th>
                         </tr>
                         <tr>
                             <td>Shipping (tk): </td>
                             <th>
-                                {{ Form::text('shipping', $sale->shipping, ['class'=>'form-control', 'id' => 'shipping', 'style' => 'max-width:100px']) }}
+                                <input
+                                    type="text"
+                                    name="shipping"
+                                    value="{{ old('shipping', $sale->shipping) }}"
+                                    class="form-control"
+                                    id="shipping"
+                                    style="max-width:100px"
+                                >
                             </th>
                         </tr>
                         <tr>
                             <td>Grand Total (tk): </td>
                             <th>
-                                {{ Form::text('gtotal', $sale->gtotal, ['class'=>'form-control', 'id' => 'gtotal', 'style' => 'max-width:100px']) }}
+                                <input
+                                    type="text"
+                                    name="gtotal"
+                                    value="{{ old('gtotal', $sale->gtotal) }}"
+                                    class="form-control"
+                                    id="gtotal"
+                                    style="max-width:100px"
+                                >
                             </th>
                         </tr>
                         <tr>
                             <td>Paid (tk): </td>
                             <th>
-                                {{ Form::text('paid', $sale->paid, ['class'=>'form-control', 'id' => 'paid', 'style' => 'max-width:100px']) }}
+                                <input
+                                    type="text"
+                                    name="paid"
+                                    value="{{ old('paid', $sale->paid) }}"
+                                    class="form-control"
+                                    id="paid"
+                                    style="max-width:100px"
+                                >
                             </th>
                         </tr>
                         <tr>
                             <td>Due (tk): </td>
                             <th>
-                                {{ Form::text('due', $sale->due, ['class'=>'form-control', 'id' => 'due', 'style' => 'max-width:100px']) }}
+                                <input
+                                    type="text"
+                                    name="due"
+                                    value="{{ old('due', $sale->due) }}"
+                                    class="form-control"
+                                    id="due"
+                                    style="max-width:100px"
+                                >
                             </th>
                         </tr>
                     </table>
@@ -155,12 +269,34 @@
                     <div class="clearfix"></div>
                     <br>
                     <div class="form-group">
-                        {{ Form::label('shipping_address', 'Shipping Address:', ['class' => 'control-label']) }}
-                        {!! Form::textarea('shipping_address', null, ['class'=>'form-control', 'rows' => 2, 'placeholder' => 'Optional']) !!}
+                        <label
+                            for="shipping_address"
+                            class="control-label"
+                        >
+                            Shipping Address:
+                        </label>
+                        <textarea
+                            name="shipping_address"
+                            id="shipping_address"
+                            class="form-control"
+                            rows="2"
+                            placeholder="Optional"
+                        >{{ old('shipping_address', null) }}</textarea>
                     </div>
                     <div class="form-group">
-                        {{ Form::label('note', 'Note:', ['class' => 'control-label']) }}
-                        {!! Form::textarea('note', $sale->details, ['class'=>'form-control', 'rows' => 2, 'placeholder' => 'Optional']) !!}
+                        <label
+                            for="note"
+                            class="control-label"
+                        >
+                            Note:
+                        </label>
+                        <textarea
+                            name="note"
+                            id="note"
+                            class="form-control"
+                            rows="2"
+                            placeholder="Optional"
+                        >{{ old('note', $sale->details) }}</textarea>
                     </div>
 
                     <style type="text/css">
@@ -169,7 +305,12 @@
                     </style>
 
                     <div class="form-group"><br>
-                        {{ Form::label('status', 'Status: ', ['class' => 'control-label']) }}
+                        <label
+                            for="status"
+                            class="control-label"
+                        >
+                            Status: 
+                        </label>
                         <ul class="ul-status">
                             <li class="radio">
                                 <label class="text-primary"><input type="radio" name="status" {{$sale->status == 0?'checked':''}} value="0">New Order</label>
@@ -193,7 +334,7 @@
                 <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-save"> </i> Save</button>
             </div>
             </div> <!-- /.box body -->
-            {!! Form::close() !!}
+            </form>
 
         </div> <!--/.col (left) -->
       </div> <!-- /.row -->

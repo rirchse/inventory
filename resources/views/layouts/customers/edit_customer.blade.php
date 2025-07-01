@@ -29,22 +29,69 @@
         <div class="box-body">
         <div class="col-md-6">
             <div class="form-group label-floating">
-                {{ Form::label('full_name', 'Customer Name: *', ['class' => 'control-label']) }}
-                {{ Form::text('full_name', $customer->full_name, ['class' => 'form-control', 'placeholder'=>'Customer Full Name'])}}
+                <label
+                    for="full_name"
+                    class="control-label"
+                >
+                    Customer Name: *
+                </label>
+                <input
+                    type="text"
+                    name="full_name"
+                    id="full_name"
+                    value="{{ old('full_name', $customer->full_name) }}"
+                    class="form-control"
+                    placeholder="Customer Full Name"
+                >
             </div>
             <div class="form-group label-floating">
-                {{ Form::label('contact', 'Mobile Number: *', ['class' => 'control-label']) }}
-                {{ Form::text('contact', $customer->contact, ['class' => 'form-control', 'placeholder'=>'Mobile Number'])}}
+                <label
+                    for="contact"
+                    class="control-label"
+                >
+                    Mobile Number: *
+                </label>
+                <input
+                    type="text"
+                    name="contact"
+                    id="contact"
+                    value="{{ old('contact', $customer->contact) }}"
+                    class="form-control"
+                    placeholder="Mobile Number"
+                >
             </div>
             <div class="form-group label-floating">
-                {{ Form::label('email', 'Email (Optional):', ['class' => 'control-label']) }}
-                {{ Form::email('email', $customer->email, ['class' => 'form-control','placeholder'=>'example@email.com'])}}
+                <label
+                    for="email"
+                    class="control-label"
+                >
+                    Email (Optional):
+                </label>
+                <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    value="{{ old('email', $customer->email) }}"
+                    class="form-control"
+                    placeholder="example@email.com"
+                >
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group label-floating">
-                {{ Form::label('address', 'Address:', ['class' => 'control-label']) }}
-                {{ Form::textarea('address', $customer->address, ['class' => 'form-control', 'placeholder'=>'Present Address', 'rows' => 7])}}
+                <label
+                    for="address"
+                    class="control-label"
+                >
+                    Address:
+                </label>
+                <textarea
+                    name="address"
+                    id="address"
+                    class="form-control"
+                    placeholder="Present Address"
+                    rows="7"
+                >{{ old('address', $customer->address) }}</textarea>
             </div>
         </div>
         <div class="clearfix"></div>
@@ -53,7 +100,7 @@
         <div class="box-footer">
             <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-save"></i> Save</button>
         </div>
-        {!! Form::close() !!}
+        </form>
     </div>
     <!-- /.box -->
 

@@ -28,70 +28,191 @@
               <div class="box-body">
                 <div class="col-md-4">
                   <div class="form-group">
-                    {{ Form::label('first_name', 'First Name:', ['class' => 'control-label']) }}
-                    {{ Form::text('first_name', $profile->first_name, ['class' => 'form-control'])}}
+                    <label
+                        for="first_name"
+                        class="control-label"
+                    >
+                        First Name:
+                    </label>
+                    <input
+                        type="text"
+                        name="first_name"
+                        id="first_name"
+                        value="{{ old('first_name', $profile->first_name) }}"
+                        class="form-control"
+                    >
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    {{ Form::label('middle_name', 'Middle I', ['class' => 'control-label']) }}
-                    {{ Form::text('middle_name', $profile->middle_name, ['class' => 'form-control'])}}
+                    <label
+                        for="middle_name"
+                        class="control-label"
+                    >
+                        Middle I
+                    </label>
+                    <input
+                        type="text"
+                        name="middle_name"
+                        id="middle_name"
+                        value="{{ old('middle_name', $profile->middle_name) }}"
+                        class="form-control"
+                    >
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    {{ Form::label('last_name', 'Last Name:', ['class' => 'control-label']) }}
-                    {{ Form::text('last_name', $profile->last_name, ['class' => 'form-control'])}}
+                    <label
+                        for="last_name"
+                        class="control-label"
+                    >
+                        Last Name:
+                    </label>
+                    <input
+                        type="text"
+                        name="last_name"
+                        id="last_name"
+                        value="{{ old('last_name', $profile->last_name) }}"
+                        class="form-control"
+                    >
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    {{ Form::label('email', 'Email Address:', ['class' => 'control-label']) }}
-                    {{ Form::email('email', $profile->email, ['class' => 'form-control', 'disabled' => ''])}}
+                    <label
+                        for="email"
+                        class="control-label"
+                    >
+                        Email Address:
+                    </label>
+                    <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        value="{{ old('email', $profile->email) }}"
+                        class="form-control"
+                    >
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    {{ Form::label('contact', 'Contact Number:', ['class' => 'control-label']) }}
-                    {{ Form::text('contact', $profile->contact, ['class' => 'form-control'])}}
+                    <label
+                        for="contact"
+                        class="control-label"
+                    >
+                        Contact Number:
+                    </label>
+                    <input
+                        type="text"
+                        name="contact"
+                        id="contact"
+                        value="{{ old('contact', $profile->contact) }}"
+                        class="form-control"
+                    >
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    {{ Form::label('address', 'Address:', ['class' => 'control-label']) }}
-                    {{ Form::text('address', $profile->address, ['class' => 'form-control'])}}
+                    <label
+                        for="address"
+                        class="control-label"
+                    >
+                        Address:
+                    </label>
+                    <input
+                        type="text"
+                        name="address"
+                        id="address"
+                        value="{{ old('address', $profile->address) }}"
+                        class="form-control"
+                    >
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    {{ Form::label('city', 'City:', ['class' => 'control-label']) }}
-                    {{ Form::text('city', $profile->city, ['class' => 'form-control'])}}
+                    <label
+                        for="city"
+                        class="control-label"
+                    >
+                        City:
+                    </label>
+                    <input
+                        type="text"
+                        name="city"
+                        id="city"
+                        value="{{ old('city', $profile->city) }}"
+                        class="form-control"
+                    >
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    {{ Form::label('state', 'State:', ['class' => 'control-label']) }}
-                    {{ Form::text('state', $profile->state, ['class' => 'form-control'])}}
+                    <label
+                        for="state"
+                        class="control-label"
+                    >
+                        State:
+                    </label>
+                    <input
+                        type="text"
+                        name="state"
+                        id="state"
+                        value="{{ old('state', $profile->state) }}"
+                        class="form-control"
+                    >
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    {{ Form::label('zip_code', 'ZIP Code:', ['class' => 'control-label']) }}
-                    {{ Form::text('zip_code', $profile->zip_code, ['class' => 'form-control'])}}
+                    <label
+                        for="zip_code"
+                        class="control-label"
+                    >
+                        ZIP Code:
+                    </label>
+                    <input
+                        type="text"
+                        name="zip_code"
+                        id="zip_code"
+                        value="{{ old('zip_code', $profile->zip_code) }}"
+                        class="form-control"
+                    >
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    {{ Form::label('country', 'Country:', ['class' => 'control-label']) }}
-                    {{ Form::text('country', $profile->country?$profile->country:'USA', ['class' => 'form-control'])}}
+                    <label
+                        for="country"
+                        class="control-label"
+                    >
+                        Country:
+                    </label>
+                    <input
+                        type="text"
+                        name="country"
+                        id="country"
+                        value="{{ old('country', $profile->country?$profile->country:'USA') }}"
+                        class="form-control"
+                    >
                   </div>
                 </div>
 
                 @if($user->user_role == 'Fleet Owner')
                 <div class="col-md-6">
                   <div class="form-group">
-                    {{ Form::label('vat_id', 'VAT ID:', ['class' => 'control-label']) }}
-                    {{ Form::text('vat_id', $profile->vat_id, ['class' => 'form-control'])}}
+                    <label
+                        for="vat_id"
+                        class="control-label"
+                    >
+                        VAT ID:
+                    </label>
+                    <input
+                        type="text"
+                        name="vat_id"
+                        id="vat_id"
+                        value="{{ old('vat_id', $profile->vat_id) }}"
+                        class="form-control"
+                    >
                   </div>
                 </div>
                 @endif
@@ -122,7 +243,7 @@
               <div class="box-footer">
                 <button type="submit" class="btn btn-primary pull-right">Update</button>
               </div>
-            {!! Form::close() !!}
+            </form>
           </div>
           <!-- /.box -->
 

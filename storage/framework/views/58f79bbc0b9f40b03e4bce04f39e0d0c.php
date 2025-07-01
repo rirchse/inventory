@@ -56,4 +56,4 @@
   .alert-i{padding: 0 5px; border:1px solid #f00; border-radius: 50%;color: #f00; cursor: pointer; float: right;max-width: 50px; display: block;}
   </style>
  -->
-  <?php echo $__env->make('partials.messages', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /srv/www/inventory/resources/views/auth/login_header.blade.php ENDPATH**/ ?>
+  <?php echo $__env->make('partials.messages', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /srv/www/inventory/resources/views/auth/login_header.blade.php ENDPATH**/ ?>

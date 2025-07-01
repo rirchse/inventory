@@ -19,7 +19,12 @@
         <div class="box-header with-border">
           <h3 style="color: #800" class="box-title">Order Details <b> [ #{{$sale->id}} ]</b></h3>
         </div>
-        {!! Form::open(['route' => 'payment.store', 'method' => 'POST', 'files' => true]) !!}
+        <form
+            method="POST"
+            action="{{ route('payment.store') }}"
+            enctype="multipart/form-data"
+        >
+            @csrf
         <div class="box-body">
           <table class="table border" style="border:1px solid #ddd">
             <tr>
@@ -35,27 +40,81 @@
               <td>Grand Total: <b>{{$sale->gtotal}} tk</b> &nbsp; &nbsp;  Paid: <b>{{$sale->paid}} tk</b>  &nbsp; &nbsp; Due Amount: <b>{{$sale->due}} tk</b></td>
             </tr>
           </table><br>
-          {{Form::hidden('sales_id', $sale->id)}}
+          <input
+              type="hidden"
+              name="sales_id"
+              id="sales_id"
+              value="{{ old('sales_id', $sale->id) }}"
+          >
             <div class="form-group">
-              {{ Form::label('paid_amount', 'Paid Amount:', ['class' => 'control-label']) }}
-              {{ Form::text('paid_amount', null, ['class' => 'form-control', 'required' => '', 'placeholder' => '00.00 tk'])}}
+              <label
+                  for="paid_amount"
+                  class="control-label"
+              >
+                  Paid Amount:
+              </label>
+              <input
+                  type="text"
+                  name="paid_amount"
+                  id="paid_amount"
+                  value="{{ old('paid_amount', null) }}"
+                  class="form-control"
+                  placeholder="00.00 tk"
+              >
             </div>
             <div class="form-group">
-              {{ Form::label('payment_type', 'Payment Type:', ['class' => 'control-label']) }}
-              {{ Form::select('payment_type', ['' => '', 'bKash' => 'bKash', ' Rocket' => 'Rocket', 'Nagad' => 'Nagad', 'Cash' => 'Cash', 'Bank' => 'Bank', 'Others' => 'Others'], null, ['class' => 'form-control', 'required' => ''])}}
+              <label
+                  for="payment_type"
+                  class="control-label"
+              >
+                  Payment Type:
+              </label>
+              <select
+                  name="payment_type"
+                  id="payment_type"
+                  class="form-control"
+              >
+                  @foreach (['' => '', 'bKash' => 'bKash', ' Rocket' => 'Rocket', 'Nagad' => 'Nagad', 'Cash' => 'Cash', 'Bank' => 'Bank', 'Others' => 'Others'] as $optionValue => $optionText)
+                      <option 
+                          value="{!! e($optionValue, false) !!}" 
+                          @selected (in_array($optionValue, (array) (old('payment_type', null))))
+                      >{!! e($optionText, false) !!}</option>
+                  @endforeach
+              </select>
             </div>
             <div class="form-group">
-              {{ Form::label('date', 'Payment Date:', ['class' => 'control-label']) }}
-              {!! Form::date('date', null, ['class'=>'form-control']) !!}
+              <label
+                  for="date"
+                  class="control-label"
+              >
+                  Payment Date:
+              </label>
+              <input
+                  type="date"
+                  name="date"
+                  id="date"
+                  value="{{ old('date', null) }}"
+                  class="form-control"
+              >
             </div>
             <div class="form-group">
-              {{ Form::label('note', 'Note:', ['class' => 'control-label']) }}
-              {!! Form::textarea('note', null,['class'=>'form-control', 'rows' => 2]) !!}
+              <label
+                  for="note"
+                  class="control-label"
+              >
+                  Note:
+              </label>
+              <textarea
+                  name="note"
+                  id="note"
+                  class="form-control"
+                  rows="2"
+              >{{ old('note', null) }}</textarea>
             </div>
 
           <button type="submit" class="btn btn-primary pull-right">Save</button>
           <div class="clearfix"></div>
-          {!! Form::close() !!}
+          </form>
 
         </div> <!-- /.box -->
       </div> <!--/.col (left) -->

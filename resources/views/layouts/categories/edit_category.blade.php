@@ -29,17 +29,50 @@
         {!! Form::model($category, ['route' => ['category.update', $category->id], 'method' => 'PUT', 'files' => true]) !!}
         <div class="box-body">
           <div class="form-group">
-            {{ Form::label('category', 'Name:', ['class' => 'control-label']) }}
-            {{ Form::text('name', $category->name, ['class' => 'form-control'])}}
+            <label
+                for="category"
+                class="control-label"
+            >
+                Name:
+            </label>
+            <input
+                type="text"
+                name="name"
+                id="name"
+                value="{{ old('name', $category->name) }}"
+                class="form-control"
+            >
           </div>
 
           <div class="form-group label-floating">
-            {{ Form::label('details', 'Details', ['class' => 'control-label']) }}
-            {!! Form::textarea('details',$category->deteils,['class'=>'form-control', 'rows' => 4, 'cols' => 45]) !!}
+            <label
+                for="details"
+                class="control-label"
+            >
+                Details
+            </label>
+            <textarea
+                name="details"
+                id="details"
+                class="form-control"
+                rows="4"
+                cols="45"
+            >{{ old('details', $category->deteils) }}</textarea>
           </div>
           <div class="form-group label-floating">
-            {{ Form::label('status', 'Status', ['class' => 'control-label']) }}
-            {!! Form::checkbox('status', '1') !!}
+            <label
+                for="status"
+                class="control-label"
+            >
+                Status
+            </label>
+            <input
+                type="checkbox"
+                name="status"
+                id="status"
+                value="1"
+                @checked (in_array('1', (array) old('status')))
+            >
           </div>
           
         </div>
@@ -48,7 +81,7 @@
         <div class="box-footer">
           <button type="submit" class="btn btn-primary pull-right">Update</button>
         </div>
-        {!! Form::close() !!}
+        </form>
       </div>
       <!-- /.box -->
 

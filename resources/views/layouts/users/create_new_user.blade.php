@@ -20,11 +20,12 @@
             <div class="box-header with-border">
               <h3 style="color: #800" class="box-title">Account Details</h3>
             </div>
-    {!! Form::open(['route' => 'user.store', 'method' => 'POST', 'files' => true]) !!}
+    <form action="{{route('user.store')}}" method="POST" enctype="multipart/form-data">
+      @csrf
         <div class="box-body">
             <div class="col-md-12">
                 <div class="form-group label-floating">
-                    {{ Form::label('user_role', 'User Permission:', ['class' => 'control-label']) }}
+                    <label for="">User Permission:</label>
                     <select name="user_role" class="form-control" required>
                         <option value="">Select Permission</option>
                         @foreach($roles as $role)
@@ -33,39 +34,39 @@
                     </select>
                 </div>
                 <div class="form-group label-floating">
-                    {{ Form::label('name', 'Name:', ['class' => 'control-label']) }}
-                    {{ Form::text('name', null, ['class' => 'form-control', 'required' => ''])}}
+                    <label for="">User Name:</label>
+                    <input type="text" class="form-control" name="name" required>
                 </div>
                
                 <div class="form-group label-floating">
-                    {{ Form::label('email', 'Email Address:', ['class' => 'control-label']) }}
-                    {{ Form::email('email', null, ['class' => 'form-control', 'required' => '']) }}
+                    <label for="">Email Address:</label>
+                    <input type="email" class="form-control" name="email" required>
                 </div>
                 <div class="form-group label-floating">
-                    {{ Form::label('contact', 'Contact No.', ['class' => 'control-label']) }}
-                    {{ Form::text('contact', null, ['class' => 'form-control', 'minlength' => '11', 'maxlength' => '11', 'placeholder' => '01*********']) }}
+                    <label for="">Contact No.</label>
+                    <input type="number" class="form-control" maxlength="11" minlength="11" placeholder="01*********" name="contact">
                 </div>
             </div>
            
         
             <div class="col-md-6">
                 <div class="form-group label-floating">
-                    {{ Form::label('password', 'Password', ['class' => 'control-label']) }}
-                    {{ Form::password('password', ['class' => 'form-control', 'required' => '']) }}
+                    <label for="">Password:</label>
+                    <input type="password" class="form-control" name="password">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group label-floating">
-                    {{ Form::label('confirm_password', 'Confirm Password', ['class' => 'control-label']) }}
-                    {{ Form::password('password_confirmation', ['class' => 'form-control', 'required' => '']) }}
+                    <label for="">Confirm Password:</label>
+                    <input type="password" name="password_confirmation" required class="form-control">
                 </div>
             </div>
 
              <div class="col-md-12">
 
                 <div class="form-group label-floating">
-                    {{ Form::label('image', 'Add Photo', ['class' => 'control-label']) }}
-                    {{ Form::file('image', ['class' => 'form-control']) }}
+                    <label for="">Add Photo:</label>
+                    <input type="file" name="image" class="form-control">
                 </div>
             </div>
 
@@ -76,7 +77,7 @@
         </div>
         
         <div class="clearfix"></div>
-        {!! Form::close() !!}
+      </form>
           </div> <!-- /.box -->
         </div> <!--/.col (left) -->
       </div> <!-- /.row -->

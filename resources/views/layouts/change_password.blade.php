@@ -19,24 +19,68 @@
           <div class="box-header with-border">
             <h4 class="box-title">Change My Password</h4>
           </div>
-    {!! Form::model($profile, ['route' => ['user.change.password', $profile->id], 'method' => 'PUT', 'files' => true]) !!}
+    <form action="{{route('user.change.password', $profile)}}" method="POST" enctype="multipart/form-data">
+      @csrf
+      @method('PUT')
             <div class="col-md-12">
                 
                 <div class="form-group label-floating">
-                    {{ Form::label('email', 'Email Address:', ['class' => 'control-label']) }}
-                    {{ Form::email('email', $profile->email, ['class' => 'form-control', 'disabled' => 'disabled']) }}
+                    <label
+                        for="email"
+                        class="control-label"
+                    >
+                        Email Address:
+                    </label>
+                    <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        value="{{ old('email', $profile->email) }}"
+                        class="form-control"
+                        @disabled ('disabled')
+                    >
                 </div>
                 <div class="form-group label-floating">
-                    {{ Form::label('current_password', 'Current Password', ['class' => 'control-label']) }}
-                    {{ Form::password('current_password', ['class' => 'form-control']) }}
+                    <label
+                        for="current_password"
+                        class="control-label"
+                    >
+                        Current Password
+                    </label>
+                    <input
+                        type="password"
+                        name="current_password"
+                        id="current_password"
+                        class="form-control"
+                    >
                 </div>
                 <div class="form-group label-floating">
-                    {{ Form::label('password', 'New Password', ['class' => 'control-label']) }}
-                    {{ Form::password('password', ['class' => 'form-control']) }}
+                    <label
+                        for="password"
+                        class="control-label"
+                    >
+                        New Password
+                    </label>
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        class="form-control"
+                    >
                 </div>
                 <div class="form-group label-floating">
-                    {{ Form::label('confirm_password', 'Confirm New Password', ['class' => 'control-label']) }}
-                    {{ Form::password('password_confirmation', ['class' => 'form-control']) }}
+                    <label
+                        for="confirm_password"
+                        class="control-label"
+                    >
+                        Confirm New Password
+                    </label>
+                    <input
+                        type="password"
+                        name="password_confirmation"
+                        id="password_confirmation"
+                        class="form-control"
+                    >
                 </div>
             </div>
             <div class="col-md-12">
@@ -45,7 +89,7 @@
 
         
         <div class="clearfix"></div>
-    {!! Form::close() !!}
+    </form>
 
                 </div>
             </div>

@@ -23,18 +23,40 @@
         <div class="box-body">
           
           <div class="form-group label-floating">
-            {{ Form::label('paid_amount', 'Pay Amount:', ['class' => 'control-label']) }}
-            {{ Form::text('paid_amount', null, ['class' => 'form-control', 'required' => ''])}}
+            <label
+                for="paid_amount"
+                class="control-label"
+            >
+                Pay Amount:
+            </label>
+            <input
+                type="text"
+                name="paid_amount"
+                id="paid_amount"
+                value="{{ old('paid_amount', null) }}"
+                class="form-control"
+            >
           </div>
           <div class="form-group label-floating">
-            {{ Form::label('details', 'Details', ['class' => 'control-label']) }}
-            {!! Form::textarea('details',null,['class'=>'form-control', 'rows' => 4, 'cols' => 45]) !!}
+            <label
+                for="details"
+                class="control-label"
+            >
+                Details
+            </label>
+            <textarea
+                name="details"
+                id="details"
+                class="form-control"
+                rows="4"
+                cols="45"
+            >{{ old('details', null) }}</textarea>
           </div>
           
 
           <button type="submit" class="btn btn-primary pull-right">Save</button>
           <div class="clearfix"></div>
-          {!! Form::close() !!}
+          </form>
 
         </div> <!-- /.box -->
       </div> <!--/.col (left) -->

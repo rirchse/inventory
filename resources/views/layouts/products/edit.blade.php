@@ -31,11 +31,27 @@
       <div class="box-body">
         <div class="col-md-6">
            <div class="form-group label-floating">
-            {{ Form::label('name', 'Product Name: *', ['class' => 'control-label']) }}
-            {{ Form::text('name', null, ['class' => 'form-control'])}}
+            <label
+                for="name"
+                class="control-label"
+            >
+                Product Name: *
+            </label>
+            <input
+                type="text"
+                name="name"
+                id="name"
+                value="{{ old('name', null) }}"
+                class="form-control"
+            >
         </div>
         <div class="form-group label-floating">
-            {{ Form::label('category', 'Category: *', ['class' => 'control-label']) }}
+            <label
+                for="category"
+                class="control-label"
+            >
+                Category: *
+            </label>
             <select name="category" class="form-control" >
                 <option value="">Select Category</option>
                 @foreach($categories as $category)
@@ -44,7 +60,12 @@
             </select>
         </div>
         <div class="form-group label-floating">
-            {{ Form::label('sub_cat', 'Sub Category:', ['class' => 'control-label']) }}
+            <label
+                for="sub_cat"
+                class="control-label"
+            >
+                Sub Category:
+            </label>
             <select name="sub_cat" class="form-control" >
                 <option value="">Select SubCategory</option>
                 @foreach($subcategories as $subcategory)
@@ -53,7 +74,12 @@
             </select>
         </div>
         <div class="form-group label-floating">
-            {{ Form::label('vendor', 'Vendor:', ['class' => 'control-label']) }}
+            <label
+                for="vendor"
+                class="control-label"
+            >
+                Vendor:
+            </label>
             <select name="vendor" class="form-control" >
                 <option value="">Select Vendor</option>
                 @foreach($vendors as $vendor)
@@ -62,7 +88,12 @@
             </select>
         </div>
         <div class="form-group label-floating">
-            {{ Form::label('brand', 'Brand: *', ['class' => 'control-label']) }}
+            <label
+                for="brand"
+                class="control-label"
+            >
+                Brand: *
+            </label>
             <input list="brand" name="brand" class="form-control" value="{{$product->brand}}">
             <datalist id="brand">
                 <option value="Non Brand">
@@ -72,43 +103,135 @@
             </datalist>            
         </div>
         <div class="form-group label-floating">
-            {{ Form::label('serial_no', 'Serial Number:', ['class' => 'control-label']) }}
-            {{ Form::text('serial_no', null, ['class' => 'form-control']) }}
+            <label
+                for="serial_no"
+                class="control-label"
+            >
+                Serial Number:
+            </label>
+            <input
+                type="text"
+                name="serial_no"
+                id="serial_no"
+                value="{{ old('serial_no', null) }}"
+                class="form-control"
+            >
         </div>
         <div class="form-group label-floating">
-            {{ Form::label('stock', 'Stock: *', ['class' => 'control-label']) }}
-            {{ Form::number('stock', null, ['class' => 'form-control']) }}
+            <label
+                for="stock"
+                class="control-label"
+            >
+                Stock: *
+            </label>
+            <input
+                type="number"
+                name="stock"
+                id="stock"
+                value="{{ old('stock', null) }}"
+                class="form-control"
+            >
         </div>  
     </div>
     <div class="col-md-6">
         <div class="form-group label-floating">
-            {{ Form::label('mrp_price', 'MRP Price: *', ['class' => 'control-label']) }}
-            {{ Form::number('mrp_price', null, ['class' => 'form-control']) }}
+            <label
+                for="mrp_price"
+                class="control-label"
+            >
+                MRP Price: *
+            </label>
+            <input
+                type="number"
+                name="mrp_price"
+                id="mrp_price"
+                value="{{ old('mrp_price', null) }}"
+                class="form-control"
+            >
         </div>
         <div class="form-group label-floating">
-            {{ Form::label('credit_price', 'Credit Price:', ['class' => 'control-label']) }}
-            {{ Form::number('credit_price', null, ['class' => 'form-control']) }}
+            <label
+                for="credit_price"
+                class="control-label"
+            >
+                Credit Price:
+            </label>
+            <input
+                type="number"
+                name="credit_price"
+                id="credit_price"
+                value="{{ old('credit_price', null) }}"
+                class="form-control"
+            >
         </div>
         <div class="form-group label-floating">
-            {{ Form::label('cash_price', 'Cash price:', ['class' => 'control-label']) }}
-            {{ Form::number('cash_price', null, ['class' => 'form-control']) }}
+            <label
+                for="cash_price"
+                class="control-label"
+            >
+                Cash price:
+            </label>
+            <input
+                type="number"
+                name="cash_price"
+                id="cash_price"
+                value="{{ old('cash_price', null) }}"
+                class="form-control"
+            >
         </div>      
         <div class="form-group label-floating">
-            {{ Form::label('buying_price', 'Buying Price:', ['class' => 'control-label']) }}
-            {{ Form::number('buying_price', null, ['class' => 'form-control']) }}
+            <label
+                for="buying_price"
+                class="control-label"
+            >
+                Buying Price:
+            </label>
+            <input
+                type="number"
+                name="buying_price"
+                id="buying_price"
+                value="{{ old('buying_price', null) }}"
+                class="form-control"
+            >
         </div>
 
         <div class="form-group label-floating">
-            {{ Form::label('buying_date', 'Buying Date:*', ['class' => 'control-label']) }}
-            {{ Form::date('buying_date', null, ['class' => 'form-control']) }}
+            <label
+                for="buying_date"
+                class="control-label"
+            >
+                Buying Date:*
+            </label>
+            <input
+                type="date"
+                name="buying_date"
+                id="buying_date"
+                value="{{ old('buying_date', null) }}"
+                class="form-control"
+            >
         </div>
         <div class="form-group label-floating">
-            {{ Form::label('details', 'Details:', ['class' => 'control-label']) }}
-            {{ Form::textarea('details', null,['class' => 'form-control','rows' => 2]) }}
+            <label
+                for="details"
+                class="control-label"
+            >
+                Details:
+            </label>
+            <textarea
+                name="details"
+                id="details"
+                class="form-control"
+                rows="2"
+            >{{ old('details', null) }}</textarea>
         </div>
         <div class="form-group label-floating">
             <b>Status:</b><br>
-            {{ Form::label('status', 'Active:', ['class' => 'control-label']) }}
+            <label
+                for="status"
+                class="control-label"
+            >
+                Active:
+            </label>
             {!! Form::checkbox('status', '1'); !!}
         </div>
 

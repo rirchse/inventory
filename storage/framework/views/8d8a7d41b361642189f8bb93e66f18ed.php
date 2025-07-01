@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('title', 'View All Purchase'); ?>
 <?php $__env->startSection('content'); ?>
 <!-- Content Header (Page header) -->
@@ -80,4 +79,4 @@
     <!-- /.content -->
     <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('dashboard', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /srv/www/inventory/resources/views/layouts/purchases/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('dashboard', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /srv/www/inventory/resources/views/layouts/purchases/index.blade.php ENDPATH**/ ?>

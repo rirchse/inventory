@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('title', 'Login'); ?>
 <?php $__env->startSection('content'); ?>
 <script src='https://www.google.com/recaptcha/api.js' async defer></script>
@@ -62,4 +61,4 @@
   </div>
 </div>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('login', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /srv/www/inventory/resources/views/auth/login.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('login', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /srv/www/inventory/resources/views/auth/login.blade.php ENDPATH**/ ?>
