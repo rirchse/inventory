@@ -22,8 +22,8 @@
           <div class="box-body">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="vendor_id">Vendor Name</label>
-                    <select class="select2 form-control" name="vendor_id" id="vendor" >
+                    <label for="supplier_id">Supplier</label>
+                    <select class="select2 form-control" name="supplier_id" id="supplier" >
                         <option value="">Select One</option>
                         @foreach($vendors as $val)
                         <option value="{{$val->id}}">{{$val->name}}</option>

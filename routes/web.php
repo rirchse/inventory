@@ -61,7 +61,7 @@ Route::middleware(['auth'])->group(function()
 
 	Route::resource('/purchase', 'PurchaseCtrl');
 	Route::resource('/product', 'ProductCtrl');
-	Route::resource('/vendor', 'VendorCtrl');
+	Route::resource('/vendor', 'SupplierCtrl');
 	Route::resource('/customer', 'CustomerCtrl');
 	Route::get('/search/customer/{mobile_number}', 'CustomerCtrl@searchCustomer');
 	Route::post('/search/customer', 'CustomerCtrl@searchCustomer')->name('customer.search');

@@ -27,7 +27,10 @@
       </div>
       <!-- /.box-header -->
       <!-- form start -->
-      {!! Form::model($product, ['route' => ['product.update', $product->id], 'method' => 'PUT', 'files' => true]) !!}
+      <form action="{{route('product.update', $product->id)}}" method="POSt" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+      </form>
       <div class="box-body">
         <div class="col-md-6">
            <div class="form-group label-floating">
@@ -41,7 +44,7 @@
                 type="text"
                 name="name"
                 id="name"
-                value="{{ old('name', null) }}"
+                value="{{ $product->title }}"
                 class="form-control"
             >
         </div>
@@ -232,7 +235,7 @@
             >
                 Active:
             </label>
-            {!! Form::checkbox('status', '1'); !!}
+            <input type="checkbox" value="1">
         </div>
 
 
@@ -253,7 +256,7 @@
         <button type="submit" class="btn btn-primary pull-right">Save</button>
     </div>
     <div class="clearfix"></div>
-    {!! Form::close() !!}
+  </form>
 </div> <!-- /.box -->
 </div>
 <!-- /.box -->

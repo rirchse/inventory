@@ -25,7 +25,9 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        {!! Form::model($customer, ['route' => ['customer.update', $customer->id], 'method' => 'PUT', 'files' => true]) !!}
+        <form action="{{route('customer.update', $customer->id)}}" method="POSt" enctype="multipart/form-data">
+          @csrf
+          @method('PUT')
         <div class="box-body">
         <div class="col-md-6">
             <div class="form-group label-floating">

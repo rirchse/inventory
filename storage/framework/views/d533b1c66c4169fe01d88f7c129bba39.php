@@ -115,20 +115,20 @@
         <li class="treeview">
           <a href="#">
             <i class="fa fa-shopping-cart"></i>
-            <span>Orders</span>
+            <span>Sales</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?php echo e(route('sale.create')); ?>"><i class="fa fa-pencil"></i> Place An Order</a></li>
-            <li><a href="<?php echo e(route('sale.index')); ?>"><i class="fa fa-list"></i> View All Orders</a></li>
-            <li><a href="/sale/All/Daily"><i class="fa fa-calendar"></i> View Daily Orders</a></li>
-            <li><a href="/sale/New/view"><i class="fa fa-circle-o"></i> New  Orders</a></li>
-            <li><a href="/sale/Confirmed/view"><i class="fa fa-circle-o"></i> Confirmed Orders</a></li>
-            <li><a href="/sale/Completed/view"><i class="fa fa-circle-o"></i> Completed Orders</a></li>
-            <li><a href="/sale/Cancelled/view"><i class="fa fa-circle-o"></i> Cancelled Orders</a></li>
-            <li><a href="/return"><i class="fa fa-undo"></i> Returned Orders</a></li>
+            <li><a href="<?php echo e(route('sale.create')); ?>"><i class="fa fa-pencil"></i> POS</a></li>
+            <li><a href="<?php echo e(route('sale.index')); ?>"><i class="fa fa-list"></i> View All Sales</a></li>
+            <li><a href="/sale/All/Daily"><i class="fa fa-calendar"></i> View Daily Sales</a></li>
+            <li><a href="/sale/New/view"><i class="fa fa-circle-o"></i> New  Sales</a></li>
+            <li><a href="/sale/Confirmed/view"><i class="fa fa-circle-o"></i> Confirmed Sales</a></li>
+            <li><a href="/sale/Completed/view"><i class="fa fa-circle-o"></i> Completed Sales</a></li>
+            <li><a href="/sale/Cancelled/view"><i class="fa fa-circle-o"></i> Cancelled Sales</a></li>
+            <li><a href="/return"><i class="fa fa-undo"></i> Returned Sales</a></li>
           </ul>
         </li>
        
@@ -163,6 +163,70 @@
           </ul>
         </li>
 
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-list-ul"></i> <span>Purchase</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?php echo e(route('purchase.index')); ?>"><i class="fa fa-list"></i> View Purchase List</a></li>
+            <li><a href="#"><i class="fa fa-reply"></i> Purchase Returns</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-users"></i> <span>Suppliers</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?php echo e(route('vendor.index')); ?>"><i class="fa fa-user"></i> View Suppliers</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-cubes"></i> <span>Products</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?php echo e(route('product.index')); ?>"><i class="fa fa-cube"></i> View Products</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-object-ungroup"></i> <span>Categories</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#"><i class="fa fa-object-group"></i> View Categories</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> View Brands</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> View Models</a></li>
+          </ul>
+        </li>
+        
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-line-chart"></i> <span>Reports</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#"><i class="fa fa-list"></i> Sales Report</a></li>
+            <li><a href="#"><i class="fa fa-cube"></i> Stock Report</a></li>
+          </ul>
+        </li>
+
         <?php if(Auth::user()->authorizeRoles(['SuperAdmin', 'Admin'])): ?>
 
         <li class="treeview">
@@ -179,42 +243,6 @@
         </li>
 
         <?php endif; ?>
-
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-gear"></i> <span>Purchase</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="<?php echo e(route('purchase.index')); ?>"><i class="fa fa-user"></i> View Purchase List</a></li>
-          </ul>
-        </li>
-
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-users"></i> <span>Vendor</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="<?php echo e(route('vendor.index')); ?>"><i class="fa fa-user"></i> View Vendors</a></li>
-          </ul>
-        </li>
-
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-gear"></i> <span>Products</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="<?php echo e(route('product.index')); ?>"><i class="fa fa-user"></i> View Products</a></li>
-          </ul>
-        </li>
 
         <li class="treeview">
           <a href="#">

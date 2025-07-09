@@ -20,7 +20,7 @@
                 <a href="<?php echo e(route('purchase.create')); ?>" class="btn btn-sm btn-info">
                   <i class="fa fa-plus"></i> Add
                 </a>
-                <div class="input-group input-group-sm" style="float:right; width: 150px;margin-left:15px"">
+                <div class="input-group input-group-sm" style="float:right; width: 150px;margin-left:15px">
                   <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
 
                   <div class="input-group-btn">
@@ -45,7 +45,7 @@
                 <?php $__currentLoopData = $purchases; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
                   <td><?php echo e($product->id); ?></td>
-                  <td><?php echo e($product->name); ?></td>
+                  <td><?php echo e($product->title); ?></td>
                   <td><?php echo e($product->cat_id?App\Category::find($product->cat_id)->name:''); ?></td>
                   <td><?php echo e($product->brand); ?></td>
                   <td><?php echo e($product->mrp_price); ?></td>                  

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Session;
 
 class LoginController extends Controller
 {
@@ -43,16 +44,17 @@ class LoginController extends Controller
     public function loginPost(Request $request)
     {
         $data = $request->all();
-        // dd($data);
-        // $email = $data['email'];
-        // $password = $data['password'];
         $email = $request->email;
         $password = $request->password;
 
         if(Auth::attempt(['email' => $email, 'password' => $password], $remember = true))
         {
-            return redirect()->route('home');
-            // return 'loggedin';
+          return redirect()->route('home');
+        }
+        else
+        {
+          Session::flash('error', 'Username & Password doesn\'t match.');
+          return back();
         }
     }
 

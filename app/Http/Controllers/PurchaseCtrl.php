@@ -7,9 +7,9 @@ use App\Models\Purchase;
 use App\Models\PurchaseItem;
 use App\Models\Product;
 use App\Models\Role;
-use App\Models\Vendor;
+use App\Models\Supplier;
 use App\Models\Category;
-use App\Models\Subcategory;
+use App\Models\Brand;
 use Auth;
 use Image;
 use File;
@@ -39,8 +39,8 @@ class PurchaseCtrl extends Controller
      */
     public function create()
     {
-        $vendors           = Vendor::all();
-        $subcategories     = Subcategory::all();
+        $vendors           = Supplier::all();
+        $subcategories     = Brand::all();
         $categories        = Category::all();
         $products = Product::all();
         return view('layouts.purchases.create', compact('vendors','categories','subcategories', 'products'));
@@ -103,11 +103,11 @@ class PurchaseCtrl extends Controller
         // dd($data2);
 
         try{
-            Purchase::insert($data);
+          Purchase::insert($data);
         }
         catch(\E $e)
         {
-            return $e;
+          return $e;
         }
 
         $purchase_id = purchase::orderBy('id', 'DESC')->first()->id;
@@ -116,20 +116,21 @@ class PurchaseCtrl extends Controller
 
         for($x = 0; $x < count($data2['itemname']); $x++)
         {
-            try{
-                PurchaseItem::insert([
-                    'purchase_id' => $data2['purchase_id'],
-                    'product_id' => $data2['itemname'][$x],
-                    'price'      => $data2['price'][$x],
-                    'qty'        => $data2['qty'][$x],
-                    'total'      => $data2['total'][$x],
-                ]);
-                //update product
-                Product::where('id', $data2['itemname'][$x])->increment('qty', $data2['qty'][$x]);
+            try {
+              PurchaseItem::insert([
+                'purchase_id' => $data2['purchase_id'],
+                'product_id' => $data2['itemname'][$x],
+                'price'      => $data2['price'][$x],
+                'qty'        => $data2['qty'][$x],
+                'total'      => $data2['total'][$x],
+              ]);
+              
+              //update product
+              Product::where('id', $data2['itemname'][$x])->increment('qty', $data2['qty'][$x]);
             }
-            catch(\E $e)
+            catch(\Exception $e)
             {
-                //
+              $e->getMessage();
             }
         }
         
@@ -158,11 +159,11 @@ class PurchaseCtrl extends Controller
      */
     public function edit($id)
     {
-        $vendors           = Vendor::all();
-        $subcategories     = Subcategory::all();
+        $vendors           = Supplier::all();
+        $subcategories     = Brand::all();
         $categories        = Category::all();
         $purchase          = purchase::find($id);
-        return view('layouts.purchases.edit',compact('vendors','categories','subcategories','purchase'));
+        return view('layouts.purchases.edit', compact('vendors','categories','subcategories','purchase'));
     }
 
     /**
@@ -184,7 +185,7 @@ class PurchaseCtrl extends Controller
             'buying_date'  => 'required',            
         ]);
 
-        $purchase = purchase::find($id);
+        $purchase = Purchase::find($id);
         $purchase->name         = $request->name;
         $purchase->vendor       = $request->vendor;
         $purchase->cat_id       = $request->category;
@@ -228,7 +229,7 @@ class PurchaseCtrl extends Controller
      */
     public function destroy($id)
     {
-        $purchase = purchase::find($id);
+        $purchase = Purchase::find($id);
            
         if (File::exists('img/purchase/' .$purchase->image)) {
               File::delete('img/purchase/' .$purchase->image);

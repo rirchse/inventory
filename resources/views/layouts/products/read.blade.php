@@ -35,15 +35,15 @@
                   </tr>
                   <tr>
                     <th>Category:</th>
-                    <td>{{$product->cat_id?App\Category::find($product->cat_id)->name:''}}</td>
+                    <td>{{$product->cat_id?App\Models\Category::find($product->cat_id)->name:''}}</td>
                   </tr>
                   <tr>
                     <th>Sub Category:</th>
-                    <td>{{$product->sub_cat_id?App\Subcategory::find($product->sub_cat_id)->name:''}}</td>
+                    <td>{{$product->sub_cat_id?App\Models\Brand::find($product->sub_cat_id)->name:''}}</td>
                   </tr>
                   <tr>
                     <th>Vendor:</th>
-                    <td>{{$product->vendor?App\Vendor::find($product->vendor)->name:''}}</td>
+                    <td>{{$product->vendor?App\Models\Supplier::find($product->vendor)->name:''}}</td>
                   </tr>
                 <tr>
                     <th>Brand:</th>

@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
-use App\Models\Vendor;
+use App\Models\Supplier;
 use Auth;
 use Image;
 use File;
 use Session;
 
 
-class VendorCtrl extends Controller
+class SupplierCtrl extends Controller
 {
     public function __construct()
     {
@@ -25,7 +25,7 @@ class VendorCtrl extends Controller
      */
     public function index()
     {
-        $vendors = Vendor::orderBy('id','desc')->get();
+        $vendors = Supplier::orderBy('id','desc')->get();
         return view('layouts.vendors.view_vendor', compact('vendors'));
     }
 
@@ -54,7 +54,7 @@ class VendorCtrl extends Controller
         ]);
 
 
-        $vendor = new Vendor;
+        $vendor = new Supplier;
         $vendor->name           = $request->name;
         $vendor->business_name  = $request->business_name;
         $vendor->address        = $request->address;
@@ -74,7 +74,7 @@ class VendorCtrl extends Controller
 
             }
             $vendor->save(); 
-        $vendor_id = Vendor::orderBy('id', 'DESC')->first()->id;
+        $vendor_id = Supplier::orderBy('id', 'DESC')->first()->id;
 
         Session::flash('success', 'Vendor Successfully Saved');
         return redirect()->route('vendor.show', $vendor_id);
@@ -88,7 +88,7 @@ class VendorCtrl extends Controller
      */
     public function show($id)
     {
-        $vendor =Vendor::find($id);
+        $vendor = Supplier::find($id);
         return view('layouts.vendors.read_vendor', compact('vendor'));
     }
 
@@ -100,7 +100,7 @@ class VendorCtrl extends Controller
      */
     public function edit($id)
     {
-        $vendor =vendor::find($id);
+        $vendor = Supplier::find($id);
         return view('layouts.vendors.edit_vendor', compact('vendor'));
     }
 
@@ -119,7 +119,7 @@ class VendorCtrl extends Controller
             'contact'           => 'required|max:11',            
         ]);
         
-        $vendor =Vendor::find($id);
+        $vendor = Supplier::find($id);
         $vendor->name           = $request->name;
         $vendor->business_name  = $request->business_name;
         $vendor->address        = $request->address;
@@ -154,7 +154,7 @@ class VendorCtrl extends Controller
      */
     public function destroy($id)
     {
-        $vendor = Vendor::find($id);
+        $vendor = Supplier::find($id);
              if (File::exists('img/vendor/' .$vendor->image)) {
                 File::delete('img/vendor/' .$vendor->image);
             }

@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Products;
 use App\Models\Role;
-use App\Models\Vendor;
+use App\Models\Supplier;
 use App\Models\Category;
-use App\Models\Subcategory;
+use App\Models\Brand;
 use Auth;
 use Image;
 use Toastr;
@@ -39,8 +39,8 @@ class ProductCtrl extends Controller
      */
     public function create()
     {
-        $vendors           = Vendor::all();
-        $subcategories     = Subcategory::all();
+        $vendors           = Supplier::all();
+        $subcategories     = Brand::all();
         $categories        = Category::all();
         return view('layouts.products.create',compact('vendors','categories','subcategories'));
     }
@@ -75,12 +75,11 @@ class ProductCtrl extends Controller
         }
         catch(\E $e)
         {
-            echo $e;
+            echo $e->getMessage();
         }
 
         $product_id = Product::orderBy('id', 'DESC')->first()->id;
-
-        // Toastr::success('product Successfully Saved' , 'Success');
+        
         Session::flash('success', 'New Product successfully created!');
 
         return redirect()->route('product.index',$product_id);
@@ -106,8 +105,8 @@ class ProductCtrl extends Controller
      */
     public function edit($id)
     {
-        $vendors           = Vendor::all();
-        $subcategories     = Subcategory::all();
+        $vendors           = Supplier::all();
+        $subcategories     = Brand::all();
         $categories        = Category::all();
         $product           = Product::find($id);
         return view('layouts.products.edit',compact('vendors','categories','subcategories','product'));

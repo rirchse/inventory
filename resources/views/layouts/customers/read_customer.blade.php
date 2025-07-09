@@ -73,11 +73,11 @@
                 </tr>
                 <tr>
                   <th>Created By:</th>
-                  <td>{{App\User::find($customer->created_by)?App\User::find($customer->created_by)->name:'Unknown'}}</td>
+                  <td>{{App\Models\User::find($customer->created_by)?App\Models\User::find($customer->created_by)->name:'Unknown'}}</td>
                 </tr>
                 <tr>
                   <th>Updated By:</th>
-                  <td>{{App\User::find($customer->updated_by)?App\User::find($customer->updated_by)->name:''}}</td>
+                  <td>{{App\Models\User::find($customer->updated_by)?App\Models\User::find($customer->updated_by)->name:''}}</td>
                 </tr>
                 {{-- <tr>
                   <th>Photo: </th>
@@ -112,7 +112,7 @@
 
                 <tbody  id="ordersTable">
 
-                @foreach(App\Sale::where('customer_id', $customer->id)->get() as $sale)
+                @foreach(App\Models\Sale::where('customer_id', $customer->id)->get() as $sale)
                 <tr>
                   <td>{{$sale->order_no}}</td>
                   <td>{{$sale->gtotal}}</td>

@@ -21,7 +21,7 @@
                 <a href="{{route('purchase.create')}}" class="btn btn-sm btn-info">
                   <i class="fa fa-plus"></i> Add
                 </a>
-                <div class="input-group input-group-sm" style="float:right; width: 150px;margin-left:15px"">
+                <div class="input-group input-group-sm" style="float:right; width: 150px;margin-left:15px">
                   <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
 
                   <div class="input-group-btn">
@@ -46,7 +46,7 @@
                 @foreach($purchases as $product)
                 <tr>
                   <td>{{$product->id}}</td>
-                  <td>{{$product->name}}</td>
+                  <td>{{$product->title}}</td>
                   <td>{{$product->cat_id?App\Category::find($product->cat_id)->name:''}}</td>
                   <td>{{$product->brand}}</td>
                   <td>{{$product->mrp_price}}</td>                  

@@ -38,7 +38,7 @@
                   <th>Category</th>                  
                   <th>Brand</th>
                   <th>Unit</th>
-                  <th>Qty</th>
+                  <th>Stock</th>
                   <th>MRP Price</th>
                   <th>Status</th>
                   <th>Buying Date</th>

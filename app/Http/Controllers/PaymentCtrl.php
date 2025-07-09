@@ -31,7 +31,7 @@ class PaymentCtrl extends Controller
     {
         $payments = Payment::leftJoin('sales', 'sales.id', 'payments.sales_id')
         ->leftJoin('customers', 'customers.id', 'sales.customer_id')
-        ->select('payments.*', 'customers.full_name', 'customers.contact', 'sales.gtotal', 'sales.paid', 'sales.due', 'sales.id as order_number')
+        ->select('payments.*', 'customers.full_name', 'customers.contact', 'sales.grand_total', 'sales.paid', 'sales.due', 'sales.id as order_number')
         ->orderBy('payments.id', 'ASC')
         ->get();
         $type='';
@@ -47,7 +47,7 @@ class PaymentCtrl extends Controller
         $payments = Payment::leftJoin('sales', 'sales.id', 'payments.sales_id')
         ->leftJoin('customers', 'customers.id', 'sales.customer_id')
         ->where('payments.payment_type', $type)
-        ->select('payments.*', 'customers.full_name', 'customers.contact', 'sales.gtotal', 'sales.paid', 'sales.due', 'sales.id as order_number')
+        ->select('payments.*', 'customers.full_name', 'customers.contact', 'sales.grand_total', 'sales.paid', 'sales.due', 'sales.id as order_number')
         ->orderBy('payments.id', 'ASC')
         ->get();
         return view('layouts.sales.view_payment', compact('payments', 'type'));
@@ -100,7 +100,7 @@ class PaymentCtrl extends Controller
         if($sale->due > 0){
             $update_sale = Sale::find($sale->id);
             $update_sale->paid = $total_payments;
-            $update_sale->due = $sale->gtotal-$total_payments;
+            $update_sale->due = $sale->grand_total-$total_payments;
             $update_sale->save();
         }
 
