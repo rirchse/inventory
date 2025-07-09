@@ -47,7 +47,7 @@
                 <tr>
                   <td>{{$product->id}}</td>
                   <td>{{$product->title}}</td>
-                  <td>{{$product->cat_id?App\Category::find($product->cat_id)->name:''}}</td>
+                  <td>{{$product->cat_id?App\Models\Category::find($product->cat_id)->name:''}}</td>
                   <td>{{$product->brand}}</td>
                   <td>{{$product->mrp_price}}</td>                  
                   <td>
@@ -59,8 +59,8 @@
                   </td>
                   <td>{{ date('d M Y', strtotime($product->buying_date))}}</td>
                   <td>
-                    <a href="{{route('product.show',$product->id)}}" class="label label-info" title="product Details"><i class="fa fa-file-text"></i></a>
-                    <a href="{{route('product.edit',$product->id)}}" class="label label-warning" title="Edit this product"><i class="fa fa-edit"></i></a>
+                    <a href="{{route('product.show', $product->id)}}" class="label label-info" title="product Details"><i class="fa fa-file-text"></i></a>
+                    <a href="{{route('product.edit', $product->id)}}" class="label label-warning" title="Edit this product"><i class="fa fa-edit"></i></a>
                   </td>
                 </tr>
                 @endforeach
