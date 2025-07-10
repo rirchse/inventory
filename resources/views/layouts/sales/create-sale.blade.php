@@ -8,7 +8,51 @@
     <li class="active">Place An Order</li>
 </ol>
 </section>
+<style>
 
+    @media only screen and (max-width: 767px){
+        .order-wrap .row .col-xs-6:nth-child(even) {
+            padding-left: 7.5px;
+        }
+        .order-wrap .row .col-xs-6:nth-child(odd) {
+            padding-right: 7.5px;
+        }
+        .order-wrap .row .col-xs-3 {
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .order-wrap hr {
+            margin-top: 12px;
+            margin-bottom: 12px;
+        }
+        .order-wrap .form-group {
+            margin-bottom: 8px;
+        }
+        .review-order .col-xs-4 .form-control {
+            padding: 3px 8px !important;
+            line-height: 1.1em !important;
+            height: auto;
+            margin: 3px 0;
+            text-align: right;
+        }
+        .review-order hr.m-0{
+            margin: 1px 0;
+        }
+        .m-0{ margin: 0; }
+        .mt-0{
+            margin-top: 0;
+        }
+        .ul-status li {
+            display: inline-block;
+            padding-right: 20px;
+            margin: 3px;
+        }
+        .ul-status {
+            padding: 0;
+            margin: 0;
+        }
+    }
+</style>
 <!-- Main content -->
 <section class="content">
   <div class="row"> <!-- left column -->
@@ -17,6 +61,226 @@
         <div class="box-header with-border">
             <h3 style="color: #800" class="box-title">Order Information</h3>
         </div>
+        <div class="order-wrap box-body">
+            <div class="row">
+                <div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
+                        <label for="customer_name">Customer Name (*):</label>
+                        <input class="form-control" type="text" name="customer_name" required>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
+                        <label for="address">Address (*):</label>
+                        <input type="text" class="form-control" name="address" required>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-4">
+                    <div class="form-group">
+                        <label for="mobile">Mobile (*):</label>
+                        <input class="form-control" type="text" name="mobile" required>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-4">
+                    <div class="form-group">
+                        <label for="sales_date">Sales Date:</label>
+                        <input class="form-control" type="date" name="sales_date" id="sales_date" required>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-4">
+                    <div class="form-group">
+                        <label for="email">Email (Optional):</label>
+                        <input class="form-control" type="email" name="email">
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-4">
+                    <div class="form-group">
+                        <label for="order_no">Order No (Optional):</label>
+                        <input class="form-control" type="text" name="order_no" required>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <hr>
+                </div>
+            </div>
+            <!-- product item start -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="itemname[]">Product Name:</label>
+                        <input name="itemname[]" type="text" class="form-control" required="" onkeyup="getItemName(this)">
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label for="price[]">Unit Price:</label>
+                        <input name="price[]" type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label for="qty[]">Qty:</label>
+                        <input name="qty[]" type="number" class="form-control" onchange="calcTotal(this)" min="1" value=0>
+                    </div>
+                </div>
+                <div class="col-xs-5">
+                    <div class="form-group">
+                        <label for="total[]">Total:</label>
+                        <input name="total[]" type="text" class="form-control itemTotal" value=0>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-xs-offset-3">
+                    <button class="btn btn-primary btn-block"><i class="fa fa-plus"></i>&nbsp; &nbsp; Add Product</button>
+                </div>
+            </div>
+            <!-- product item end -->
+            <!-- add new item button -->
+            <hr>
+            <div class="row">
+                <div class="col-xs-12">
+                    <button class="btn btn-primary btn-block"><i class="fa fa-plus"></i>&nbsp; &nbsp; Add Another Item</button>
+                </div>
+            </div>
+            <hr>
+            <div class="row review-order">
+                <div class="col-xs-12">
+                    <h4 class="h5 text-muted text-center mt-0">Summary</h4>
+                </div>
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <p class="m-0">Product Title, Lorem ipsum dolor sit</p>
+                            <p class="text-muted m-0">2 x 25000</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <p class="text-primary pull-left m-0">$50000</p>
+                            <button type="button" class="pull-right btn-warning btn btn-xs" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <p class="m-0">Product Title, Lorem ipsum dolor sit</p>
+                            <p class="text-muted m-0">2 x 25000</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <p class="text-primary pull-left m-0">$50000</p>
+                            <button type="button" class="pull-right btn-warning btn btn-xs" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <p class="m-0">Product Title, Lorem ipsum dolor sit</p>
+                            <p class="text-muted m-0">2 x 25000</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <p class="text-primary pull-left m-0">$50000</p>
+                            <button type="button" class="pull-right btn-warning btn btn-xs" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <p class="m-0 text-primary">Sub-Total (tk): </p>
+                        </div>
+                        <div class="col-xs-4">
+                            <p class="text-primary pull-right m-0">$50000</p>
+                        </div>
+                    </div>
+                    <hr class="m-0">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <p class="m-0 text-primary">Discount (tk): </p>
+                        </div>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control" name="sub_total" id="sub_total" value="0">
+                        </div>
+                    </div>
+                    <hr class="m-0">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <p class="m-0 text-primary">Shipping (tk): </p>
+                        </div>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control" name="sub_total" id="sub_total" value="0">
+                        </div>
+                    </div>
+                    <hr class="m-0">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <p class="m-0 text-primary"><strong>Grand Total (tk): </strong></p>
+                        </div>
+                        <div class="col-xs-4">
+                            <p class="text-primary pull-right m-0"><strong>$50000</strong></p>
+                        </div>
+                    </div>
+                    <hr class="m-0">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <p class="m-0 text-primary">Paid (tk): </p>
+                        </div>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control" name="sub_total" id="sub_total" value="0">
+                        </div>
+                    </div>
+                    <hr class="m-0">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <p class="m-0 text-primary">Due (tk): </p>
+                        </div>
+                        <div class="col-xs-4">
+                            <p class="text-primary pull-right m-0">$50000</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="shipping_address">Shipping Address (Optional):</label>
+                        <textarea class="form-control" name="shipping_address" id="shipping_address"></textarea>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="note">Note (Optional):</label>
+                        <textarea class="form-control" name="note" id="note"></textarea>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="status">Status:</label>
+                        <ul class="ul-status">
+                            <li class="radio">
+                                <label class="text-primary"><input type="radio" name="status" value="0">Pending Order</label>
+                            </li>
+                            <li class="radio">
+                                <label class="text-warning"><input type="radio" name="status" value="1">Confirmed</label>
+                            </li>
+                            <li class="radio">
+                                <label class="text-success"><input type="radio" name="status" value="2">Completed</label>
+                            </li>
+                            <li class="radio">
+                                <label class="text-danger"><input type="radio" name="status" value="3">Cancelled</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-xs-12">
+                    <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-save"></i>&nbsp; &nbsp; SAVE</button>
+                </div>
+            </div>
+
+        </div>
+        <!--
         <form action="{{route('sale.store')}}" method="POST" enctype="multipart/form-data">
           <div class="box-body">
             <div class="col-md-6">
@@ -55,9 +319,7 @@
                     </div>
                 </div>
             </div>
-
             <div class="clearfix"></div>
-
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-body">
@@ -158,7 +420,6 @@
                             <li class="radio">
                                 <label class="text-danger"><input type="radio" name="status" value="3">Cancelled</label>
                             </li>
-                            <div class="clearfix"></div>
                         </ul>
                     </div>
                 </div>
@@ -168,15 +429,15 @@
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-save"> </i> Save</button>
             </div>
-            </div> <!-- /.box body -->
-            <!-- datalist -->
+            </div> <!-- /.box body
+            <!-- datalist
             <datalist id="itemnames">
                 <option value="aaaaaa">
                 <option value="bbbbb">
                 <option value="cccccc">
             </datalist>
-            </form>
-          </div> <!-- /.box -->
+            </form><!-- /.box -->
+          </div>
       </div> <!--/.col-12 -->
    </div> <!-- /.row -->
 </section> <!-- /.content -->
@@ -332,7 +593,7 @@
                 customer_name.value = customer['full_name'];
                 address.value = customer['address'];
             },
-            error: function(data) { 
+            error: function(data) {
                  alert('Could not retrive data from database!');
             }
         });
@@ -362,6 +623,6 @@
             }
         });
     }
-    
+
 </script>
 @endsection
