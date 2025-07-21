@@ -53,18 +53,21 @@
                             <table id="items" class="table table-bordered table-stripped">
                                 <tr>
                                     <th>Product Name</th>
+                                    <th width=120>Unit</th>
                                     <th width=100>Unit Price</th>
                                     <th width=70>Qty</th>
                                     <th width=120>Total</th>
                                     <th width=60>Action</th>
                                 </tr>
                                 <td>
-                                    <select name="itemname[]" type="text" class="form-control select2-search__field select2" required="" onkeyup="getItemName(this)">
+                                    <select name="item[]" type="text" class="form-control select2" required onkeyup="getItem(this)" id="product_name" onchange="getUnits(this)">
                                         <option value="">Select One</option>
-                                        @foreach($products as $val)
-                                        <option value="{{$val->id}}">{{$val->title}}</option>
-                                        @endforeach
                                     </select>
+                                </td>
+                                <td>
+                                  <select name="unit[]" class="form-control">
+                                    <option value="">Select One</option>
+                                  </select>
                                 </td>
                                 <td><input name="price[]" type="text" class="form-control"></td>
                                 <td><input name="qty[]" type="number" class="form-control" onchange="calcTotal(this)" min="1" value=0></td>
@@ -141,6 +144,7 @@
 </section> <!-- /.content -->
 
 <script type="text/javascript">
+    var productlist = '';
     var total_price = 0;
 
     var add_item   = document.getElementById('add_item');
@@ -154,19 +158,30 @@
         //add table row/tr and cell/td
         var row     = items.insertRow(-1);
         var name    = row.insertCell(0);
-        var price   = row.insertCell(1);
-        var qty     = row.insertCell(2);
-        var Total   = row.insertCell(3);
-        var action  = row.insertCell(4);
+        var unit    = row.insertCell(1);
+        var price   = row.insertCell(2);
+        var qty     = row.insertCell(3);
+        var Total   = row.insertCell(4);
+        var action  = row.insertCell(5);
 
         //add item name
-        var itemname   = document.createElement('input');
-        itemname.name  = "itemname[]";
-        itemname.type  = "text";
-        itemname.value = "";
-        itemname.setAttribute('class', 'form-control');
+        var itemname   = document.createElement('select');
+        itemname.name  = "item[]";
+        itemname.setAttribute('onkeyup', 'getItem(this)');
+        itemname.setAttribute('onchange', 'getUnits(this)');
+        itemname.setAttribute('class', 'form-control select2');
         itemname.setAttribute('required', '');
+        itemname.innerHTML = productlist;
         name.appendChild(itemname);
+
+        //add item name
+        var unitname   = document.createElement('select');
+        unitname.name  = "unit[]";
+        unitname.setAttribute('onclick', 'getUnit');
+        unitname.setAttribute('class', 'form-control');
+        unitname.setAttribute('required', '');
+        unitname.innerHTML = '<option value="">Select One</option>';
+        unit.appendChild(unitname);
 
         //add item price
         var itemPrice   = document.createElement('input');
@@ -199,6 +214,8 @@
         actbtn.setAttribute('onclick', 'removetr(this)');
         actbtn.innerHTML = '<i class="fa fa-close"></i>';
         action.appendChild(actbtn);
+
+        $(function(){$('.select2').select2()});
     }
 
     // remove table row on click close sign
@@ -257,71 +274,110 @@
     /** ----------------------------- Search Customer by ajax --------------- **/
     var mobile = document.getElementById('mobile');
     var search_customer = document.getElementById('search_customer');
-    mobile.addEventListener('keyup', getCustomer);
+    // mobile.addEventListener('keyup', getCustomer);
 
-    function getCustomer(elm){
-        var customer_name = document.getElementById('customer_name');
-        var address = document.getElementById('address');
+    // function getCustomer(elm){
+    //     var customer_name = document.getElementById('customer_name');
+    //     var address = document.getElementById('address');
 
-        if(mobile.value.length != 11){
-            customer_name.value = "";
-            address.value = "";
-            return false;
-        }
+    //     if(mobile.value.length != 11){
+    //         customer_name.value = "";
+    //         address.value = "";
+    //         return false;
+    //     }
 
-        // console.log(mobile);
+    //     // console.log(mobile);
 
-        $.ajax({
-            type: 'GET', //THIS NEEDS TO BE GET
-            url: '/search/customer/'+mobile.value,
-            success: function (data) {
-                var obj = JSON.parse(JSON.stringify(data));
-                // console.log(obj['success']);
-                if(obj['success'] == null){
-                    alert('Customer not found. Please create a new customer.');
-                    return false;
-                }
+    //     $.ajax({
+    //         type: 'GET', //THIS NEEDS TO BE GET
+    //         url: '/search/customer/'+mobile.value,
+    //         success: function (data) {
+    //             var obj = JSON.parse(JSON.stringify(data));
+    //             // console.log(obj['success']);
+    //             if(obj['success'] == null){
+    //                 alert('Customer not found. Please create a new customer.');
+    //                 return false;
+    //             }
 
-                var customer = obj['success'];
+    //             var customer = obj['success'];
 
-                customer_name.value = customer['full_name'];
-                address.value = customer['address'];
-            },
-            error: function(data) { 
-                 alert('Could not retrive data from database!');
-            }
-        });
-    }
+    //             customer_name.value = customer['full_name'];
+    //             address.value = customer['address'];
+    //         },
+    //         error: function(data) { 
+    //              alert('Could not retrive data from database!');
+    //         }
+    //     });
+    // }
 
     //** ---------------------- customer serch end ----------------------- **//
-    //** ------------- search product by ajax and make datalist ---------- **//
-    function getItemName(elm){
-        $.ajax({
-            type: 'GET',
-            url: '/search_item_names',
-            success: function (data){
-                var names = '';
-                // var itemnames = document.getElementById('itemnames');
-
-                var obj = JSON.parse(JSON.stringify(data));
-                $.each(obj['success'], function (key, val){
-                    names += '<option value="'+val.name+'">';
-                });
-
-                document.getElementById('itemnames').innerHTML = names;
-
-                elm.setAttribute('list', 'itemnames')
-            },
-            error: function (data){
-                //
-            }
-        });
-    }
     
 </script>
 @endsection
 @section('scripts')
 <script>
+  //** ------------- search product by ajax and make datalist ---------- **//
+
+  $(document).ready(function () {
+    // Initialize Select2
+    // $('.select2').select2();
+
+    // // When dropdown opens
+    // $('.select2').on('select2:open', (e) => {
+    //   // Wait a bit to let the search input appear in DOM
+
+    //   setTimeout(() => {
+    //     let field = document.querySelector('.select2-container--open .select2-search__field');
+    //     field.addEventListener('keyup', function (){
+    //       e.target.innerHTML = '<option value="val1">Val One</option>'+
+    //       '<option value="val2">Val Two</option>'+
+    //       '<option value="val3">Val Three</option>';
+    //     });
+    //   }, 100);
+    // });  
+
+    // e.innerHTML = '<option value="Product">Product 1</option>';
+      $.ajax({
+          type: 'GET',
+          url: '{{route("product.get.name")}}',
+          success: function (data){
+              var names = '<option value="">Select One</option>';
+
+              var obj = JSON.parse(JSON.stringify(data));
+              $.each(obj['product'], function (key, val){
+                  names += '<option value="'+val.id+'">'+val.name+'</option>';
+              });
+              productlist = names;
+              document.getElementById('product_name').innerHTML = productlist;
+          },
+          error: function (data){
+            //
+          }
+      });
+  });
+
+  function getUnits(e)
+  {
+    const productId = e.options[e.selectedIndex].value;
+    const unit = $(e).closest('tr').find('select[name="unit[]"]');
+    $.ajax({
+      type: 'GET',
+      url: '{{route("product.get-unit")}}/'+productId,
+      success: function(data){
+        let unitName = ''
+        data.unit.forEach((u) => {
+          unitName += '<option value="'+u.unit_name+'">'+u.unit_name+'</option>';
+          // console.log(u);
+        });
+
+        unit.html(unitName);
+      },
+      error: function(data){
+        console.error(data);
+      },
+    });
+  }
+
 //select2
     $(function(){$('.select2').select2()});
 </script>

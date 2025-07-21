@@ -4,7 +4,7 @@
 {{-- <script src="{{'/js/jquery-ui.min.js'}}"></script> --}}
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
-  $.widget.bridge('uibutton', $.ui.button);
+  // $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 3.3.7 -->
 <script src="{{'/js/bootstrap.min.js'}}"></script>
@@ -36,7 +36,7 @@
 <script src="{{'/js/dataTables.bootstrap.min.js'}}"></script>
 <script src="{{'/js/adminlte.min.js'}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{'/js/dashboard.js'}}"></script>
+{{-- <script src="{{'/js/dashboard.js'}}"></script> --}}
 <!-- AdminLTE for demo purposes -->
 <script src="{{'/js/demo.js'}}"></script>
 <script src="{{'/js/moment.min.js'}}"></script>

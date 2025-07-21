@@ -72,7 +72,12 @@ Route::middleware(['auth'])->group(function()
 	Route::get('/search/orders/{value}', 'SaleCtrl@search');
 	Route::get('/sale/{type}/{view}', 'SaleCtrl@viewSalesByType');
 
-	Route::get('/search_item_names', 'SaleCtrl@getNames');
+  Route::controller(ProductCtrl::class)->group(function()
+  {
+    Route::get('/products/get-product', 'getProducts')->name('product.get.name');
+    Route::get('/products/get-unit/{id?}', 'getUnit')->name('product.get-unit');
+
+  });
 
 	Route::get('/sale/print/{id}/change', 'SaleCtrl@changePrintStatus');
 

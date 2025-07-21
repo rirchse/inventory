@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Models\Products;
 use App\Models\Role;
-use App\Models\Supplier;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Models\ModelNumber;
+use App\Models\Unit;
+use App\Models\ProductUnit;
+use App\Models\Stock;
 use Auth;
 use Image;
 use Toastr;
@@ -28,7 +30,7 @@ class ProductCtrl extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('id','desc')->get();
+        $products = Product::orderBy('id','desc')->paginate(25);
         return view('layouts.products.index',compact('products'));
     }
 
@@ -39,10 +41,11 @@ class ProductCtrl extends Controller
      */
     public function create()
     {
-        $vendors           = Supplier::all();
-        $subcategories     = Brand::all();
-        $categories        = Category::all();
-        return view('layouts.products.create',compact('vendors','categories','subcategories'));
+        $units      = Unit::all();
+        $brands     = Brand::all();
+        $categories = Category::all();
+        
+        return view('layouts.products.create', compact('units', 'categories','brands'));
     }
 
     /**
@@ -57,7 +60,7 @@ class ProductCtrl extends Controller
         //     'name'         => 'required|max:255',
         //     'category'     => 'required',
         //     'brand'        => 'required',
-        //     'mrp_price'    => 'required',
+        //     'sku'    => 'required',
         //     'mrp_price'    => 'required',
         //     'vendor'       => 'required',
         //     'stock'        => 'required',
@@ -65,24 +68,48 @@ class ProductCtrl extends Controller
         // ]);
         
         $data = $request->all();
-        if(isset($data['_token']))
-        {
-            unset($data['_token']);
-        }
+        // dd($data);
 
-        try{
-            Product::insert($data);
-        }
-        catch(\E $e)
-        {
-            echo $e->getMessage();
-        }
+        try {
 
-        $product_id = Product::orderBy('id', 'DESC')->first()->id;
+          $product = new Product;
+          $product->shop_id = 0;
+          $product->name = $data['name'];
+          $product->sku = $data['sku'];
+          $product->barcode = $data['barcode'];
+          $product->description = $data['description'];
+          $product->status = $data['is_active'];
+          $product->save();
+
+          for($p = 0; $p < count($request->unit); $p++)
+          {
+            ProductUnit::insert([
+              'product_id' => $product->id,
+              'unit_name' => $request->unit[$p],
+              'unit_symbol' => null,
+              'price' => $request->price[$p],
+              'convert_base_unit' => $request->convert_base_unit[$p],
+              'is_base_unit' => is_array($request->is_base_unit) && isset($request->is_base_unit[$p]) ? 'Yes': null
+            ]);
+
+            //insert into stock
+            Stock::insert([
+              'shop_id' => null,
+              'product_id' => $product->id,
+              'unit_name' => $request->unit[$p],
+              'quantity' => $request->quantity[$p],
+            ]);
+
+          }
+        }
+        catch(\Exception $e)
+        {
+          return $e->getMessage();
+        }
         
         Session::flash('success', 'New Product successfully created!');
 
-        return redirect()->route('product.index',$product_id);
+        return redirect()->route('product.index');
     }
 
     /**
@@ -177,12 +204,30 @@ class ProductCtrl extends Controller
     {
         $product = Product::find($id);
            
-             if (File::exists('img/product/' .$product->image)) {
-                    File::delete('img/product/' .$product->image);
-                }
-                $product->delete();
-            Session::flash('Success','This Product Successfully delete');
-            return redirect()->route('products.index');
+        if (File::exists('img/product/' .$product->image)) {
+              File::delete('img/product/' .$product->image);
+          }
+          $product->delete();
+      Session::flash('Success','This Product Successfully delete');
+      return redirect()->route('products.index');
+    }
+
+    public function getProducts()
+    {
+      $products = Product::orderBy('id', 'DESC')->where('status', '1')->select('id', 'name')->get();
+      return response()->json([
+        'success' => true,
+        'product' => $products
+      ]);
+    }
+
+    public function getUnit($id)
+    {
+      $product = Product::find($id);
+      $units = $product->productUnit()->select('unit_name')->get();
+      return response()->json([
+        'unit' => $units
+      ], 200);
     }
     
 }

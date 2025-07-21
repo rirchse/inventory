@@ -1,6 +1,16 @@
 @extends('dashboard')
 @section('title', 'Add New Product')
 @section('content')
+<style>
+  input[name="is_base_unit"]{
+    width:20px;
+    height:20px;
+  }
+  .close{
+    color:red;
+    font-size: 25px
+  }
+</style>
 <section class="content-header">
   <h1>Add a Product</h1>
   <ol class="breadcrumb">
@@ -17,56 +27,121 @@
         <div class="box-header with-border">
             <h3 style="color: #800" class="box-title">Product Details</h3>
         </div>
-        <form action="{{route('product.store')}}" method="POST">
+        <div class="box-body">
+          <form action="{{ route('product.store') }}" method="POST">
             @csrf
-            <div class="box-body">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="title">Product Title</label>
-                        <input type="text" class="form-control" name="title" id="name" required>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="unit">Unit</label>
-                        <select class="form-control" name="unit" id="unit" required>
-                            <option value="">Select One</option>
-                            <option value="SQ Feet">SQ Feet</option>
-                            <option value="PCS">PCS</option>
-                            <option value="Pack">Pack</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="qty">Quantity</label>
-                        <input type="number" class="form-control" name="qty" id="qty" required>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="title">Selling Price (Per Unit)</label>
-                        <input type="number" class="form-control" name="price" id="price" step="0.01" required>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="stock">Minimum Stock</label>
-                        <input type="number" class="form-control" name="stock" id="stock" step="0.01">
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="note">Note</label>
-                        <textarea class="form-control" name="note" id="note"></textarea>
-                    </div>
-                </div>
-            </div> <!-- /.box body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-save"></i> Save</button>
+            <div class="col-md-12">
+          
+              <!-- Product Name -->
+              <div class="form-group">
+                <label for="name">Product Name</label>
+                <input type="text" name="name" class="form-control" required>
+              </div>
             </div>
-        </form>
+
+            <div class="col-md-6">
+            
+              <!-- SKU -->
+              <div class="form-group">
+                <label for="sku">SKU (optional)</label>
+                <input type="text" name="sku" class="form-control">
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              
+              <div class="form-group">
+                <label for="barcode">Barcode Number</label>
+                <input type="text" name="barcode" class="form-control">
+              </div>
+            </div>
+
+            <div class="col-md-12 no-padding" id="firstUnit">
+
+              <div class="col-md-4">
+                <!-- Packet Price -->
+                <div class="form-group">
+                  <label for="unit">Unit</label>
+                  <select name="unit[]" class="form-control" step="0.01" required>
+                    <option value="">Select One</option>
+                    @foreach($units as $unit)
+                    <option value="{{$unit->symbol}}">{{$unit->name}}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="price">Unit Price</label>
+                  <input type="number" name="price[]" class="form-control" step="0.01">
+                </div>
+              </div>
+            
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="quantity">Stock Quantity</label>
+                  <input type="number" name="quantity[]" class="form-control">
+                </div>
+              </div>
+            
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="alert_quantity">Stock Alert</label>
+                  <input type="number" name="alert_quantity[]" class="form-control">
+                </div>
+              </div>
+            
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="convert_base_unit">Convert to Base Unit</label>
+                  <input type="number" name="convert_base_unit[]" class="form-control" placeholder="1 pack = 12 pcs">
+                </div>
+              </div>
+            
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="">Is this Base Unit?</label>
+                  <br>
+                  <label for="base_unit">
+                    <input type="radio" name="is_base_unit[]" check="0" onclick="unCheck(this)">
+                      Yes
+                  </label>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <button type="button" class="btn btn-info btn-sm" onclick="addUnit()">
+                  <i class="fa fa-plus"></i> 
+                  Add Another Unit</button>
+              </div>
+            </div>
+
+            <div class="col-md-12">            
+              <!-- Description -->
+              <div class="form-group">
+                <label for="description">Description (optional)</label>
+                <textarea name="description" class="form-control" rows="3"></textarea>
+              </div>
+            
+              <!-- Active Status -->
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" name="is_active" value="1" checked>
+                  Active
+                </label>
+              </div>
+            
+              <!-- Submit -->
+              <button type="submit" class="btn btn-primary pull-right"> <i class="fa fa-save"> </i> Save</button>
+              <div class="clearfix"></div>
+            </div>
+          </form>
+        </div>
+        
     </div> <!-- /.box -->
     </div> <!--/.col (left) -->
 </div> <!-- /.row -->
@@ -75,6 +150,89 @@
 
 @section('scripts')
 <script type="text/javascript">
+function addUnit()
+{
+  const firstUnit = document.getElementById('firstUnit');
+  let unit = document.createElement('div');
+  unit.setAttribute('class', 'col-xs-12 no-padding table-bordered');
+  unit.innerHTML = '<div class="col-md-4">'+
+              firstUnit.firstElementChild.innerHTML+
+              '</div>'+
+              '<div class="col-md-4">'+
+                '<div class="form-group">'+
+                  '<label for="price">Unit Price</label>'+
+                  '<input type="number" name="price[]" class="form-control" step="0.01">'+
+                '</div>'+
+              '</div>'+
+
+            
+              '<div class="col-md-4">'+
+                '<div class="form-group">'+
+                  '<label for="quantity">Stock Quantity</label>'+
+                  '<input type="number" name="quantity[]" class="form-control">'+
+                '</div>'+
+              '</div>'+
+            
+              '<div class="col-md-4">'+
+                '<div class="form-group">'+
+                  '<label for="alert_quantity">Stock Alert</label>'+
+                  '<input type="number" name="alert_quantity[]" class="form-control">'+
+                '</div>'+
+              '</div>'+
+            
+              '<div class="col-md-4">'+
+                '<div class="form-group">'+
+                  '<label for="convert_base_unit">Convert to Base Unit</label>'+
+                  '<input type="number" name="convert_base_unit[]" class="form-control" placeholder="1 pack = 12 pcs">'+
+                '</div>'+
+              '</div>'+
+            
+              '<div class="col-md-4">'+
+                '<div class="form-group">'+
+                  '<button type="button" class="close" data-dismiss="alert" aria-hidden="true" onclick="removeUnit(this)">&times;</button>'+
+                  '<label for="">Is this Base Unit?</label>'+
+                  '<br>'+
+                  '<label for="is_base_unit">'+
+                    '<input type="radio" name="is_base_unit[]" check="0" onclick="unCheck(this)">'+ 
+                       ' Yes'+
+                  '</label>'+
+                '</div>'+
+              '</div>';
+  firstUnit.appendChild(unit);
+}
+
+function unCheck(e)
+{
+  if(e.getAttribute('check') == 0)
+  {
+    e.checked = true;
+    e.setAttribute('check', 1);
+  }
+  else
+  {
+    e.checked = false;
+    e.setAttribute('check', 0)
+  }
+
+  const isBaseUnit = document.querySelectorAll('input[name="is_base_unit"]');
+    isBaseUnit.forEach((b) => {
+      if(b.checked == true)
+      {
+        b.setAttribute('check', 1);
+      }
+      else
+      {
+        b.setAttribute('check', 0);
+      }
+    });
+  
+
+}
+
+function removeUnit(e)
+{
+  e.parentNode.parentNode.parentNode.remove();
+}
     function getsubcats(elm){
 
         var catid = elm.options[elm.options.selectedIndex].value;
@@ -84,30 +242,23 @@
             url: '/get_sub_cats/'+catid,
             success: function (data) {
 
-                var obj = JSON.parse(JSON.stringify(data));
-                var sub_cat_html = "";
+              var obj = JSON.parse(JSON.stringify(data));
+              var sub_cat_html = "";
 
-                $.each(obj['subcats'], function (key, val) {
-                   sub_cat_html += "<option value="+val.id+">"+val.name+"</option>";
-                });
+              $.each(obj['subcats'], function (key, val) {
+                sub_cat_html += "<option value="+val.id+">"+val.name+"</option>";
+              });
 
-                if(sub_cat_html != ""){
-                    $("#sub_cat").html('<option value="">Select SubCategory</option>'+sub_cat_html)
-                }else{
-                    $("#sub_cat").html('<option value="">No SubCategory</option>')
-                }
-
-                // console.log(obj['subcats'].count());
-
-                // $("#sub_cat").append(you_html); //// For Append
-                   //// For replace with previous one
+              if(sub_cat_html != ""){
+                $("#sub_cat").html('<option value="">Select One</option>'+sub_cat_html)
+              }else{
+                $("#sub_cat").html('<option value="">No One</option>')
+              }
             },
             error: function(data) { 
                  console.log('data error');
             }
         });
     }
-
-    // getsubcats(elm);
 </script>
 @endsection

@@ -46,7 +46,7 @@
                 <tr>
                   <td><?php echo e($product->id); ?></td>
                   <td><?php echo e($product->title); ?></td>
-                  <td><?php echo e($product->cat_id?App\Category::find($product->cat_id)->name:''); ?></td>
+                  <td><?php echo e($product->cat_id?App\Models\Category::find($product->cat_id)->name:''); ?></td>
                   <td><?php echo e($product->brand); ?></td>
                   <td><?php echo e($product->mrp_price); ?></td>                  
                   <td>
@@ -58,8 +58,8 @@
                   </td>
                   <td><?php echo e(date('d M Y', strtotime($product->buying_date))); ?></td>
                   <td>
-                    <a href="<?php echo e(route('product.show',$product->id)); ?>" class="label label-info" title="product Details"><i class="fa fa-file-text"></i></a>
-                    <a href="<?php echo e(route('product.edit',$product->id)); ?>" class="label label-warning" title="Edit this product"><i class="fa fa-edit"></i></a>
+                    <a href="<?php echo e(route('product.show', $product->id)); ?>" class="label label-info" title="product Details"><i class="fa fa-file-text"></i></a>
+                    <a href="<?php echo e(route('product.edit', $product->id)); ?>" class="label label-warning" title="Edit this product"><i class="fa fa-edit"></i></a>
                   </td>
                 </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

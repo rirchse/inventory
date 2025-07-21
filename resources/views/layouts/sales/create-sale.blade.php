@@ -151,13 +151,13 @@
                 </div>
                 <div class="col-xs-12">
                     <div class="row">
-                        <div class="col-xs-8">
+                        <div class="col-xs-10">
                             <p class="m-0">Product Title, Lorem ipsum dolor sit</p>
-                            <p class="text-muted m-0">2 x 25000</p>
+                            <p class="text-muted m-0">25000 x 2 = <span class="text-primary m-0">$50000</span></p>
                         </div>
-                        <div class="col-xs-4">
-                            <p class="text-primary pull-left m-0">$50000</p>
-                            <button type="button" class="pull-right btn-warning btn btn-xs" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+                        <div class="col-xs-2">
+                            {{-- <p class="text-primary pull-left m-0">$50000</p> --}}
+                            <button type="button" class="pull-right btn-danger btn btn-xs" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
                         </div>
                     </div>
                     <hr>
@@ -168,7 +168,7 @@
                         </div>
                         <div class="col-xs-4">
                             <p class="text-primary pull-left m-0">$50000</p>
-                            <button type="button" class="pull-right btn-warning btn btn-xs" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+                            <button type="button" class="pull-right btn-danger btn btn-xs" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
                         </div>
                     </div>
                     <hr>
@@ -179,7 +179,7 @@
                         </div>
                         <div class="col-xs-4">
                             <p class="text-primary pull-left m-0">$50000</p>
-                            <button type="button" class="pull-right btn-warning btn btn-xs" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+                            <button type="button" class="pull-right btn-danger btn btn-xs" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
                         </div>
                     </div>
                     <hr>
