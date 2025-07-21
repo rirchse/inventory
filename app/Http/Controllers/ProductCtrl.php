@@ -97,7 +97,7 @@ class ProductCtrl extends Controller
               'shop_id' => null,
               'product_id' => $product->id,
               'unit_name' => $request->unit[$p],
-              'quantity' => $request->quantity[$p],
+              'quantity' => $request->quantity[$p] ?? 0,
             ]);
 
           }

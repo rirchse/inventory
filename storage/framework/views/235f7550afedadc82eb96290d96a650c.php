@@ -8,11 +8,10 @@ $source = new SourceCtrl;
 <?php $__env->startSection('content'); ?>
 <!-- Content Header (Page header) -->
 <section class="content-header">
-  <h1>All Product</h1>
+  <h1>All Products</h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-    
-    <li class="active">All Product</li>
+    <li class="active">All Products</li>
   </ol>
 </section>
 <!-- Main content -->
