@@ -343,8 +343,8 @@
           success: function (data){
               var names = '<option value="">Select One</option>';
 
-              var obj = JSON.parse(JSON.stringify(data));
-              $.each(obj['product'], function (key, val){
+              // var obj = JSON.parse(JSON.stringify(data));
+              $.each(data['product'], function (key, val){
                   names += '<option value="'+val.id+'">'+val.name+'</option>';
               });
               productlist = names;
@@ -379,6 +379,6 @@
   }
 
 //select2
-    $(function(){$('.select2').select2()});
+    $(function(){$('.select2').select2();});
 </script>
 @endsection

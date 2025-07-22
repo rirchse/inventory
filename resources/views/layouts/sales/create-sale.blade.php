@@ -83,14 +83,14 @@
                 </div>
                 <div class="col-xs-6 col-sm-4">
                     <div class="form-group">
-                        <label for="sales_date">Sales Date:</label>
-                        <input class="form-control" type="date" name="sales_date" id="sales_date" required>
+                        <label for="email">Email (Optional):</label>
+                        <input class="form-control" type="email" name="email">
                     </div>
                 </div>
                 <div class="col-xs-6 col-sm-4">
                     <div class="form-group">
-                        <label for="email">Email (Optional):</label>
-                        <input class="form-control" type="email" name="email">
+                        <label for="sales_date">Sales Date:</label>
+                        <input class="form-control" type="date" name="sales_date" id="sales_date" required>
                     </div>
                 </div>
                 <div class="col-xs-6 col-sm-4">
@@ -107,34 +107,50 @@
                 </div>
             </div>
             <!-- product item start -->
-            <div class="row">
-                <div class="col-xs-12">
+            <div class="row" id="item-row">
+              <div class="col-xs-12 no-padding">
+                <div class="col-xs-12 col-md-6">
                     <div class="form-group">
                         <label for="itemname[]">Product Name:</label>
-                        <input name="itemname[]" type="text" class="form-control" required="" onkeyup="getItemName(this)">
+                        <select name="itemname[]" type="text" class="form-control select2" required onkeyup="getItem(this)" id="product_name" onchange="getUnits(this)" autofocus>
+                          <option value="">Select One</option>
+                      </select>
                     </div>
                 </div>
-                <div class="col-xs-4">
+                <div class="col-xs-4 col-md-1">
+                    <div class="form-group">
+                        <label for="unit[]">Unit:</label>
+                        <select name="unit[]" class="form-control" id="unit">
+                          <option value="">Select One</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-4 col-md-2">
                     <div class="form-group">
                         <label for="price[]">Unit Price:</label>
                         <input name="price[]" type="text" class="form-control">
                     </div>
                 </div>
-                <div class="col-xs-3">
+                <div class="col-xs-3 col-md-1">
                     <div class="form-group">
                         <label for="qty[]">Qty:</label>
                         <input name="qty[]" type="number" class="form-control" onchange="calcTotal(this)" min="1" value=0>
                     </div>
                 </div>
-                <div class="col-xs-5">
+                <div class="col-xs-5 col-md-2">
                     <div class="form-group">
                         <label for="total[]">Total:</label>
                         <input name="total[]" type="text" class="form-control itemTotal" value=0>
                     </div>
                 </div>
-                <div class="col-xs-6 col-xs-offset-3">
-                    <button class="btn btn-primary btn-block"><i class="fa fa-plus"></i>&nbsp; &nbsp; Add Product</button>
-                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6 col-xs-offset-3">
+                <button class="btn btn-primary btn-block" onclick="addItem()">
+                  <i class="fa fa-plus"></i>&nbsp; &nbsp; Add To Sale
+                </button>
+              </div>
             </div>
             <!-- product item end -->
             <!-- add new item button -->
@@ -443,6 +459,7 @@
 </section> <!-- /.content -->
 
 <script type="text/javascript">
+    var productlist = '';
     var total_price = 0;
 
     var add_item   = document.getElementById('add_item');
@@ -450,57 +467,49 @@
     var sub_total = document.getElementById('sub_total');
     var discount = document.getElementById('discount');
 
-    add_item.addEventListener('click', addRow);
-    function addRow()
+    function addItem()
     {
-        //add table row/tr and cell/td
-        var row     = items.insertRow(-1);
-        var name    = row.insertCell(0);
-        var price   = row.insertCell(1);
-        var qty     = row.insertCell(2);
-        var Total   = row.insertCell(3);
-        var action  = row.insertCell(4);
+      const row = document.getElementById('item-row');
 
-        //add item name
-        var itemname   = document.createElement('input');
-        itemname.name  = "itemname[]";
-        itemname.type  = "text";
-        itemname.value = "";
-        itemname.setAttribute('class', 'form-control');
-        itemname.setAttribute('required', '');
-        name.appendChild(itemname);
-
-        //add item price
-        var itemPrice   = document.createElement('input');
-        itemPrice.name  = "price[]";
-        itemPrice.type  = "text";
-        itemPrice.setAttribute('class', 'form-control');
-        itemPrice.value = "";
-        price.appendChild(itemPrice);
-
-        //add item qty
-        var itemQty   = document.createElement('input');
-        itemQty.name  = "qty[]";
-        itemQty.type  = "number";
-        itemQty.setAttribute('class', 'form-control');
-        itemQty.setAttribute('onchange', 'calcTotal(this)');
-        itemQty.setAttribute('min', 1);
-        itemQty.value = 0;
-        qty.appendChild(itemQty);
-
-        //add item qty
-        var itemTotal   = document.createElement('input');
-        itemTotal.name  = "total[]";
-        itemTotal.type  = "text";
-        itemTotal.setAttribute('class', 'form-control itemTotal');
-        itemTotal.value = 0;
-        Total.appendChild(itemTotal);
-
-        var actbtn = document.createElement('span');
-        actbtn.setAttribute('class', 'btn btn-danger btn-sm');
-        actbtn.setAttribute('onclick', 'removetr(this)');
-        actbtn.innerHTML = '<i class="fa fa-close"></i>';
-        action.appendChild(actbtn);
+      const fields = document.createElement('div');
+      fields.setAttribute('class', 'col-xs-12 no-padding');
+      fields.innerHTML = '<div class="col-xs-12 col-md-6">'+
+                    '<div class="form-group">'+
+                        '<label for="itemname[]">Product Name:</label>'+
+                        '<select name="itemname[]" type="text" class="form-control select2" required onkeyup="getItem(this)" onchange="getUnits(this)">'+
+                          productlist+
+                      '</select>'+
+                    '</div>'+
+                '</div>'+
+                '<div class="col-xs-4 col-md-1">'+
+                    '<div class="form-group">'+
+                        '<label for="unit[]">Unit:</label>'+
+                        '<select name="unit[]" class="form-control" id="unit">'+
+                          '<option value="">Select One</option>'+
+                        '</select>'+
+                    '</div>'+
+                '</div>'+
+                '<div class="col-xs-4 col-md-2">'+
+                    '<div class="form-group">'+
+                        '<label for="price[]">Unit Price:</label>'+
+                        '<input name="price[]" type="text" class="form-control">'+
+                    '</div>'+
+                '</div>'+
+                '<div class="col-xs-3 col-md-1">'+
+                    '<div class="form-group">'+
+                        '<label for="qty[]">Qty:</label>'+
+                        '<input name="qty[]" type="number" class="form-control" onchange="calcTotal(this)" min="1" value=0>'+
+                    '</div>'+
+                '</div>'+
+                '<div class="col-xs-5 col-md-2">'+
+                    '<div class="form-group">'+
+                        '<label for="total[]">Total:</label>'+
+                        '<input name="total[]" type="text" class="form-control itemTotal" value=0>'+
+                    '</div>'+
+                '</div>';
+      row.append(fields);
+      row.select2('open');
+      $('.select2').select2();
     }
 
     // remove table row on click close sign
@@ -520,23 +529,23 @@
     var paid = document.getElementById('paid');
     var shipping = document.getElementById('shipping');
 
-    discount.addEventListener('keyup', Discount);
-    function Discount(){
-        grand_total.value = (sub_total.value - discount.value) + Number(shipping.value);
-        dueCalc();
-    }
+    // discount.addEventListener('keyup', Discount);
+    // function Discount(){
+    //     grand_total.value = (sub_total.value - discount.value) + Number(shipping.value);
+    //     dueCalc();
+    // }
 
-    shipping.addEventListener('keyup', Shipping);
-    function Shipping(){
-        grand_total.value = (sub_total.value - discount.value) + Number(shipping.value);
-        dueCalc();
-    }
+    // shipping.addEventListener('keyup', Shipping);
+    // function Shipping(){
+    //     grand_total.value = (sub_total.value - discount.value) + Number(shipping.value);
+    //     dueCalc();
+    // }
 
-    paid.addEventListener('keyup', dueCalc);
-    function dueCalc()
-    {
-        due.value = grand_total.value - paid.value;
-    }
+    // paid.addEventListener('keyup', dueCalc);
+    // function dueCalc()
+    // {
+    //     due.value = grand_total.value - paid.value;
+    // }
 
     //change total change by qty
     var quantity = document.getElementsByName('qty');
@@ -562,7 +571,7 @@
     /** ----------------------------- Search Customer by ajax --------------- **/
     var mobile = document.getElementById('mobile');
     var search_customer = document.getElementById('search_customer');
-    mobile.addEventListener('keyup', getCustomer);
+    // mobile.addEventListener('keyup', getCustomer);
 
     function getCustomer(elm){
         var customer_name = document.getElementById('customer_name');
@@ -600,29 +609,56 @@
     }
 
     //** ----------------- customer serch end ------------------- **//
-    //** --------- search product by ajax and make datalist ------ **//
-    function getItemName(elm){
-        $.ajax({
-            type: 'GET',
-            url: '/search_item_names',
-            success: function (data){
-                var names = '';
-                // var itemnames = document.getElementById('itemnames');
 
-                var obj = JSON.parse(JSON.stringify(data));
-                $.each(obj['success'], function (key, val){
-                    names += '<option value="'+val.name+'">';
-                });
+</script>
+@endsection
 
-                document.getElementById('itemnames').innerHTML = names;
+@section('scripts')
+<script>
+  //** --------- search product by ajax and make datalist ------ **//
+  $(document).ready(function(){
+    $.ajax({
+        type: 'GET',
+        url: '{{route("product.get.name")}}',
+        success: function (data){
+            var names = '<option value="">Select One</option>';
 
-                elm.setAttribute('list', 'itemnames')
-            },
-            error: function (data){
-                //
-            }
+            var obj = JSON.parse(JSON.stringify(data));
+            $.each(obj['product'], function (key, val){
+                names += '<option value="'+val.id+'">'+val.name+'</option>';
+            });
+            productlist = names;
+            document.getElementById('product_name').innerHTML = productlist;
+        },
+        error: function (data){
+          //
+        }
+    });
+  });
+
+  function getUnits(e)
+  {
+    const productId = e.options[e.selectedIndex].value;
+    // const unit = $(e).closest('col-md-2').find('select[name="unit[]"]');
+    const unit = document.getElementById('unit');
+    $.ajax({
+      type: 'GET',
+      url: '{{route("product.get-unit")}}/'+productId,
+      success: function(data){
+        let unitName = ''
+        data.unit.forEach((u) => {
+          unitName += '<option value="'+u.unit_name+'">'+u.unit_name+'</option>';
+          // console.log(u);
         });
-    }
 
+        unit.innerHTML = unitName;
+      },
+      error: function(data){
+        console.error(data);
+      },
+    });
+  }
+  //select 2
+  $(function(){$('.select2').select2();});
 </script>
 @endsection
