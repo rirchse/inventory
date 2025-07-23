@@ -30,36 +30,115 @@
         <div class="box-body">
           <form action="{{ route('product.store') }}" method="POST">
             @csrf
-            <div class="col-md-12">
-          
-              <!-- Product Name -->
-              <div class="form-group">
-                <label for="name">Product Name</label>
-                <input type="text" name="name" class="form-control" required>
+            <div class="row">
+              <div class="col-md-12">
+                <!-- Product Name -->
+                <div class="form-group">
+                  <label for="name">Product Name</label>
+                  <input type="text" name="name" id="name" class="form-control" required>
+                </div>
               </div>
-            </div>
+              <div class="col-md-6 col-xs-6">
+                <!-- SKU -->
+                <div class="form-group">
+                  <label for="sku">SKU (optional)</label>
+                  <input type="text" name="sku" id="sku" class="form-control">
+                </div>
+              </div>
+              <div class="col-md-6 col-xs-6">
+                <div class="form-group">
+                  <label for="barcode">Barcode Number</label>
+                  <input type="text" name="barcode" id="barcode" class="form-control">
+                </div>
+              </div>
+              <div class="col-md-12">
+                
+                <div class="row" id="firstUnit">
+                  <div class="col-md-4 col-xs-6">
+                    <!-- Packet Price -->
+                    <div class="form-group">
+                      <label for="unit">Unit</label>
+                      <select name="unit[]" id="unit" class="form-control" step="0.01" required>
+                        <option value="">Select One</option>
+                        @foreach($units as $unit)
+                        <option value="{{$unit->symbol}}">{{$unit->name}}</option>
+                        @endforeach
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-xs-6">
+                    <div class="form-group">
+                      <label for="price">Unit Price</label>
+                      <input type="number" id="price" name="price[]" class="form-control" step="0.01">
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-xs-6">
+                    <div class="form-group">
+                      <label for="quantity">Stock Quantity</label>
+                      <input type="number" id="quantity" name="quantity[]" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-xs-6">
+                    <div class="form-group">
+                      <label for="alert_quantity">Stock Alert</label>
+                      <input type="number" id="alert_quantity" name="alert_quantity[]" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-xs-6">
+                    <div class="form-group">
+                      <label for="convert_base_unit">Convert to Base Unit</label>
+                      <input type="number" id="convert_base_unit" name="convert_base_unit[]" class="form-control" placeholder="1 pack = 12 pcs">
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-xs-6">
+                    <div class="radio">
+                      <strong>Is this Base Unit?</strong><br>
+                      <label>
+                        <input type="radio" name="is_base_unit[]" check="0" onclick="unCheck(this)">
+                        Yes
+                      </label>
+                    </div>
+                  </div>
 
-            <div class="col-md-6">
-            
-              <!-- SKU -->
-              <div class="form-group">
-                <label for="sku">SKU (optional)</label>
-                <input type="text" name="sku" class="form-control">
+                </div> <!-- end single product unit row -->
+                <div class="row">
+                  <div class="col-xs-12 col-md-5">
+                    <div class="form-group">
+                      <button type="button" class="btn btn-info btn-sm btn-block" onclick="addUnit()">
+                        <i class="fa fa-plus"></i> 
+                        Add Another Unit</button>
+                    </div>
+                  </div>
+                </div>
+              </div> <!-- end single product unit wrapping col-12 -->
+              <div class="col-xs-12">
+                <div class="form-group">
+                  <label for="description">Description (optional)</label>
+                  <textarea name="description" id="description" class="form-control" rows="2"></textarea>
+                </div>
               </div>
-            </div>
-            
-            <div class="col-md-6">
-              
-              <div class="form-group">
-                <label for="barcode">Barcode Number</label>
-                <input type="text" name="barcode" class="form-control">
+              <div class="col-xs-12">
+                <div class="checkbox">
+                  <strong>Product Status: </strong>
+                  <label>
+                    <input type="checkbox" name="is_active" value="1" checked>
+                    Active
+                  </label>
+                </div>
               </div>
-            </div>
+              <div class="col-xs-12">
+                <button type="submit" class="btn btn-primary btn-lg pull-right"> <i class="fa fa-save"> </i> Save</button>
+              </div>
+            </div><!-- parent row end -->
+            
+
+            
+            
+<!--             
 
             <div class="col-md-12 no-padding" id="firstUnit">
-
               <div class="col-md-4">
-                <!-- Packet Price -->
+                <!-- Packet Price 
                 <div class="form-group">
                   <label for="unit">Unit</label>
                   <select name="unit[]" class="form-control" step="0.01" required>
@@ -121,13 +200,13 @@
             </div>
 
             <div class="col-md-12">            
-              <!-- Description -->
+              <!-- Description
               <div class="form-group">
                 <label for="description">Description (optional)</label>
-                <textarea name="description" class="form-control" rows="3"></textarea>
+                <textarea name="description" id="description" class="form-control" rows="3"></textarea>
               </div>
             
-              <!-- Active Status -->
+              <!-- Active Status
               <div class="form-group">
                 <label>
                   <input type="checkbox" name="is_active" value="1" checked>
@@ -135,10 +214,10 @@
                 </label>
               </div>
             
-              <!-- Submit -->
+              <!-- Submit 
               <button type="submit" class="btn btn-primary pull-right"> <i class="fa fa-save"> </i> Save</button>
               <div class="clearfix"></div>
-            </div>
+            </div> -->
           </form>
         </div>
         
