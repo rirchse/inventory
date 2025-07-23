@@ -2,13 +2,21 @@
 @section('title', 'Add New Product')
 @section('content')
 <style>
-  input[name="is_base_unit"]{
+  /* input[name="is_base_unit"]{
     width:20px;
     height:20px;
+  } */
+  .close-unit {
+      color: red;
+      font-size: 1em;
+      opacity: .6;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 12px;
   }
-  .close{
-    color:red;
-    font-size: 25px
+  select.form-control {
+      text-transform: capitalize;
   }
   @media only screen and (max-width: 767px){
     .row > .col-xs-6:nth-child(odd) {
@@ -204,69 +212,10 @@ function addUnit()
                     '</div>'+
                   '</div>'+
                   '<div class="col-xs-12">'+
-                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true" onclick="removeUnit(this)">&times;</button>'+
+                    '<button type="button" class="close close-unit" data-dismiss="alert" aria-hidden="true" onclick="removeUnit(this)"><i class="fa fa-times-circle" aria-hidden="true"></i> Remove this Unit</button>'+
                     '<hr>'+
                   '</div>'+
                 '</div>';
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  // '<div class="row"'+
-  //           '<div class="col-xs-6 col-md-4">'+
-  //             '<div class="form-group">'+
-  //               '<label for="unit">Unit</label>'+
-  //               '<select name="unit[]" id="unit" class="form-control" step="0.01" required>'+
-  //               units+
-  //               '</select>'+
-  //               '</div>'+
-  //             '</div>'+
-  //             '<div class="col-xs-6 col-md-4">'+
-  //               '<div class="form-group">'+
-  //                 '<label for="price">Unit Price</label>'+
-  //                 '<input type="number" name="price[]" class="form-control" step="0.01">'+
-  //               '</div>'+
-  //             '</div>'+
-
-            
-  //             '<div class="col-xs-6 col-md-4">'+
-  //               '<div class="form-group">'+
-  //                 '<label for="quantity">Stock Quantity</label>'+
-  //                 '<input type="number" name="quantity[]" class="form-control">'+
-  //               '</div>'+
-  //             '</div>'+
-            
-  //             '<div class="col-xs-6 col-md-4">'+
-  //               '<div class="form-group">'+
-  //                 '<label for="alert_quantity">Stock Alert</label>'+
-  //                 '<input type="number" name="alert_quantity[]" class="form-control">'+
-  //               '</div>'+
-  //             '</div>'+
-            
-  //             '<div class="col-xs-6 col-md-4">'+
-  //               '<div class="form-group">'+
-  //                 '<label for="convert_base_unit">Convert to Base Unit</label>'+
-  //                 '<input type="number" name="convert_base_unit[]" class="form-control" placeholder="1 pack = 12 pcs">'+
-  //               '</div>'+
-  //             '</div>'+
-            
-  //             '<div class="col-xs-6 col-md-4">'+
-  //               '<div class="form-group">'+
-  //                 '<button type="button" class="close" data-dismiss="alert" aria-hidden="true" onclick="removeUnit(this)">&times;</button>'+
-  //                 '<label for="">Is this Base Unit?</label>'+
-  //                 '<br>'+
-  //                 '<label for="is_base_unit">'+
-  //                   '<input type="radio" name="is_base_unit[]" check="0" onclick="unCheck(this)">'+ 
-  //                      ' Yes'+
-  //                 '</label>'+
-  //               '</div>'+
-  //             '</div>'+
-  //           '</div>';
   firstUnit.appendChild(unit);
 }
 
