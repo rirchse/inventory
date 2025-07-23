@@ -66,7 +66,6 @@
                     <hr>
                   </div>
                   <div class="col-md-4 col-xs-6">
-                    <!-- Packet Price -->
                     <div class="form-group">
                       <label for="unit">Unit</label>
                       <select name="unit[]" id="unit" class="form-control" step="0.01" required>
@@ -242,15 +241,21 @@
 
 @section('scripts')
 <script type="text/javascript">
+let units = '';
 function addUnit()
 {
   const firstUnit = document.getElementById('firstUnit');
   let unit = document.createElement('div');
   unit.setAttribute('class', 'col-xs-12 no-padding table-bordered');
-  unit.innerHTML = '<div class="col-md-4">'+
-              firstUnit.firstElementChild.innerHTML+
+  unit.innerHTML = '<div class="col-xs-6 col-md-4">'+
+              '<div class="form-group">'+
+                '<label for="unit">Unit</label>'+
+                '<select name="unit[]" id="unit" class="form-control" step="0.01" required>'+
+                units+
+                '</select>'+
+                '</div>'+
               '</div>'+
-              '<div class="col-md-4">'+
+              '<div class="col-xs-6 col-md-4">'+
                 '<div class="form-group">'+
                   '<label for="price">Unit Price</label>'+
                   '<input type="number" name="price[]" class="form-control" step="0.01">'+
@@ -258,28 +263,28 @@ function addUnit()
               '</div>'+
 
             
-              '<div class="col-md-4">'+
+              '<div class="col-xs-6 col-md-4">'+
                 '<div class="form-group">'+
                   '<label for="quantity">Stock Quantity</label>'+
                   '<input type="number" name="quantity[]" class="form-control">'+
                 '</div>'+
               '</div>'+
             
-              '<div class="col-md-4">'+
+              '<div class="col-xs-6 col-md-4">'+
                 '<div class="form-group">'+
                   '<label for="alert_quantity">Stock Alert</label>'+
                   '<input type="number" name="alert_quantity[]" class="form-control">'+
                 '</div>'+
               '</div>'+
             
-              '<div class="col-md-4">'+
+              '<div class="col-xs-6 col-md-4">'+
                 '<div class="form-group">'+
                   '<label for="convert_base_unit">Convert to Base Unit</label>'+
                   '<input type="number" name="convert_base_unit[]" class="form-control" placeholder="1 pack = 12 pcs">'+
                 '</div>'+
               '</div>'+
             
-              '<div class="col-md-4">'+
+              '<div class="col-xs-6 col-md-4">'+
                 '<div class="form-group">'+
                   '<button type="button" class="close" data-dismiss="alert" aria-hidden="true" onclick="removeUnit(this)">&times;</button>'+
                   '<label for="">Is this Base Unit?</label>'+
@@ -352,5 +357,20 @@ function removeUnit(e)
             }
         });
     }
+
+    $(document).ready(function(){
+      $.ajax({
+        type: 'GET',
+        url: '{{route("unit.get-unit")}}',
+        success: function(data){
+          data.units.forEach((u) => {
+            units += '<option value="'+u.symbol+'">'+u.name+'</option>';
+          });
+        },
+        error: function(data){
+          console.error(data);
+        }
+      });
+    });
 </script>
 @endsection

@@ -32,7 +32,7 @@ Route::middleware(['auth'])->group(function()
 	Route::get('/home', 'HomeCtrl@index')->name('home');
 	Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-//======================= CASTOM ROUTE ====================
+  //======================= CASTOM ROUTE ====================
 	Route::get('/user/delete/{id}','UserCtrl@destroy')->name('user.delete');
 	Route::get('/category/delete/{id}','CategoryCtrl@destroy')->name('category.delete');
 	Route::get('/sub_category/delete/{id}','SubCategoryCtrl@destroy')->name('sub_category.delete');
@@ -63,6 +63,11 @@ Route::middleware(['auth'])->group(function()
 	Route::resource('/product', 'ProductCtrl');
 	Route::resource('/vendor', 'SupplierCtrl');
 	Route::resource('/customer', 'CustomerCtrl');
+
+  Route::controller(UnitCtrl::class)->group(function(){
+    Route::get('/units/get-unit', 'getUnits')->name('unit.get-unit');
+  });
+
 	Route::get('/search/customer/{mobile_number}', 'CustomerCtrl@searchCustomer');
 	Route::post('/search/customer', 'CustomerCtrl@searchCustomer')->name('customer.search');
 	Route::resource('/sale', 'SaleCtrl');
