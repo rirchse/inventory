@@ -10,6 +10,14 @@
     color:red;
     font-size: 25px
   }
+  @media only screen and (max-width: 767px){
+    .row > .col-xs-6:nth-child(odd) {
+        padding-left: 7.5px;
+    }
+    .row > .col-xs-6:nth-child(even) {
+        padding-right: 7.5px;
+    }
+  }
 </style>
 <section class="content-header">
   <h1>Add a Product</h1>
@@ -54,6 +62,9 @@
               <div class="col-md-12">
                 
                 <div class="row" id="firstUnit">
+                  <div class="col-xs-12">
+                    <hr>
+                  </div>
                   <div class="col-md-4 col-xs-6">
                     <!-- Packet Price -->
                     <div class="form-group">
@@ -99,7 +110,9 @@
                       </label>
                     </div>
                   </div>
-
+                  <div class="col-xs-12">
+                    <hr>
+                  </div>
                 </div> <!-- end single product unit row -->
                 <div class="row">
                   <div class="col-xs-12 col-md-5">
