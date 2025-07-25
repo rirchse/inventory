@@ -47,6 +47,50 @@
           <form action="{{ route('product.store') }}" method="POST">
             @csrf
             <div class="row">
+              <div class="col-md-3 col-xs-6">
+                <div class="form-group">
+                  <label for="cat">Category</label>
+                  <select id="cat" class="form-control" required>
+                    <option value="">Select One</option>
+                    <option value="">Select One</option>
+                    <option value="">Select One</option>
+                    <option value="">Select One</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3 col-xs-6">
+                <div class="form-group">
+                  <label>Sub Category</label>
+                  <select class="form-control" required>
+                    <option value="">Select One</option>
+                    <option value="">Select One</option>
+                    <option value="">Select One</option>
+                    <option value="">Select One</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3 col-xs-6">
+                <div class="form-group">
+                  <label>Model</label>
+                  <select class="form-control" required>
+                    <option value="">Select One</option>
+                    <option value="">Select One</option>
+                    <option value="">Select One</option>
+                    <option value="">Select One</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3 col-xs-6">
+                <div class="form-group">
+                  <label>Type/Color</label>
+                  <select class="form-control" name="product_type">
+                    <option value="">Select One</option>
+                    <option value="">Select One</option>
+                    <option value="">Select One</option>
+                    <option value="">Select One</option>
+                  </select>
+                </div>
+              </div>
               <div class="col-md-12">
                 <!-- Product Name -->
                 <div class="form-group">
@@ -68,7 +112,6 @@
                 </div>
               </div>
               <div class="col-md-12">
-                
                 <div class="row" id="firstUnit">
                   <div class="col-xs-12">
                     <hr>
@@ -126,6 +169,13 @@
                       <button type="button" class="btn btn-info btn-sm btn-block" onclick="addUnit()">
                         <i class="fa fa-plus"></i> 
                         Add Another Unit</button>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-md-5">
+                    <div class="form-group">
+                      <button type="button" class="btn btn-primary btn-sm btn-block" onclick="addUnit()">
+                        <i class="fa fa-plus"></i> 
+                        Add New Product</button>
                     </div>
                   </div>
                 </div>
