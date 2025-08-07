@@ -68,7 +68,6 @@
           </table>
         </div>
         <div class="clearfix"></div>
-        <p><a href="{{route('payment.delete',$payment->id)}}" onclick="return confirm('Are sure you want to permanently delete this Payment?')" class="text-danger" style="padding:15px">Permanently Remove?</a></p>
       </div>
     </div><!-- /.box -->
   </div><!--/.col (left) -->

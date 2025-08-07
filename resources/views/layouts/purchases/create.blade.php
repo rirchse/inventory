@@ -341,10 +341,9 @@
           type: 'GET',
           url: '{{route("product.get.name")}}',
           success: function (data){
+            console.log(data);
               var names = '<option value="">Select One</option>';
-
-              // var obj = JSON.parse(JSON.stringify(data));
-              $.each(data['product'], function (key, val){
+              $.each(data['item'], function (key, val){
                   names += '<option value="'+val.id+'">'+val.name+'</option>';
               });
               productlist = names;

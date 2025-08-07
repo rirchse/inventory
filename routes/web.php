@@ -68,7 +68,15 @@ Route::middleware(['auth'])->group(function()
     Route::get('/units/get-unit', 'getUnits')->name('unit.get-unit');
   });
 
-	Route::get('/search/customer/{mobile_number}', 'CustomerCtrl@searchCustomer');
+  Route::controller(ProductUnitCtrl::class)->group(function(){
+    Route::get('/product-units/get-product-unit/{p?}/{u?}', 'getUnitPrice')->name('product-unit.get-unit');
+    Route::post('/product-unit-convert', 'unitConverter')->name('product-unit.convert');
+  });
+
+  Route::controller(CustomerCtrl::class)->group(function(){
+    Route::get('/customers/get-customer/{mobile}', 'getCustomer')->name('customer.get-customer');
+  });
+	
 	Route::post('/search/customer', 'CustomerCtrl@searchCustomer')->name('customer.search');
 	Route::resource('/sale', 'SaleCtrl');
 	// Route::get('/sale/{customer}/product', 'SaleCtrl@saleProduct');
@@ -79,9 +87,12 @@ Route::middleware(['auth'])->group(function()
 
   Route::controller(ProductCtrl::class)->group(function()
   {
-    Route::get('/products/get-product', 'getProducts')->name('product.get.name');
-    Route::get('/products/get-unit/{id?}', 'getUnit')->name('product.get-unit');
+    Route::get('/products/get-product/{name?}', 'getProducts')->name('product.get.name');
+  });
 
+  Route::controller(ProductUnitCtrl::class)->group(function()
+  {
+    Route::get('/products/get-product-unit/{id?}', 'getUnit')->name('product.get-unit');
   });
 
 	Route::get('/sale/print/{id}/change', 'SaleCtrl@changePrintStatus');

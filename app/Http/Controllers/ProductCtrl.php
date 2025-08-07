@@ -83,7 +83,7 @@ class ProductCtrl extends Controller
 
           for($p = 0; $p < count($request->unit); $p++)
           {
-            ProductUnit::insert([
+            $productUnit = ProductUnit::create([
               'product_id' => $product->id,
               'unit_name' => $request->unit[$p],
               'unit_symbol' => null,
@@ -96,6 +96,7 @@ class ProductCtrl extends Controller
             Stock::insert([
               'shop_id' => null,
               'product_id' => $product->id,
+              'product_unit_id' => $productUnit->id,
               'unit_name' => $request->unit[$p],
               'quantity' => $request->quantity[$p] ?? 0,
             ]);
@@ -212,21 +213,22 @@ class ProductCtrl extends Controller
       return redirect()->route('products.index');
     }
 
-    public function getProducts()
+    public function getProducts($value = null)
     {
-      $products = Product::orderBy('id', 'DESC')->where('status', '1')->select('id', 'name')->get();
-      return response()->json([
-        'success' => true,
-        'product' => $products
-      ]);
-    }
+      $products = Product::orderBy('id', 'DESC')
+      ->where('status', '1');
 
-    public function getUnit($id)
-    {
-      $product = Product::find($id);
-      $units = $product->productUnit()->select('unit_name')->get();
+      if($value)
+      {
+        $products = $products->where('name', 'like', '%'.$value.'%');
+      }
+
+      $products = $products->select('id', 'name')
+      ->limit(10)
+      ->get();
+
       return response()->json([
-        'unit' => $units
+        'item' => $products
       ], 200);
     }
     

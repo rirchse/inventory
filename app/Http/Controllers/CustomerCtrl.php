@@ -156,11 +156,13 @@ class CustomerCtrl extends Controller
         return redirect()->route('customer.index');
     }
 
-    public function searchCustomer($mobile_number)
+    public function getCustomer($mobile)
     {
-        $customer = Customer::where('contact', $mobile_number)->select('full_name', 'address')->first();
+        $customer = Customer::where('contact', $mobile)
+        ->select('full_name', 'contact', 'email', 'address')
+        ->first();
         return response()->json([
-            'success' => $customer
+            'customer' => $customer
         ]);
     }
 }

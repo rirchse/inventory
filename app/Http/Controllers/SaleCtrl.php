@@ -4,16 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Sale;
+use App\Models\SaleItem;
 use App\Models\Customer;
 use App\Models\Product;
-use App\Models\Payment;
+use App\Models\Stock;
 use App\Models\User;
 use App\Models\Role;
 use Auth;
 use Image;
-use App\Models\OrderItem;
 use File;
 use Session;
+use DB;
 
 class SaleCtrl extends Controller
 {
@@ -66,7 +67,7 @@ class SaleCtrl extends Controller
         if($ext_order_no){
             $order_no = $ext_order_no+1;
         }
-        return view('layouts.sales.create-sale', compact('order_no'));
+        return view('layouts.sales.create', compact('order_no'));
     }
 
     /**
@@ -80,75 +81,95 @@ class SaleCtrl extends Controller
         $this->validate($request, [
             'customer_name'     => 'required',
             'mobile'            => 'required',
+            'address'           => 'nullable',
+            'email'             => 'nullable|email',
             'sales_date'        => 'required',
-            'address'           => '',
-            'email'             => 'email|nullable',
-            'order_no'          => 'required|numeric',
+            'order_no'          => 'nullable|numeric',
             'sub_total'         => 'required|numeric',
             'discount'          => 'numeric',
             'shipping'          => 'numeric',
-            'gtotal'            => 'required|numeric',
+            'grand_total'    => 'required|numeric',
             'paid'              => 'numeric',
             'due'               => 'numeric',
-            'sold_by'           => '',
-            'status'            => 'required|numeric',
-            'shipping_address'  => '',
-            'note'              => ''
+            'sold_by'           => 'nullable|string',
+            'status'            => 'nullable',
+            'shipping_address'  => 'nullable|string',
+            'note'              => 'nullable|string',
+            'item' => 'required|array',
+            'unit' => 'required|array',
+            'price' => 'required|array',
+            'qty' => 'required|array',
+            'total' => 'required|array',
         ]);
 
-        $customer_id = '';
+        // dd($request->all());
+
+        $customer_id = 0;
 
         $exist_customer = Customer::where('contact', $request->mobile)->first();
-        if($exist_customer == null){
-            $customer = new Customer;
-            $customer->full_name   = $request->customer_name;
-            $customer->contact     = $request->mobile;
-            $customer->address     = $request->address;
-            $customer->email       = $request->email;
-            $customer->status      = 1;
-            $customer->created_by  = Auth::id();
-            $customer->save();
+        if($exist_customer == null)
+        {
+          $new_customer = Customer::updateOrCreate(
+            [
+              'contact' => $request->mobile
+            ],
+            [
+              'full_name' => $request->customer_name,
+              'contact' => $request->contact,
+              'address' => $request->address,
+              'email' => $request->email,
+            ]
+          );
 
-            $customer_id = Customer::orderBy('id', 'DESC')->first()->id;
-        }else{
-            $customer_id = $exist_customer->id;
+          $customer_id = $new_customer->id;
+          
         }
 
-        $sale = new Sale;
-        $sale->order_no          = $request->order_no;
-        $sale->customer_id       = $customer_id;
-        $sale->sub_total         = $request->sub_total;
-        $sale->discount          = $request->discount;
-        $sale->shipping          = $request->shipping;
-        $sale->gtotal            = $request->gtotal;
-        $sale->paid              = $request->paid;
-        $sale->due               = $request->due;
-        $sale->sales_date        = date('Y-m-d H:i:s', strtotime($request->sales_date));
-        $sale->payment_type      = $request->payment_type;
-        $sale->details           = $request->note;
-        $sale->shipping_address  = $request->shipping_address;
-        $sale->sold_by           = Auth::id();
-        $sale->status            = $request->status ?? 0;
-        $sale->created_by        = Auth::id();
-        $sale->save(); 
+        try {
+          $sale = Sale::create([
+            'order_no' => $request->order_no,
+            'customer_id' => $customer_id,
+            'sub_total' => $request->sub_total,
+            'discount' => $request->discount,
+            'shipping' => $request->shipping,
+            'grand_total' => $request->grand_total,
+            'paid' => $request->paid,
+            'due' => $request->due,
+            'sales_date' => $request->sales_date,
+            'shipping_address' => $request->shipping_address,
+            'details' => $request->note,
+            'status' => $request->status,
+            'created_by' => auth()->id(),
+          ]);
 
-        $sale_id = Sale::orderBy('id','DESC')->first()->id;
+          for($i = 0; count($request->item) > $i; $i++)
+          {
+            $item = SaleItem::create([
+              'sale_id' => $sale->id,
+              'product_id' => $request->item_id[$i],
+              'name' => $request->item[$i],
+              'unit' => $request->unit[$i],
+              'price' => $request->price[$i],
+              'qty' => $request->qty[$i],
+              'total' => $request->total[$i],
+            ]);
 
-        foreach($request->itemname as $key => $value){
-            $item = new OrderItem;
-            $item->sales_id   = $sale_id;
-            $item->name       = $request->itemname[$key];
-            $item->price      = $request->price[$key];
-            $item->qty        = $request->qty[$key];
-            $item->total      = $request->total[$key];
-            $item->save();
+            //update product stock
+            Stock::where('product_id', $request->item_id[$i])
+            ->where('unit_name', $request->unit[$i])
+            ->update([
+              'quantity' => DB::raw("quantity - ".(int)$request->qty[$i])
+            ]);
+          }
+
+          return response()->json([
+            'sale' => $sale
+            ], 200);
         }
-
-        Session::flash('success', 'Sale Successfully Saved.');
-        if($request->paid){
-            return redirect('/payment/'.$sale_id.'/get');
+        catch(\Exception $e)
+        {
+          return $e->getMessage();
         }
-        return redirect()->route('sale.show', $sale_id);
     }
 
     /**
