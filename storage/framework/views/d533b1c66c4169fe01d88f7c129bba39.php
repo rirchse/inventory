@@ -127,7 +127,7 @@
             <li><a href="/sale/Confirmed/view"><i class="fa fa-circle-o"></i> Confirmed Sales</a></li>
             <li><a href="/sale/Completed/view"><i class="fa fa-circle-o"></i> Completed Sales</a></li>
             <li><a href="/sale/Cancelled/view"><i class="fa fa-circle-o"></i> Cancelled Sales</a></li>
-            <li><a href="/return"><i class="fa fa-undo"></i> Returned Sales</a></li>
+            <li><a href="<?php echo e(route('sale-return.index')); ?>"><i class="fa fa-undo"></i> Returned Sales</a></li>
           </ul>
         </li>
        

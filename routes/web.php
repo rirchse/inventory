@@ -79,11 +79,20 @@ Route::middleware(['auth'])->group(function()
 	
 	Route::post('/search/customer', 'CustomerCtrl@searchCustomer')->name('customer.search');
 	Route::resource('/sale', 'SaleCtrl');
-	// Route::get('/sale/{customer}/product', 'SaleCtrl@saleProduct');
-	Route::get('/sale/{id}/print', 'SaleCtrl@print');
-	Route::get('/sale/delete/{id}','SaleCtrl@destroy')->name('sale.delete');
-	Route::get('/search/orders/{value}', 'SaleCtrl@search');
-	Route::get('/sale/{type}/{view}', 'SaleCtrl@viewSalesByType');
+  Route::controller(SaleCtrl::class)->group(function()
+  {
+    // Route::get('/sale/{customer}/product', 'SaleCtrl@saleProduct');
+    Route::get('/sale/{id}/print', 'print');
+    Route::get('/sale/delete/{id}','destroy')->name('sale.delete');
+    Route::get('/search/orders/{value}', 'search');
+    Route::get('/sale/{type}/{view}', 'viewSalesByType');
+  });
+
+  Route::resource('/sale-return', 'SaleReturnCtrl');
+  Route::controller(SaleReturnCtrl::class)->group(function()
+  {
+    //
+  });
 
   Route::controller(ProductCtrl::class)->group(function()
   {
