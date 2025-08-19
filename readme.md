@@ -1,72 +1,193 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+# Inventory Management System
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+A comprehensive inventory management solution designed specifically for local stores and businesses in Bangladesh. Built with Laravel 11, this system provides robust inventory tracking, sales management, and business operations tools tailored for the local market.
 
-## About Laravel
+## 🏪 Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Core Inventory Management
+- **Product Management**: Add, edit, and track products with detailed information
+- **Category & Subcategory System**: Organize products with flexible categorization
+- **Stock Tracking**: Real-time inventory levels and stock alerts
+- **Unit Management**: Support for multiple units and unit conversions
+- **Brand Management**: Organize products by brands
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Sales & Customer Management
+- **Sales Processing**: Complete sales workflow with receipt generation
+- **Customer Database**: Maintain customer information and purchase history
+- **Payment Tracking**: Multiple payment methods and payment history
+- **Sales Returns**: Handle product returns and refunds
+- **Receipt Printing**: Generate and print sales receipts
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Purchase & Supplier Management
+- **Purchase Orders**: Create and manage purchase orders
+- **Supplier Management**: Maintain vendor/supplier information
+- **Purchase Tracking**: Monitor incoming inventory and costs
 
-## Learning Laravel
+### User & Security
+- **Role-based Access Control**: Different user roles and permissions
+- **User Management**: Add, edit, and manage system users
+- **Secure Authentication**: Laravel-based security with password protection
+- **Password Management**: Secure password change functionality
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Business Intelligence
+- **Sales Reports**: Track sales performance and trends
+- **Inventory Reports**: Monitor stock levels and movement
+- **Customer Analytics**: Customer purchase patterns and preferences
+- **Financial Tracking**: Payment and revenue monitoring
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🚀 Technology Stack
 
-## Laravel Sponsors
+- **Backend**: Laravel 11 (PHP 8.2+)
+- **Database**: MySQL/PostgreSQL
+- **Frontend**: Blade templates with Laravel UI
+- **Image Processing**: Intervention Image
+- **Authentication**: Laravel built-in authentication system
+- **Testing**: PHPUnit for testing
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## 📋 Requirements
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
+- PHP 8.2 or higher
+- Composer
+- MySQL 5.7+ or PostgreSQL 9.6+
+- Web server (Apache/Nginx)
+- Node.js & NPM (for asset compilation)
 
-## Contributing
+## 🛠️ Installation
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd inventory
+   ```
 
-## Security Vulnerabilities
+2. **Install PHP dependencies**
+   ```bash
+   composer install
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+3. **Install Node.js dependencies**
+   ```bash
+   npm install
+   ```
 
-## License
+4. **Environment setup**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+5. **Configure database in `.env` file**
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=inventory_db
+   DB_USERNAME=your_username
+   DB_PASSWORD=your_password
+   ```
+
+6. **Run database migrations**
+   ```bash
+   php artisan migrate
+   ```
+
+7. **Seed initial data (optional)**
+   ```bash
+   php artisan db:seed
+   ```
+
+8. **Compile assets**
+   ```bash
+   npm run dev
+   ```
+
+9. **Start the development server**
+   ```bash
+   php artisan serve
+   ```
+
+## 🗄️ Database Structure
+
+The system includes the following main entities:
+
+- **Users**: System users with role-based access
+- **Products**: Inventory items with categories and brands
+- **Categories/Subcategories**: Product organization system
+- **Stock**: Inventory levels and tracking
+- **Sales**: Customer transactions and orders
+- **Customers**: Customer information and history
+- **Suppliers**: Vendor/supplier management
+- **Purchases**: Incoming inventory tracking
+- **Units**: Product measurement units
+- **Payments**: Financial transaction tracking
+
+## 🔐 Default Access
+
+After installation, you can access the system with:
+- **URL**: `http://localhost:8000`
+- **Default Route**: Redirects to login page
+- **First User**: Create through the signup process or database seeding
+
+## 📱 Key Routes
+
+- `/login` - User authentication
+- `/home` - Dashboard (requires authentication)
+- `/products` - Product management
+- `/sales` - Sales processing and history
+- `/customers` - Customer management
+- `/suppliers` - Supplier/vendor management
+- `/categories` - Category management
+- `/users` - User management
+
+## 🧪 Testing
+
+Run the test suite using:
+```bash
+php artisan test
+```
+
+## 🚀 Deployment
+
+For production deployment:
+
+1. Set `APP_ENV=production` in `.env`
+2. Configure production database
+3. Set `APP_DEBUG=false`
+4. Run `php artisan config:cache`
+5. Run `php artisan route:cache`
+6. Configure web server (Apache/Nginx)
+7. Set up SSL certificate
+8. Configure backup systems
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🆘 Support
+
+For support and questions:
+- Create an issue in the repository
+- Contact the development team
+- Check the Laravel documentation for framework-specific questions
+
+## 🌟 Features for Bangladesh Market
+
+This system is specifically designed with features relevant to local businesses in Bangladesh:
+
+- **Bengali Language Support**: Ready for localization
+- **Local Currency**: Taka (BDT) support
+- **Local Business Practices**: Adaptable to local business workflows
+- **Offline Capability**: Works with limited internet connectivity
+- **Mobile Responsive**: Optimized for mobile devices commonly used in local businesses
+
+---
+
+**Built with ❤️ for local businesses in Bangladesh**
