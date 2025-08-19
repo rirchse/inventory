@@ -10,10 +10,12 @@ use App\Models\Role;
 use App\Models\Supplier;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Models\Stock;
 use Auth;
 use Image;
 use File;
 use Session;
+use DB;
 
 class PurchaseCtrl extends Controller
 {
@@ -66,72 +68,59 @@ class PurchaseCtrl extends Controller
         // ]);
         
         $data = $request->all();
-
-        if(isset($data['_token']))
-        {
-            unset($data['_token']);
-        }
-        
-        // make an array for
-        $data2 = [];
-        if(isset($data['itemname']))
-        {
-            $data2['itemname'] = $data['itemname'];
-            unset($data['itemname']);
-        }
-
-        if(isset($data['price']))
-        {
-            $data2['price'] = $data['price'];
-            unset($data['price']);
-        }
-        
-        if(isset($data['qty']))
-        {
-            $data2['qty'] = $data['qty'];
-            unset($data['qty']);
-        }
-
-        if(isset($data['total']))
-        {
-            $data2['total'] = $data['total'];
-            unset($data['total']);
-        }
-
-        $data['created_by'] = Auth::id();
-
-        // dd($data2);
+        // dd($data);
 
         try{
-          Purchase::insert($data);
+          $purchase = Purchase::create([
+            'shop_id' => null,
+            'supplier_id' => $data['supplier_id'],
+            'purchased_by' => null,
+            'voucher_no' => $data['voucher_no'],
+            'date' => $data['date'],
+            'total' => $data['sub_total'],
+            'discount' => $data['discount'],
+            'shipping' => $data['shipping'],
+            'grand_total' => $data['gtotal'],
+            'paid' => $data['paid'],
+            'due' => $data['due'],
+            'note' => $data['note'],
+            'created_by' => Auth::id()
+          ]);
+
+          for($i = 0; $i < count($request->item); $i++)
+          {
+            PurchaseItem::create([
+              'purchase_id' => $purchase->id,
+              'product_id' => $request->item[$i],
+              'unit_price' => $request->price[$i],
+              'quantity'   => $request->qty[$i],
+              'sub_total'  => $request->total[$i],
+            ]);
+          }
+
+          //stock
+          for ($s = 0; $s < count($request->item); $s++) {
+            $stock = Stock::where([
+              'product_id' => $request->item[$s],
+              'unit_name'  => $request->unit[$s],
+            ])->get();
+
+            // dd($request->qty[$s]);
+            Stock::updateOrCreate(
+              [
+                'product_id' => $request->item[$s],
+                'unit_name'  => $request->unit[$s],
+              ],
+              [
+                'quantity'   => DB::raw("quantity + ". (int)$request->qty[$s]),
+              ]
+            );
+          }
+        
         }
-        catch(\E $e)
+        catch(\Exception $e)
         {
-          return $e;
-        }
-
-        $purchase_id = purchase::orderBy('id', 'DESC')->first()->id;
-
-        $data2['purchase_id'] = $purchase_id;
-
-        for($x = 0; $x < count($data2['itemname']); $x++)
-        {
-            try {
-              PurchaseItem::insert([
-                'purchase_id' => $data2['purchase_id'],
-                'product_id' => $data2['itemname'][$x],
-                'price'      => $data2['price'][$x],
-                'qty'        => $data2['qty'][$x],
-                'total'      => $data2['total'][$x],
-              ]);
-              
-              //update product
-              Product::where('id', $data2['itemname'][$x])->increment('qty', $data2['qty'][$x]);
-            }
-            catch(\Exception $e)
-            {
-              $e->getMessage();
-            }
+          return $e->getMessage();
         }
         
         Session::flash('success', 'New purchase successfully created!');
@@ -148,7 +137,7 @@ class PurchaseCtrl extends Controller
     public function show($id)
     {
         $purchase = purchase::find($id);
-        return view('layouts.purchases.read',compact('purchase'));
+        return view('layouts.purchases.read', compact('purchase'));
     }
 
     /**

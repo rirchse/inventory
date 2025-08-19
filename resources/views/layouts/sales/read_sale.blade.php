@@ -20,9 +20,9 @@
 
           @if(Auth::user()->authorizeRoles(['SuperAdmin', 'Admin']))
           <a href="/payment/{{$sale->id}}/get" title="Add Payment" class="label label-info"><i class="fa fa-plus"></i></a>
-            @if(!count(App\OrderReturn::where('sales_id', $sale->id)->get()) && $sale->status == 3)
+            
             <a href="/return/{{$sale->id}}/order" title="Order Add to Return" class="label label-danger"><i class="fa fa-undo"></i></a>
-            @endif
+            
           @endif
 
           <a href="{{route('sale.index')}}" title="View sales" class="label label-success"><i class="fa fa-list"></i></a>
@@ -37,22 +37,17 @@
         <div class="col-md-12">
           <table class="table">
             <tbody>
-              <?php 
-              if($sale->customer_id){
-                $customer = App\Customer::find($sale->customer_id);
-              }
-              ?>
               <tr>
                 <th>Customer Name:</th>
-                <td>{{$customer->full_name?$customer->full_name:''}}</td>
+                <td></td>
               </tr>
               <tr>
                 <th>Mobile Number:</th>
-                <td>{{$customer->contact?$customer->contact:''}}</td>
+                <td></td>
               </tr>
               <tr>
                 <th>Address:</th>
-                <td>{{$customer->address?$customer->address:''}}</td>
+                <td></td>
               </tr>
               <tr>
                 <th>Shipping Address:</th>
@@ -60,7 +55,7 @@
               </tr>
               <tr>
                 <th>Sales Date:</th>
-                <td>{{$sale->sales_date?date('d M Y',strtotime($sale->sales_date) ):''}} </td>
+                <td>{{$sale->sales_date ? date('d M Y',strtotime($sale->sales_date) ):''}} </td>
               </tr>
               {{-- <tr>
                 <th>Payment Type:</th>
@@ -103,15 +98,6 @@
               <th>Qty</th>
               <th width=100 style="text-align:right">Total Price</th>
             </tr>
-            @foreach(App\OrderItem::where('sales_id', $sale->id)->get() as $key => $item)
-            <tr>
-              <td>{{$key+1}}</td>
-              <td>{{$item->name}}</td>
-              <td>{{$item->price}}</td>
-              <td>{{$item->qty}}</td>
-              <td style="text-align:right">{{$item->total}}</td>
-            </tr>
-            @endforeach
           </table>
           <table class="table table-bordered pull-right"style="width:200px">
             <tr>
@@ -148,18 +134,8 @@
           <th>Payment Date</th>
           <th>Amount</th>
           <th>Payment Type</th>
-        </tr>
-        <?php $total_paid =0; ?>
-        @foreach(App\Payment::where('sales_id', $sale->id)->get() as $payment)
-        <?php $total_paid += $payment->paid_amount; ?>
-          <tr>
-            <td>{{date('d M Y', strtotime($payment->payment_date))}}</td>
-            <td>{{$payment->paid_amount}} tk</td>
-            <td>{{$payment->payment_type}}</td>
-          </tr>
-        @endforeach
         <tr>
-          <td colspan=3>Total Paid: <b>{{$total_paid}}</b> tk</td>
+          <td colspan=3>Total Paid: <b>000</b> tk</td>
         </tr>
       </table>
     </div>

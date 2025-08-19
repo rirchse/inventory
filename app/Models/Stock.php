@@ -4,13 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PurchaseItem extends Model
+class Stock extends Model
 {
   protected $fillable = [
-    'purchase_id',
+    'shop_id',
     'product_id',
-    'unit_price',
-    'quantity',
-    'sub_total'
+    'unit_name',
+    'quantity'
   ];
 }

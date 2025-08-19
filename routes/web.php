@@ -32,7 +32,7 @@ Route::middleware(['auth'])->group(function()
 	Route::get('/home', 'HomeCtrl@index')->name('home');
 	Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-//======================= CASTOM ROUTE ====================
+  //======================= CASTOM ROUTE ====================
 	Route::get('/user/delete/{id}','UserCtrl@destroy')->name('user.delete');
 	Route::get('/category/delete/{id}','CategoryCtrl@destroy')->name('category.delete');
 	Route::get('/sub_category/delete/{id}','SubCategoryCtrl@destroy')->name('sub_category.delete');
@@ -63,16 +63,46 @@ Route::middleware(['auth'])->group(function()
 	Route::resource('/product', 'ProductCtrl');
 	Route::resource('/vendor', 'SupplierCtrl');
 	Route::resource('/customer', 'CustomerCtrl');
-	Route::get('/search/customer/{mobile_number}', 'CustomerCtrl@searchCustomer');
+
+  Route::controller(UnitCtrl::class)->group(function(){
+    Route::get('/units/get-unit', 'getUnits')->name('unit.get-unit');
+  });
+
+  Route::controller(ProductUnitCtrl::class)->group(function(){
+    Route::get('/product-units/get-product-unit/{p?}/{u?}', 'getUnitPrice')->name('product-unit.get-unit');
+    Route::post('/product-unit-convert', 'unitConverter')->name('product-unit.convert');
+  });
+
+  Route::controller(CustomerCtrl::class)->group(function(){
+    Route::get('/customers/get-customer/{mobile}', 'getCustomer')->name('customer.get-customer');
+  });
+	
 	Route::post('/search/customer', 'CustomerCtrl@searchCustomer')->name('customer.search');
 	Route::resource('/sale', 'SaleCtrl');
-	// Route::get('/sale/{customer}/product', 'SaleCtrl@saleProduct');
-	Route::get('/sale/{id}/print', 'SaleCtrl@print');
-	Route::get('/sale/delete/{id}','SaleCtrl@destroy')->name('sale.delete');
-	Route::get('/search/orders/{value}', 'SaleCtrl@search');
-	Route::get('/sale/{type}/{view}', 'SaleCtrl@viewSalesByType');
+  Route::controller(SaleCtrl::class)->group(function()
+  {
+    // Route::get('/sale/{customer}/product', 'SaleCtrl@saleProduct');
+    Route::get('/sale/{id}/print', 'print');
+    Route::get('/sale/delete/{id}','destroy')->name('sale.delete');
+    Route::get('/search/orders/{value}', 'search');
+    Route::get('/sale/{type}/{view}', 'viewSalesByType');
+  });
 
-	Route::get('/search_item_names', 'SaleCtrl@getNames');
+  Route::resource('/sale-return', 'SaleReturnCtrl');
+  Route::controller(SaleReturnCtrl::class)->group(function()
+  {
+    //
+  });
+
+  Route::controller(ProductCtrl::class)->group(function()
+  {
+    Route::get('/products/get-product/{name?}', 'getProducts')->name('product.get.name');
+  });
+
+  Route::controller(ProductUnitCtrl::class)->group(function()
+  {
+    Route::get('/products/get-product-unit/{id?}', 'getUnit')->name('product.get-unit');
+  });
 
 	Route::get('/sale/print/{id}/change', 'SaleCtrl@changePrintStatus');
 

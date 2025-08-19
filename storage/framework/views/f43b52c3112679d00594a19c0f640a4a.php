@@ -4,7 +4,7 @@
 
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
-  $.widget.bridge('uibutton', $.ui.button);
+  // $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 3.3.7 -->
 <script src="<?php echo e('/js/bootstrap.min.js'); ?>"></script>
@@ -36,7 +36,7 @@
 <script src="<?php echo e('/js/dataTables.bootstrap.min.js'); ?>"></script>
 <script src="<?php echo e('/js/adminlte.min.js'); ?>"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="<?php echo e('/js/dashboard.js'); ?>"></script>
+
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo e('/js/demo.js'); ?>"></script>
 <script src="<?php echo e('/js/moment.min.js'); ?>"></script>

@@ -1,3 +1,9 @@
+<?php
+use \App\Http\Controllers\SourceCtrl;
+$source = new SourceCtrl;
+?>
+
+
 <?php $__env->startSection('title', 'View All Purchase'); ?>
 <?php $__env->startSection('content'); ?>
 <!-- Content Header (Page header) -->
@@ -34,32 +40,28 @@
               <table id="example1" class="table table-bordered table-hover">
                 <tr>
                   <th>Id</th>
-                  <th>Name</th>
-                  <th>Category</th>                  
-                  <th>Brand</th>
-                  <th>MRP Price</th>
-                  <th>Status</th>
-                  <th>Buying Date</th>
+                  <th>Voucher No.</th>
+                  <th>Total</th>                  
+                  <th>Grand Total</th>
+                  <th>Paid</th>
+                  <th>Due</th>
+                  
+                  <th>Date</th>
                   <th width="110">Action</th>
                 </tr>
-                <?php $__currentLoopData = $purchases; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php $__currentLoopData = $purchases; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
-                  <td><?php echo e($product->id); ?></td>
-                  <td><?php echo e($product->title); ?></td>
-                  <td><?php echo e($product->cat_id?App\Category::find($product->cat_id)->name:''); ?></td>
-                  <td><?php echo e($product->brand); ?></td>
-                  <td><?php echo e($product->mrp_price); ?></td>                  
+                  <td><?php echo e($value->id); ?></td>
+                  <td><?php echo e($value->voucher_no); ?></td>
+                  <td><?php echo e(number_format($value->total)); ?></td>
+                  <td><?php echo e($value->grand_total); ?></td>
+                  <td><?php echo e($value->paid); ?></td>
+                  <td><?php echo e($value->due); ?></td>
+                  
+                  <td><?php echo e($source->dformat($value->buying_date)); ?></td>
                   <td>
-                    <?php if($product->status == 1): ?>
-                    <span class="label label-success">Active</span>
-                    <?php elseif($product->status == 0): ?>
-                    <span class="label label-warning">Inactive</span>
-                    <?php endif; ?>
-                  </td>
-                  <td><?php echo e(date('d M Y', strtotime($product->buying_date))); ?></td>
-                  <td>
-                    <a href="<?php echo e(route('product.show',$product->id)); ?>" class="label label-info" title="product Details"><i class="fa fa-file-text"></i></a>
-                    <a href="<?php echo e(route('product.edit',$product->id)); ?>" class="label label-warning" title="Edit this product"><i class="fa fa-edit"></i></a>
+                    <a href="<?php echo e(route('purchase.show', $value->id)); ?>" class="btn btn-info" title="purchase Details"><i class="fa fa-file-text"></i></a>
+                    <a href="<?php echo e(route('purchase.edit', $value->id)); ?>" class="btn btn-warning" title="Edit this purchase"><i class="fa fa-edit"></i></a>
                   </td>
                 </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

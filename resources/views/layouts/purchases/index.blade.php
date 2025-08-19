@@ -1,3 +1,8 @@
+@php
+use \App\Http\Controllers\SourceCtrl;
+$source = new SourceCtrl;
+@endphp
+
 @extends('dashboard')
 @section('title', 'View All Purchase')
 @section('content')
@@ -35,32 +40,34 @@
               <table id="example1" class="table table-bordered table-hover">
                 <tr>
                   <th>Id</th>
-                  <th>Name</th>
-                  <th>Category</th>                  
-                  <th>Brand</th>
-                  <th>MRP Price</th>
-                  <th>Status</th>
-                  <th>Buying Date</th>
+                  <th>Voucher No.</th>
+                  <th>Total</th>                  
+                  <th>Grand Total</th>
+                  <th>Paid</th>
+                  <th>Due</th>
+                  {{-- <th>Status</th> --}}
+                  <th>Date</th>
                   <th width="110">Action</th>
                 </tr>
-                @foreach($purchases as $product)
+                @foreach($purchases as $value)
                 <tr>
-                  <td>{{$product->id}}</td>
-                  <td>{{$product->title}}</td>
-                  <td>{{$product->cat_id?App\Category::find($product->cat_id)->name:''}}</td>
-                  <td>{{$product->brand}}</td>
-                  <td>{{$product->mrp_price}}</td>                  
-                  <td>
-                    @if($product->status == 1)
+                  <td>{{$value->id}}</td>
+                  <td>{{$value->voucher_no}}</td>
+                  <td>{{number_format($value->total)}}</td>
+                  <td>{{$value->grand_total}}</td>
+                  <td>{{$value->paid}}</td>
+                  <td>{{$value->due}}</td>
+                  {{-- <td>
+                    @if($value->status == 1)
                     <span class="label label-success">Active</span>
-                    @elseif($product->status == 0)
+                    @elseif($value->status == 0)
                     <span class="label label-warning">Inactive</span>
                     @endif
-                  </td>
-                  <td>{{ date('d M Y', strtotime($product->buying_date))}}</td>
+                  </td> --}}
+                  <td>{{ $source->dformat($value->buying_date)}}</td>
                   <td>
-                    <a href="{{route('product.show',$product->id)}}" class="label label-info" title="product Details"><i class="fa fa-file-text"></i></a>
-                    <a href="{{route('product.edit',$product->id)}}" class="label label-warning" title="Edit this product"><i class="fa fa-edit"></i></a>
+                    <a href="{{route('purchase.show', $value->id)}}" class="btn btn-info" title="purchase Details"><i class="fa fa-file-text"></i></a>
+                    <a href="{{route('purchase.edit', $value->id)}}" class="btn btn-warning" title="Edit this purchase"><i class="fa fa-edit"></i></a>
                   </td>
                 </tr>
                 @endforeach
@@ -69,7 +76,7 @@
             <!-- /.box-body -->
             <div class="box-footer clearfix">
               <div class="pagination-sm no-margin pull-right">
-                {{-- {{$products->links()}} --}}
+                {{-- {{$values->links()}} --}}
               </div>
             </div>
           </div>

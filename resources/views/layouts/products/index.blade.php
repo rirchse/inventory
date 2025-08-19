@@ -1,13 +1,17 @@
+@php
+use \App\Http\Controllers\SourceCtrl;
+$source = new SourceCtrl;
+@endphp
+
 @extends('dashboard')
 @section('title', 'View All Product')
 @section('content')
 <!-- Content Header (Page header) -->
 <section class="content-header">
-  <h1>All Product</h1>
+  <h1>All Products</h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-    {{-- <li><a href="#">Tables</a></li> --}}
-    <li class="active">All Product</li>
+    <li class="active">All Products</li>
   </ol>
 </section>
 <!-- Main content -->
@@ -36,24 +40,35 @@
                 <tr>
                   <th>Id</th>
                   <th>Name</th>
-                  <th>Category</th>                  
-                  <th>Brand</th>
-                  <th>Unit</th>
+                  <th>SKU</th>                  
+                  <th>Barcode</th>
+                  <th>Units</th>
+                  <th>Price</th>
                   <th>Stock</th>
-                  <th>MRP Price</th>
                   <th>Status</th>
-                  <th>Buying Date</th>
                   <th width="110">Action</th>
                 </tr>
                 @foreach($products as $product)
                 <tr>
                   <td>{{$product->id}}</td>
-                  <td>{{$product->title}}</td>
-                  <td>{{$product->cat_id?App\Models\Category::find($product->cat_id)->name:''}}</td>
-                  <td>{{$product->brand}}</td>
-                  <td>{{$product->unit}}</td>
-                  <td>{{$product->qty}}</td>
-                  <td>{{$product->price}}</td>
+                  <td>{{$product->name}}</td>
+                  <td>{{$product->sku}}</td>
+                  <td>{{$product->barcode}}</td>
+                  <td>
+                    @foreach($product->productUnit as $unit)
+                    {{$unit->unit_name}} <br>
+                    @endforeach
+                  </td>
+                  <td>
+                    @foreach($product->productUnit as $unit)
+                    {{$unit->price}} <br>
+                    @endforeach
+                  </td>
+                  <td>
+                    @foreach($product->stocks as $stock)
+                    {{$stock->quantity}} <br>
+                    @endforeach
+                  </td>
                   <td>
                     @if($product->status == 1)
                     <span class="label label-success">Active</span>
@@ -61,10 +76,9 @@
                     <span class="label label-warning">Inactive</span>
                     @endif
                   </td>
-                  <td>{{ date('d M Y', strtotime($product->buying_date))}}</td>
                   <td>
-                    <a href="{{route('product.show',$product->id)}}" class="label label-info" title="product Details"><i class="fa fa-file-text"></i></a>
-                    <a href="{{route('product.edit',$product->id)}}" class="label label-warning" title="Edit this product"><i class="fa fa-edit"></i></a>
+                    <a href="{{route('product.show',$product->id)}}" class="btn btn-info" title="product Details"><i class="fa fa-file-text"></i></a>
+                    <a href="{{route('product.edit',$product->id)}}" class="btn btn-warning" title="Edit this product"><i class="fa fa-edit"></i></a>
                   </td>
                 </tr>
                 @endforeach
@@ -73,7 +87,7 @@
             <!-- /.box-body -->
             <div class="box-footer clearfix">
               <div class="pagination-sm no-margin pull-right">
-                {{-- {{$products->links()}} --}}
+                {{$products->links()}}
               </div>
             </div>
           </div>
