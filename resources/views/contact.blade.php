@@ -325,5 +325,7 @@
     </main>
 
     @include('partials.footer')
+    
+    @include('partials.language-dropdown')
 </body>
 </html>
