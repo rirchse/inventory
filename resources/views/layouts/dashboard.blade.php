@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ __('dashboard.page_title') }}</title>
+    <title>@yield('title', __('dashboard.page_title'))</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -232,12 +232,6 @@
         $showSupport = true;
         $showActionButtons = false;
         $showFullFooter = true;
-        
-        // Set default values for order statistics if not passed from controller
-        $new = $new ?? 0;
-        $confirmed = $confirmed ?? 0;
-        $completed = $completed ?? 0;
-        $cancelled = $cancelled ?? 0;
     @endphp
     
     <!-- Header -->
@@ -262,6 +256,12 @@
                 
                 <!-- Right side -->
                 <div class="flex items-center space-x-4">
+                    <!-- Dark Mode Toggle -->
+                    <button id="theme-toggle" class="p-2 text-gray-400 hover:text-gray-500 rounded-lg transition-colors" title="{{ __('dashboard.toggle_dark_mode') }}">
+                        <i id="theme-toggle-light-icon" class="fas fa-moon text-xl"></i>
+                        <i id="theme-toggle-dark-icon" class="fas fa-sun text-xl hidden"></i>
+                    </button>
+
                     <!-- Language Dropdown -->
                     <div class="relative">
                         <button id="language-button" class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
@@ -287,19 +287,13 @@
                                 <a href="{{ route('language.switch', 'bn') }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors">
                                     <img src="https://flagcdn.com/w20/bd.png" alt="বাংলা" class="w-4 h-3 mr-3 rounded-sm">
                                     বাংলা
-                                    @if(app()->getLocale() === 'bn')
+                                    @if(app()->getLocale() === 'en')
                                         <i class="fas fa-check ml-auto text-primary-600"></i>
                                     @endif
                                 </a>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Dark Mode Toggle -->
-                    <button id="theme-toggle" class="p-2 text-gray-400 hover:text-gray-500 rounded-lg transition-colors" title="{{ __('dashboard.toggle_dark_mode') }}">
-                        <i id="theme-toggle-light-icon" class="fas fa-moon text-xl"></i>
-                        <i id="theme-toggle-dark-icon" class="fas fa-sun text-xl hidden"></i>
-                    </button>
 
                     <!-- Notifications -->
                     <button class="p-2 text-gray-400 hover:text-gray-500 relative">
@@ -356,6 +350,9 @@
             <!-- Sidebar Header -->
             <div class="flex items-center justify-between h-16 px-6 border-b border-gray-200">
                 <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-boxes text-white text-sm"></i>
+                    </div>
                     <span class="text-lg font-semibold text-gray-900">{{ __('dashboard.app_name') }}</span>
                 </div>
                 <button id="close-sidebar" class="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100">
@@ -365,6 +362,13 @@
 
             <!-- Sidebar Content -->
             <div class="flex-1 overflow-y-auto">
+                <!-- Debug Info (remove after testing) -->
+                <div class="px-4 py-2 text-xs text-gray-500 bg-gray-100 rounded mb-4">
+                    <div>Current Locale: {{ app()->getLocale() }}</div>
+                    <div>Session Locale: {{ session('locale') }}</div>
+                    <div>Test Translation: {{ __('dashboard.pos') }}</div>
+                </div>
+                
                 <nav class="px-4 py-6 space-y-2">
                     <!-- Dashboard -->
                     <a href="{{ route('dashboard') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-primary-50 hover:text-primary-700 transition-colors {{ request()->routeIs('dashboard') ? 'bg-primary-50 text-primary-700' : '' }}">
@@ -444,7 +448,7 @@
                                 <i class="fas fa-users w-5 h-5 mr-3"></i>
                                 <span class="font-medium">{{ __('dashboard.customers') }}</span>
                             </div>
-                            <i class="fas fa-chevron-down w-4 h-4 transition-transform" id="customers-chevron"></i>
+                            <i class="text-xs transition-transform" id="customers-chevron"></i>
                         </button>
                         <div id="customers-submenu" class="hidden pl-8 space-y-1">
                             <a href="{{ route('customer.index') }}" class="block px-4 py-2 text-sm text-gray-600 rounded hover:bg-gray-100 hover:text-gray-900 transition-colors">
@@ -593,283 +597,8 @@
 
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col lg:ml-64">
-            <!-- Main Content -->
-            <main class="flex-1 px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Welcome Section -->
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900">{{ __('dashboard.welcome_back') }}, {{ Auth::user()->name }}!</h1>
-            <p class="text-gray-600 mt-2">{{ __('dashboard.welcome_message') }}</p>
-        </div>
-
-        <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <!-- Total Orders -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <div class="flex items-center">
-                    <div class="p-3 bg-blue-100 rounded-lg">
-                        <i class="fas fa-shopping-cart text-blue-600 text-xl"></i>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-600">{{ __('dashboard.total_orders') }}</p>
-                        <p class="text-2xl font-bold text-gray-900">{{ $new + $confirmed + $completed + $cancelled }}</p>
-                    </div>
-                </div>
-                <div class="mt-4">
-                    <span class="text-green-600 text-sm font-medium">
-                        <i class="fas fa-arrow-up"></i> 12%
-                    </span>
-                    <span class="text-gray-500 text-sm ml-2">{{ __('dashboard.this_month') }}</span>
-                </div>
-            </div>
-
-            <!-- Total Sales -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <div class="flex items-center">
-                    <div class="p-3 bg-green-100 rounded-lg">
-                        <i class="fas fa-chart-line text-green-600 text-xl"></i>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-600">{{ __('dashboard.total_sales') }}</p>
-                        <p class="text-2xl font-bold text-gray-900">৳{{ number_format(($completed * 1000) + ($confirmed * 800)) }}</p>
-                    </div>
-                </div>
-                <div class="mt-4">
-                    <span class="text-green-600 text-sm font-medium">
-                        <i class="fas fa-arrow-up"></i> 8%
-                    </span>
-                    <span class="text-gray-500 text-sm ml-2">{{ __('dashboard.this_month') }}</span>
-                </div>
-            </div>
-
-            <!-- Total Products -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <div class="flex items-center">
-                    <div class="p-3 bg-purple-100 rounded-lg">
-                        <i class="fas fa-box text-purple-600 text-xl"></i>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-600">{{ __('dashboard.total_products') }}</p>
-                        <p class="text-2xl font-bold text-gray-900">1,234</p>
-                    </div>
-                </div>
-                <div class="mt-4">
-                    <span class="text-green-600 text-sm font-medium">
-                        <i class="fas fa-arrow-up"></i> 5%
-                    </span>
-                    <span class="text-gray-500 text-sm ml-2">{{ __('dashboard.this_month') }}</span>
-                </div>
-            </div>
-
-            <!-- Total Customers -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <div class="flex items-center">
-                    <div class="p-3 bg-orange-100 rounded-lg">
-                        <i class="fas fa-users text-orange-600 text-xl"></i>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-600">{{ __('dashboard.total_customers') }}</p>
-                        <p class="text-2xl font-bold text-gray-900">567</p>
-                    </div>
-                </div>
-                <div class="mt-4">
-                    <span class="text-green-600 text-sm font-medium">
-                        <i class="fas fa-arrow-up"></i> 15%
-                    </span>
-                    <span class="text-gray-500 text-sm ml-2">{{ __('dashboard.this_month') }}</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Order Status Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <!-- New Orders -->
-            <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 text-white">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-blue-100 text-sm font-medium">{{ __('dashboard.new_orders') }}</p>
-                        <p class="text-3xl font-bold">{{ $new }}</p>
-                    </div>
-                    <div class="p-3 bg-blue-400 rounded-lg">
-                        <i class="fas fa-clock text-white text-xl"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Confirmed Orders -->
-            <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl p-6 text-white">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-yellow-100 text-sm font-medium">{{ __('dashboard.confirmed_orders') }}</p>
-                        <p class="text-3xl font-bold">{{ $confirmed }}</p>
-                    </div>
-                    <div class="p-3 bg-yellow-400 rounded-lg">
-                        <i class="fas fa-check text-white text-xl"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Completed Orders -->
-            <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-6 text-white">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-green-100 text-sm font-medium">{{ __('dashboard.completed_orders') }}</p>
-                        <p class="text-3xl font-bold">{{ $completed }}</p>
-                    </div>
-                    <div class="p-3 bg-green-400 rounded-lg">
-                        <i class="fas fa-check-double text-white text-xl"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Cancelled Orders -->
-            <div class="bg-gradient-to-r from-red-500 to-red-600 rounded-xl p-6 text-white">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-red-100 text-sm font-medium">{{ __('dashboard.cancelled_orders') }}</p>
-                        <p class="text-3xl font-bold">{{ $cancelled }}</p>
-                    </div>
-                    <div class="p-3 bg-red-400 rounded-lg">
-                        <i class="fas fa-times text-white text-xl"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Charts and Recent Activity -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-            <!-- Sales Chart -->
-            <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-semibold text-gray-900">{{ __('dashboard.sales_analytics') }}</h3>
-                    <div class="flex space-x-2">
-                        <button class="px-3 py-1 text-sm bg-primary-100 text-primary-700 rounded-lg">{{ __('dashboard.this_month') }}</button>
-                        <button class="px-3 py-1 text-sm text-gray-500 hover:text-gray-700">{{ __('dashboard.last_month') }}</button>
-                    </div>
-                </div>
-                <div class="h-64">
-                    <canvas id="salesChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Recent Activity -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-semibold text-gray-900">{{ __('dashboard.recent_activity') }}</h3>
-                    <button class="text-primary-600 hover:text-primary-700 text-sm font-medium">{{ __('dashboard.view_all') }}</button>
-                </div>
-                <div class="space-y-4">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <div class="flex-1">
-                            <p class="text-sm text-gray-900">New order #1234 received</p>
-                            <p class="text-xs text-gray-500">2 minutes ago</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
-                        <div class="flex-1">
-                            <p class="text-sm text-gray-900">Order #1230 confirmed</p>
-                            <p class="text-xs text-gray-500">15 minutes ago</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
-                        <div class="flex-1">
-                            <p class="text-sm text-gray-900">New customer registered</p>
-                            <p class="text-xs text-gray-500">1 hour ago</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-orange-500 rounded-full"></div>
-                        <div class="flex-1">
-                            <p class="text-sm text-gray-900">Low stock alert</p>
-                            <p class="text-xs text-gray-500">2 hours ago</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Quick Actions and Recent Orders -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Quick Actions -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-6">{{ __('dashboard.quick_actions') }}</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <a href="#" class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                        <div class="p-3 bg-blue-100 rounded-lg mr-4">
-                            <i class="fas fa-plus text-blue-600"></i>
-                        </div>
-                        <span class="text-sm font-medium text-gray-900">{{ __('dashboard.add_product') }}</span>
-                    </a>
-                    <a href="#" class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                        <div class="p-3 bg-green-100 rounded-lg mr-4">
-                            <i class="fas fa-shopping-cart text-green-600"></i>
-                        </div>
-                        <span class="text-sm font-medium text-gray-900">{{ __('dashboard.create_order') }}</span>
-                    </a>
-                    <a href="#" class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                        <div class="p-3 bg-purple-100 rounded-lg mr-4">
-                            <i class="fas fa-user-plus text-purple-600"></i>
-                        </div>
-                        <span class="text-sm font-medium text-gray-900">{{ __('dashboard.add_customer') }}</span>
-                    </a>
-                    <a href="#" class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                        <div class="p-3 bg-orange-100 rounded-lg mr-4">
-                            <i class="fas fa-chart-bar text-orange-600"></i>
-                        </div>
-                        <span class="text-sm font-medium text-gray-900">{{ __('dashboard.view_reports') }}</span>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Recent Orders -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-semibold text-gray-900">{{ __('dashboard.recent_orders') }}</h3>
-                    <button class="text-primary-600 hover:text-primary-700 text-sm font-medium">{{ __('dashboard.view_all') }}</button>
-                </div>
-                <div class="space-y-4">
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <div>
-                            <p class="text-sm font-medium text-gray-900">#1234</p>
-                            <p class="text-xs text-gray-500">John Doe</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-sm font-medium text-gray-900">৳1,200</p>
-                            <span class="inline-flex px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
-                                {{ __('dashboard.confirmed_orders') }}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <div>
-                            <p class="text-sm font-medium text-gray-900">#1233</p>
-                            <p class="text-xs text-gray-500">Jane Smith</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-sm font-medium text-gray-900">৳800</p>
-                            <span class="inline-flex px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
-                                {{ __('dashboard.completed_orders') }}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <div>
-                            <p class="text-sm font-medium text-gray-900">#1232</p>
-                            <p class="text-xs text-gray-500">Mike Johnson</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-sm font-medium text-gray-900">৳1,500</p>
-                            <span class="inline-flex px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
-                                {{ __('dashboard.new_orders') }}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-            </main>
+            <!-- Content Section -->
+            @yield('content')
         </div>
     </div>
 
@@ -879,47 +608,8 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     
-    <!-- Dashboard Charts -->
+    <!-- Dashboard Scripts -->
     <script>
-        // Sales Chart
-        const ctx = document.getElementById('salesChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: '{{ __("dashboard.monthly_sales") }}',
-                    data: [65, 59, 80, 81, 56, 55],
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            }
-        });
-
         // Sidebar functionality
         document.addEventListener('DOMContentLoaded', function() {
             const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -1071,7 +761,7 @@
                 const currentTheme = document.documentElement.getAttribute('data-theme');
                 const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
                 
-                document.documentElement.setAttribute('data-theme', newTheme);
+                document.documentElement.setAttribute('data-theme', 'newTheme');
                 localStorage.setItem('theme', newTheme);
                 
                 if (newTheme === 'dark') {

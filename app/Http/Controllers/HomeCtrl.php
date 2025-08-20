@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Sale;
 
 class HomeCtrl extends Controller
 {
@@ -29,7 +30,23 @@ class HomeCtrl extends Controller
     public function index()
     {
         Auth::user()->authorizeRoles(['SuperAdmin', 'Admin', 'Editor', 'Sales']);
-        return view('layouts.index');
+        
+        // Get order statistics
+        $new = $confirmed = $completed = $cancelled = 0;
+        $sales = Sale::all();
+        foreach ($sales as $sale) {
+            if($sale->status == 0){
+                $new++;
+            }else if ($sale->status == 1){
+                $confirmed++;
+            }else if ($sale->status == 2){
+                $completed++;
+            }else if ($sale->status == 3){
+                $cancelled++;
+            }
+        }
+        
+        return view('dashboard', compact('new', 'confirmed', 'completed', 'cancelled'));
     }
 
     /*

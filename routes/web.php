@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Auth\LoginController;
 /*
 |--------------------------------------------------------------------------
@@ -17,26 +18,82 @@ use App\Http\Controllers\Auth\LoginController;
 
 
 Route::get('/', function () {
-	// return view('layouts.homes.index');
-	return redirect('/login');
-});
+	return view('home');
+})->name('home');
 Route::get('/login', function()
 {
-	return view('auth.login');
+	if (Auth::check()) {
+		return redirect()->route('dashboard');
+	}
+	return view('login');
 })->name('auth.login');
 Route::post('/login', [LoginController::class, 'loginPost'])->name('login.post');
+
+// Language switching route
+Route::get('/language/{locale}', function($locale) {
+    if (in_array($locale, ['en', 'bn'])) {
+        // Set the locale in session
+        session(['locale' => $locale]);
+        
+        // Set the application locale
+        app()->setLocale($locale);
+        
+        // Store in cookie for persistence
+        cookie()->queue('locale', $locale, 60 * 24 * 365); // 1 year
+        
+        // Log the language change for debugging
+        \Illuminate\Support\Facades\Log::info('Language changed', [
+            'from' => session('locale'),
+            'to' => $locale,
+            'user_agent' => request()->userAgent()
+        ]);
+        
+        // Force redirect to dashboard to ensure the new locale is applied
+        if (Auth::check()) {
+            return redirect()->route('dashboard')->with('language_changed', $locale);
+        }
+    }
+    
+    // Redirect back to the previous page
+    return redirect()->back()->with('language_changed', $locale);
+})->name('language.switch');
+
+// Test route to check if routing is working
+Route::get('/test-language', function() {
+    return response()->json([
+        'current_locale' => app()->getLocale(),
+        'session_locale' => session('locale'),
+        'available_locales' => ['en', 'bn']
+    ]);
+});
+
+// About page route
+Route::get('/about', function() {
+    return view('about');
+})->name('about');
+
+// Contact page route
+Route::get('/contact', function() {
+    return view('contact');
+})->name('contact');
+
+// Pricing page route
+Route::get('/pricing', function() {
+    return view('pricing');
+})->name('pricing');
+
 Route::get('/signup', 'HomeCtrl@signup');
 
 Route::middleware(['auth'])->group(function()
 {
-	Route::get('/home', 'HomeCtrl@index')->name('home');
+	Route::get('/dashboard', 'HomeCtrl@index')->name('dashboard');
 	Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
   //======================= CASTOM ROUTE ====================
 	Route::get('/user/delete/{id}','UserCtrl@destroy')->name('user.delete');
 	Route::get('/category/delete/{id}','CategoryCtrl@destroy')->name('category.delete');
 	Route::get('/sub_category/delete/{id}','SubCategoryCtrl@destroy')->name('sub_category.delete');
-	Route::get('/vendor/delete/{id}','VendorCtrl@destroy')->name('vendor.delete');
+	Route::get('/vendor/delete/{id}','SupplierCtrl@destroy')->name('vendor.delete');
 	Route::get('/product/delete/{id}','ProductCtrl@destroy')->name('product.delete');
 	Route::get('/customer/delete/{id}','CustomerCtrl@destroy')->name('customer.delete');
 

@@ -1,296 +1,233 @@
-@extends('dashboard')
-@section('title', 'Place An Order')
+@extends('layouts.dashboard')
+@section('title', 'Point of Sale - Create Order')
 @section('content')
-<section class="content-header">
-  <h1>Place An Order</h1>
-  <ol class="breadcrumb">
-    <li><a href="#"><i class="fa fa-dashboard"></i> Orders</a></li>
-    <li class="active">Place An Order</li>
-</ol>
-</section>
-<style>
 
-    @media only screen and (max-width: 767px){
-        .order-wrap .row .col-xs-6:nth-child(even) {
-            padding-left: 7.5px;
-        }
-        .order-wrap .row .col-xs-6:nth-child(odd) {
-            padding-right: 7.5px;
-        }
-        .order-wrap .row .col-xs-3 {
-            padding-left: 0;
-            padding-right: 0;
-        }
-        .order-wrap hr {
-            margin-top: 12px;
-            margin-bottom: 12px;
-        }
-        .order-wrap .form-group {
-            margin-bottom: 8px;
-        }
-        .review-order .col-xs-4 .form-control {
-            padding: 3px 8px !important;
-            line-height: 1.1em !important;
-            height: auto;
-            margin: 3px 0;
-            text-align: right;
-        }
-        .review-order hr.m-0{
-            margin: 1px 0;
-        }
-        .m-0{ margin: 0; }
-        .mt-0{
-            margin-top: 0;
-        }
-        .ul-status li {
-            display: inline-block;
-            padding-right: 20px;
-            margin: 3px;
-        }
-        .ul-status {
-            padding: 0;
-            margin: 0;
-        }
-    }
-
-    #alertConfirm{
-      position: fixed; background: rgba(0,0,0,0.5); top:0; left:0; right: 0; bottom:0; z-index: 99999; display: none;
-    }
-    #alertForm{
-      width: 400px;
-      background: #fff;
-      margin:10% auto;
-      padding: 15px;
-    }
-
-    .loading{
-      display: none;
-      position: fixed; top:0; left:0;right: 0;bottom: 0; z-index: 99999;
-      text-align: center; background: rgba(0,0,0,0.1); padding:15%;
-    }
-    .loading img{
-      max-width: 80px;
-    }
-</style>
-<!-- Main content -->
-<section class="content">
-  <div class="row"> <!-- left column -->
-    <div class="col-md-12"> <!-- general form elements -->
-      <div class="box box-primary">
-        <div class="box-header with-border">
-            <h3 style="color: #800" class="box-title">Order Information</h3>
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Page Header -->
+    <div class="mb-8">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">{{ __('dashboard.pos') }}</h1>
+                <p class="text-gray-600 mt-2">Create a new sales order</p>
+            </div>
+            <div class="flex items-center space-x-3">
+                <a href="{{ route('sale.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                    <i class="fas fa-list mr-2"></i>
+                    View All Orders
+                </a>
+            </div>
         </div>
-        <div class="order-wrap box-body">
-          <form id="salesForm" action="">
-            @csrf
-            <div class="row">
-              <div class="col-xs-6 col-sm-4">
-                  <div class="form-group">
-                      <label for="mobile">Mobile (*):</label>
-                      <input class="form-control" type="text" name="mobile" id="mobile" required onkeyup="getCustomer(this)">
-                  </div>
-              </div>
-                <div class="col-xs-12 col-sm-4">
-                    <div class="form-group">
-                        <label for="customer_name">Customer Name (*):</label>
-                        <input class="form-control" type="text" name="customer_name" id="name" required >
+        
+        <!-- Breadcrumb -->
+        <nav class="flex mt-4" aria-label="Breadcrumb">
+            <ol class="flex items-center space-x-4">
+                <li>
+                    <div>
+                        <a href="{{ route('dashboard') }}" class="text-gray-400 hover:text-gray-500">
+                            <i class="fas fa-home"></i>
+                            <span class="sr-only">Dashboard</span>
+                        </a>
                     </div>
-                </div>
-                <div class="col-xs-12 col-sm-4">
-                    <div class="form-group">
-                        <label for="address">Address (*):</label>
-                        <input type="text" class="form-control" name="address" id="address" required>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                        <a href="#" class="text-gray-400 hover:text-gray-500">Sales</a>
                     </div>
-                </div>
-                <div class="col-xs-6 col-sm-4">
-                    <div class="form-group">
-                        <label for="email">Email (Optional):</label>
-                        <input class="form-control" type="email" name="email" id="email">
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                        <span class="text-gray-500">Create Order</span>
                     </div>
-                </div>
-                <div class="col-xs-6 col-sm-4">
-                    <div class="form-group">
-                        <label for="sales_date">Sales Date:</label>
-                        <input class="form-control" type="date" name="sales_date" id="sales_date" required>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-4">
-                    <div class="form-group">
-                        <label for="order_no">Order No (Optional):</label>
-                        <input class="form-control" type="text" name="order_no">
-                    </div>
-                </div>
+                </li>
+            </ol>
+        </nav>
+    </div>
 
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <hr>
+    <!-- Main Form -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">Order Information</h3>
+        </div>
+        
+        <form id="salesForm" action="" class="p-6">
+            @csrf
+            
+            <!-- Customer Information -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div>
+                    <label for="mobile" class="block text-sm font-medium text-gray-700 mb-2">Mobile Number *</label>
+                    <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" type="text" name="mobile" id="mobile" required onkeyup="getCustomer(this)" placeholder="Enter mobile number">
+                </div>
+                
+                <div>
+                    <label for="customer_name" class="block text-sm font-medium text-gray-700 mb-2">Customer Name *</label>
+                    <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" type="text" name="customer_name" id="name" required placeholder="Enter customer name">
+                </div>
+                
+                <div>
+                    <label for="address" class="block text-sm font-medium text-gray-700 mb-2">Address *</label>
+                    <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" type="text" name="address" id="address" required placeholder="Enter address">
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email (Optional)</label>
+                    <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" type="email" name="email" id="email" placeholder="Enter email">
+                </div>
+                
+                <div>
+                    <label for="sales_date" class="block text-sm font-medium text-gray-700 mb-2">Sales Date *</label>
+                    <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" type="date" name="sales_date" id="sales_date" required>
+                </div>
+                
+                <div>
+                    <label for="order_no" class="block text-sm font-medium text-gray-700 mb-2">Order No (Optional)</label>
+                    <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" type="text" name="order_no" placeholder="Enter order number">
                 </div>
             </div>
-            <!-- product item start -->
-            <div class="row" id="item-row">
-              <div class="col-xs-12 no-padding">
-                <div class="col-xs-12 col-md-4">
-                    <div class="form-group">
-                        <label for="item[]">Product Name:</label>
-                        <input type="text" name="item[]" class="form-control" required onkeyup="getItem(this)" id="item" onchange="getUnits(this)" autofocus list="items" data-id="" autocomplete="off" oninput="this.removeAttribute('title')">
-                    </div>
-                </div>
-                <div class="col-xs-4 col-md-2">
-                    <div class="form-group">
-                        <label for="unit[]">Unit:</label>
-                        <select name="unit[]" class="form-control" onchange="getUnitPrice(this); calcSubTotal()">
-                          <option value="">Select One</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-4 col-md-2">
-                    <div class="form-group">
-                        <label for="price[]">Unit Price:</label>
-                        <input name="price[]" type="text" class="form-control" onkeyup="calcSubTotal()">
-                    </div>
-                </div>
-                <div class="col-xs-3 col-md-2">
-                    <div class="form-group">
-                        <label for="qty[]">Qty:</label>
-                        <input name="qty[]" type="number" class="form-control"  min="1" value=0 onkeyup="checkStock(this); calcSubTotal()" onchange="calcSubTotal()">
-                    </div>
-                </div>
-                <div class="col-xs-5 col-md-2">
-                    <div class="form-group">
-                        <label for="total[]">Total:</label>
-                        <input name="total[]" type="text" class="form-control itemTotal" value = 0 onkeyup="calcSubTotal()">
-                    </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-xs-6 col-xs-offset-3">
-                <button type="button" class="btn btn-primary btn-block" onclick="addItem()">
-                  <i class="fa fa-plus"></i>&nbsp; &nbsp; Add More Item
-                </button>
-              </div>
-            </div>
-            <!-- product item end -->
-            <!-- add new item button -->
-            <hr>
-            <div class="row review-order">
-                <div class="col-xs-12">
-                    <h4 class="text-muted text-center mt-0">Summary</h4>
-                </div>
-                <div class="col-xs-12">
-                    <hr>
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <p class="m-0 text-primary">Sub-Total (tk): </p>
-                        </div>
-                        <div class="col-xs-4">
-                            <input type="number" class="form-control" name="sub_total" id="sub-total" value="0" readonly />
-                        </div>
-                    </div>
-                    <hr class="m-0">
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <p class="m-0 text-primary">Discount (tk): </p>
-                        </div>
-                        <div class="col-xs-4">
-                            <input type="text" class="form-control" name="discount" id="discount" value="0" onkeyup="calcTotal()">
-                        </div>
-                    </div>
-                    <hr class="m-0">
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <p class="m-0 text-primary">Shipping (tk): </p>
-                        </div>
-                        <div class="col-xs-4">
-                            <input type="text" class="form-control" name="shipping" id="shipping" value="0" onkeyup="calcTotal()">
-                        </div>
-                    </div>
-                    <hr class="m-0">
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <p class="m-0 text-primary"><strong>Grand Total (tk): </strong></p>
-                        </div>
-                        <div class="col-xs-4">
-                          <input type="number" class="form-control" name="grand_total" id="grand-total" value="0" readonly />
-                        </div>
-                    </div>
-                    <hr class="m-0">
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <p class="m-0 text-primary">Paid (tk): </p>
-                        </div>
-                        <div class="col-xs-4">
-                            <input type="text" class="form-control" name="paid" id="paid" value="0" onkeyup="calcTotal()">
-                        </div>
-                    </div>
-                    <hr class="m-0">
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <p class="m-0 text-primary">Due (tk): </p>
-                        </div>
-                        <div class="col-xs-4">
-                          <input type="number" class="form-control" name="due" id="due" value="0" readonly />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <label for="shipping_address">Shipping Address (Optional):</label>
-                        <textarea class="form-control" name="shipping_address" id="shipping_address"></textarea>
-                    </div>
-                </div>
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <label for="note">Note (Optional):</label>
-                        <textarea class="form-control" name="note" id="note"></textarea>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-md-4">
-                    <div class="form-group">
-                        <label for="status">Status:</label>
-                        <br>
-                        <select name="status" id="status" class="form-control">
-                          <option value="">Select One</option>
-                          <option value="Paid">Paid</option>
-                          <option value="Due">Due</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-xs-12">
-                    <button type="submit" class="btn btn-primary btn-block" >
-                      <i class="fa fa-save"></i>
-                      &nbsp; &nbsp; SAVE
+
+            <hr class="my-8">
+
+            <!-- Product Items -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h4 class="text-lg font-medium text-gray-900">Product Items</h4>
+                    <button type="button" onclick="addItem()" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                        <i class="fas fa-plus mr-2"></i>
+                        Add Item
                     </button>
                 </div>
-            </div>
-            </form>
-          </div>
-        </div>
-      </div> <!--/.col-12 -->
-   </div> <!-- /.row -->
-</section> <!-- /.content -->
 
+                <!-- Product Item Row -->
+                <div id="item-row">
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 p-4 bg-gray-50 rounded-lg">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Product Name *</label>
+                            <input type="text" name="item[]" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" required onkeyup="getItem(this)" id="item" onchange="getUnits(this)" list="items" data-id="" autocomplete="off" oninput="this.removeAttribute('title')" placeholder="Search product...">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Unit *</label>
+                            <select name="unit[]" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" onchange="getUnitPrice(this); calcSubTotal()">
+                                <option value="">Select Unit</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Unit Price</label>
+                            <input name="price[]" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" onkeyup="calcSubTotal()" placeholder="0.00">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Quantity *</label>
+                            <input name="qty[]" type="number" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" min="1" value="0" onkeyup="checkStock(this); calcSubTotal()" onchange="calcSubTotal()">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Total</label>
+                            <input name="total[]" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100" value="0" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="bg-gray-50 rounded-lg p-6 mb-8">
+                <h4 class="text-lg font-medium text-gray-900 mb-4">Order Summary</h4>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Sub-Total:</span>
+                            <input type="number" class="text-right px-3 py-2 border border-gray-300 rounded-lg bg-white" name="sub_total" id="sub-total" value="0" readonly />
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Discount:</span>
+                            <input type="text" class="text-right px-3 py-2 border border-gray-300 rounded-lg" name="discount" id="discount" value="0" onkeyup="calcTotal()" placeholder="0.00">
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Shipping:</span>
+                            <input type="text" class="text-right px-3 py-2 border border-gray-300 rounded-lg" name="shipping" id="shipping" value="0" onkeyup="calcTotal()" placeholder="0.00">
+                        </div>
+                        
+                        <div class="flex justify-between text-lg font-semibold">
+                            <span class="text-gray-900">Grand Total:</span>
+                            <input type="number" class="text-right px-3 py-2 border border-gray-300 rounded-lg bg-white font-semibold" name="grand_total" id="grand-total" value="0" readonly />
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Paid Amount:</span>
+                            <input type="text" class="text-right px-3 py-2 border border-gray-300 rounded-lg" name="paid" id="paid" value="0" onkeyup="calcTotal()" placeholder="0.00">
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Due Amount:</span>
+                            <input type="number" class="text-right px-3 py-2 border border-gray-300 rounded-lg bg-white" name="due" id="due" value="0" readonly />
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Order Status</label>
+                            <select name="status" id="status" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                <option value="">Select Status</option>
+                                <option value="Paid">Paid</option>
+                                <option value="Due">Due</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="shipping_address" class="block text-sm font-medium text-gray-700 mb-2">Shipping Address (Optional)</label>
+                            <textarea class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" name="shipping_address" id="shipping_address" rows="3" placeholder="Enter shipping address"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label for="note" class="block text-sm font-medium text-gray-700 mb-2">Note (Optional)</label>
+                            <textarea class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" name="note" id="note" rows="3" placeholder="Enter any additional notes"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-end">
+                <button type="submit" class="inline-flex items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                    <i class="fas fa-save mr-2"></i>
+                    Create Order
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Datalist for products -->
 <datalist id="items"></datalist>
 
-<div id="alertConfirm">
-  <div id="alertForm">
-    
-  </div>
+<!-- Unit Conversion Modal -->
+<div id="alertConfirm" class="fixed inset-0 bg-gray-600 bg-opacity-75 z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div id="alertForm" class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <!-- Modal content will be inserted here -->
+        </div>
+    </div>
 </div>
-<div class="loading">
-  <img src="/img/loading-waiting.gif" alt="">
+
+<!-- Loading Overlay -->
+<div class="loading fixed inset-0 bg-gray-600 bg-opacity-75 z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="bg-white rounded-lg p-6 flex flex-col items-center">
+            <img src="/img/loading-waiting.gif" alt="Loading..." class="w-16 h-16 mb-4">
+            <p class="text-gray-600">Processing order...</p>
+        </div>
+    </div>
 </div>
+
 @endsection
 
 @section('scripts')
-
 <script type="text/javascript">
     var productlist = '';
     var total_price = 0;
@@ -307,38 +244,28 @@
       const row = document.getElementById('item-row');
 
       const fields = document.createElement('div');
-      fields.setAttribute('class', 'col-xs-12 no-padding');
-      fields.innerHTML = '<div class="col-xs-12 col-md-4">'+
-                    '<div class="form-group">'+
-                        '<label for="itemname[]">Product Name:</label>'+
-                        '<input type="text" name="item[]" class="form-control" required onkeyup="getItem(this)" id="item" onchange="getUnits(this)" list="items" data-id="" autocomplete="off">'+
-                    '</div>'+
+      fields.setAttribute('class', 'grid grid-cols-1 md:grid-cols-5 gap-4 p-4 bg-gray-50 rounded-lg mt-4');
+      fields.innerHTML = '<div>'+
+                    '<label class="block text-sm font-medium text-gray-700 mb-2">Product Name *</label>'+
+                    '<input type="text" name="item[]" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" required onkeyup="getItem(this)" id="item" onchange="getUnits(this)" list="items" data-id="" autocomplete="off" placeholder="Search product...">'+
                 '</div>'+
-                '<div class="col-xs-4 col-md-2">'+
-                    '<div class="form-group">'+
-                        '<label for="unit[]">Unit:</label>'+
-                        '<select name="unit[]" class="form-control" id="unit" onchange="getUnitPrice(this); calcSubTotal();">'+
-                          '<option value="">Select One</option>'+
-                        '</select>'+
-                    '</div>'+
+                '<div>'+
+                    '<label class="block text-sm font-medium text-gray-700 mb-2">Unit *</label>'+
+                    '<select name="unit[]" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" id="unit" onchange="getUnitPrice(this); calcSubTotal();">'+
+                      '<option value="">Select Unit</option>'+
+                    '</select>'+
                 '</div>'+
-                '<div class="col-xs-4 col-md-2">'+
-                    '<div class="form-group">'+
-                        '<label for="price[]">Unit Price:</label>'+
-                        '<input name="price[]" type="text" class="form-control" onkeyup="calcSubTotal()">'+
-                    '</div>'+
+                '<div>'+
+                    '<label class="block text-sm font-medium text-gray-700 mb-2">Unit Price</label>'+
+                    '<input name="price[]" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" onchange="calcSubTotal()" onkeyup="checkStock(this); calcSubTotal()" placeholder="0.00">'+
                 '</div>'+
-                '<div class="col-xs-3 col-md-2">'+
-                    '<div class="form-group">'+
-                        '<label for="qty[]">Qty:</label>'+
-                        '<input name="qty[]" type="number" class="form-control" onchange="calcSubTotal()" onkeyup="checkStock(this); calcSubTotal()" min="1" value=0>'+
-                    '</div>'+
+                '<div>'+
+                    '<label class="block text-sm font-medium text-gray-700 mb-2">Quantity *</label>'+
+                    '<input name="qty[]" type="number" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" onchange="calcSubTotal()" onkeyup="checkStock(this); calcSubTotal()" min="1" value="0">'+
                 '</div>'+
-                '<div class="col-xs-5 col-md-2">'+
-                    '<div class="form-group">'+
-                        '<label for="total[]">Total:</label>'+
-                        '<input name="total[]" type="text" class="form-control itemTotal" value=0 onkeyup="calcSubTotal()">'+
-                    '</div>'+
+                '<div>'+
+                    '<label class="block text-sm font-medium text-gray-700 mb-2">Total</label>'+
+                    '<input name="total[]" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100" value="0" readonly>'+
                 '</div>';
       row.append(fields);
     }
@@ -377,10 +304,7 @@
 
     // remove table row on click close sign
     function removetr(o) {
-        // sub_total.value = sub_total.value - o.parentElement.previousElementSibling.firstElementChild.value;
-
         calcTotal()
-
         var p = o.parentNode.parentNode;
         p.parentNode.removeChild(p);
     }
@@ -421,7 +345,7 @@
       //submit data to the server
       document.getElementById('salesForm').addEventListener('submit', function(e){
         e.preventDefault();
-        loading.style.display = 'block';
+        loading.classList.remove('hidden');
 
         const form = e.target;
         const formData = new FormData(form);
@@ -447,11 +371,12 @@
           processData: false,
           success: function(data){
             console.log(data);
-            loading.style.display = 'none';
+            loading.classList.add('hidden');
             window.location.href = '{{route("sale.index")}}';
           },
           error: function(data){
             console.error(data);
+            loading.classList.add('hidden');
           }
         });
       });
@@ -509,7 +434,7 @@
       }
       
       const productId = e.dataset.id;
-      const unit = $(e).closest('.form-group').parent().next().find('select[name="unit[]"]');
+      const unit = $(e).closest('.grid').find('select[name="unit[]"]');
 
       $.ajax({
         type: 'GET',
@@ -531,7 +456,7 @@
 
     function getUnitPrice(e)
     {
-      const price = $(e).closest('.form-group').parent().next().find('input[name="price[]"]');
+      const price = $(e).closest('.grid').find('input[name="price[]"]');
       const selectedUnit = e.options[e.selectedIndex];
 
       price.val(selectedUnit.dataset.price);
@@ -574,23 +499,24 @@
                 //show unit convert page
                 let form = '<form action="" id="unitConverterForm" method="POST">'+
                   '@csrf'+
-                  '<div class="form-group">'+
-                    '<label for="">Convert Unit to Base Quantity</label>'+
-                      '<select name="unit" id="" class="form-control">'+
+                  '<div class="mb-4">'+
+                    '<label class="block text-sm font-medium text-gray-700 mb-2">Convert Unit to Base Quantity</label>'+
+                      '<select name="unit" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">'+
                         '<option value="">Select Unit</option>'+
                         convertableUnits+
                       '</select>'+
                       '<input type="hidden" name="product_id" value="'+item.dataset.id+'">'+
                       '<input type="hidden" name="convert_to" value="'+selectedUnit.value+'">'+
                   '</div>'+
-                  '<button type="button" class="btn btn-default" onclick="convertUnit(this)" value="No">Close</button>'+
-                  '<button type="button" class="btn btn-info pull-right" onclick="convertUnit(this)" value="Yes">Confirm</button>'+
-                  '<div class="clearfix"></div>'+
+                  '<div class="flex justify-end space-x-3">'+
+                    '<button type="button" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" onclick="convertUnit(this)" value="No">Close</button>'+
+                    '<button type="button" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700" onclick="convertUnit(this)" value="Yes">Confirm</button>'+
+                  '</div>'+
                 '</form>';
               
               const alertForm = document.getElementById('alertForm');
               alertForm.innerHTML = form;
-              alertForm.parentNode.style.display = 'block';
+              alertForm.parentNode.classList.remove('hidden');
 
               updatedUnit = unit;
               currentPrice = e;
@@ -623,7 +549,7 @@
 
     function convertUnit(e)
     {
-      loading.style.display = 'block';
+      loading.classList.remove('hidden');
       const unitConverterForm = document.getElementById('unitConverterForm');
 
       if(e.value == "Yes")
@@ -655,11 +581,12 @@
               updatedUnit = '';
               currentPrice = '';
             }
-            loading.style.display = 'none';
-            unitConverterForm.parentNode.parentNode.style.display = 'none';
+            loading.classList.add('hidden');
+            unitConverterForm.parentNode.parentNode.classList.add('hidden');
           },
           error: function(data){
             console.error(data);
+            loading.classList.add('hidden');
           },
         });
       }
@@ -670,7 +597,7 @@
           currentPrice.style.borderColor = 'red';
         }
 
-        unitConverterForm.parentNode.parentNode.style.display = 'none';
+        unitConverterForm.parentNode.parentNode.classList.add('hidden');
       }
 
     }

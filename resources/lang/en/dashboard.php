@@ -1,0 +1,145 @@
+<?php
+
+return [
+    'page_title' => 'Dashboard - Dokan Inventory Management System',
+    'app_name' => 'Dokan Inventory',
+    'dashboard' => 'Dashboard',
+    'welcome_back' => 'Welcome back',
+    'welcome_message' => 'Here\'s what\'s happening with your business today.',
+    
+    // Navigation
+    'home' => 'Home',
+    'about' => 'About',
+    'pricing' => 'Pricing',
+    'contact' => 'Contact',
+    'logout' => 'Logout',
+    
+    // Stats Cards
+    'total_orders' => 'Total Orders',
+    'total_sales' => 'Total Sales',
+    'total_products' => 'Total Products',
+    'total_customers' => 'Total Customers',
+    'new_orders' => 'New Orders',
+    'confirmed_orders' => 'Confirmed Orders',
+    'completed_orders' => 'Completed Orders',
+    'cancelled_orders' => 'Cancelled Orders',
+    'pending_orders' => 'Pending Orders',
+    'processing_orders' => 'Processing Orders',
+    
+    // Charts
+    'sales_analytics' => 'Sales Analytics',
+    'sales_overview' => 'Sales Overview',
+    'revenue_chart' => 'Revenue Chart',
+    'orders_chart' => 'Orders Chart',
+    'monthly_sales' => 'Monthly Sales',
+    'weekly_sales' => 'Weekly Sales',
+    'daily_sales' => 'Daily Sales',
+    
+    // Recent Activity
+    'recent_activity' => 'Recent Activity',
+    'recent_orders' => 'Recent Orders',
+    'recent_sales' => 'Recent Sales',
+    'recent_customers' => 'Recent Customers',
+    'no_recent_activity' => 'No recent activity',
+    
+    // Quick Actions
+    'quick_actions' => 'Quick Actions',
+    'add_product' => 'Add Product',
+    'create_order' => 'Create Order',
+    'add_customer' => 'Add Customer',
+    'view_reports' => 'View Reports',
+    'manage_inventory' => 'Manage Inventory',
+    
+    // Status
+    'status' => 'Status',
+    'order_id' => 'Order ID',
+    'customer_name' => 'Customer Name',
+    'amount' => 'Amount',
+    'date' => 'Date',
+    'actions' => 'Actions',
+    'view' => 'View',
+    'view_all' => 'View All',
+    'edit' => 'Edit',
+    'delete' => 'Delete',
+    
+    // Time Periods
+    'today' => 'Today',
+    'yesterday' => 'Yesterday',
+    'this_week' => 'This Week',
+    'this_month' => 'This Month',
+    'this_year' => 'This Year',
+    'last_week' => 'Last Week',
+    'last_month' => 'Last Month',
+    'last_year' => 'Last Year',
+    
+    // Performance Metrics
+    'performance_metrics' => 'Performance Metrics',
+    'growth_rate' => 'Growth Rate',
+    'conversion_rate' => 'Conversion Rate',
+    'average_order_value' => 'Average Order Value',
+    'customer_satisfaction' => 'Customer Satisfaction',
+    'inventory_turnover' => 'Inventory Turnover',
+    
+    // Notifications
+    'notifications' => 'Notifications',
+    'new_notifications' => 'New Notifications',
+    'mark_all_read' => 'Mark All as Read',
+    'no_notifications' => 'No new notifications',
+    
+    // Footer
+    'footer_description' => 'Empowering local businesses in Bangladesh with Dokan Inventory, innovative inventory management solutions designed for growth and success.',
+    'services' => 'Services',
+    'inventory_management' => 'Inventory Management',
+    'sales_tracking' => 'Sales Tracking',
+    'purchase_management' => 'Purchase Management',
+    'reporting_analytics' => 'Reporting & Analytics',
+    'quick_links' => 'Quick Links',
+    'contact_info' => 'Contact Info',
+    'address' => 'Dhaka, Bangladesh',
+    'phone' => '+880 1234-567890',
+    'email' => 'info@inventory.com',
+    'copyright' => 'Inventory Management System. All rights reserved.',
+    'built_for_bangladesh' => 'Built with ❤️ for Bangladesh',
+    
+    // Menu Items
+    'sales' => 'Sales',
+    'payments' => 'Payments',
+    'customers' => 'Customers',
+    'purchase' => 'Purchase',
+    'suppliers' => 'Suppliers',
+    'products' => 'Products',
+    'categories' => 'Categories',
+    'reports' => 'Reports',
+    'accounts' => 'Accounts',
+    'settings' => 'Settings',
+    
+    // Submenu Items
+    'pos' => 'POS',
+    'view_all_sales' => 'View All Sales',
+    'view_daily_sales' => 'View Daily Sales',
+    'new_sales' => 'New Sales',
+    'confirmed_sales' => 'Confirmed Sales',
+    'completed_sales' => 'Completed Sales',
+    'cancelled_sales' => 'Cancelled Sales',
+    'returned_sales' => 'Returned Sales',
+    'view_payments' => 'View Payments',
+    'bkash_payments' => 'bKash Payments',
+    'rocket_payments' => 'Rocket Payments',
+    'nagad_payments' => 'Nagad Payments',
+    'cash_payments' => 'Cash Payments',
+    'view_customers' => 'View Customers',
+    'view_purchase_list' => 'View Purchase List',
+    'purchase_returns' => 'Purchase Returns',
+    'view_suppliers' => 'View Suppliers',
+    'view_products' => 'View Products',
+    'view_categories' => 'View Categories',
+    'view_brands' => 'View Brands',
+    'view_models' => 'View Models',
+    'sales_report' => 'Sales Report',
+    'stock_report' => 'Stock Report',
+    'create_user' => 'Create User',
+    'view_users' => 'View Users',
+    'update_profile' => 'Update Profile',
+    'change_password' => 'Change Password',
+    'toggle_dark_mode' => 'Toggle Dark Mode',
+];
