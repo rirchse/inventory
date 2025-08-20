@@ -311,28 +311,37 @@
 
     @include('partials.language-dropdown')
     
-    <!-- Pricing toggle functionality -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const billingToggle = document.getElementById('billing-toggle');
-            const basicPrice = document.getElementById('basic-price');
-            const professionalPrice = document.getElementById('professional-price');
-            const enterprisePrice = document.getElementById('enterprise-price');
-            
-            billingToggle.addEventListener('change', function() {
-                if (this.checked) {
-                    // Yearly pricing (20% discount)
-                    basicPrice.textContent = '400';
-                    professionalPrice.textContent = '800';
-                    enterprisePrice.textContent = '1200';
-                } else {
-                    // Monthly pricing
-                    basicPrice.textContent = '500';
-                    professionalPrice.textContent = '1000';
-                    enterprisePrice.textContent = '1500';
-                }
-            });
-        });
-    </script>
+         <!-- Pricing toggle functionality -->
+     <script>
+         document.addEventListener('DOMContentLoaded', function() {
+             const billingToggle = document.getElementById('billing-toggle');
+             const basicPrice = document.getElementById('basic-price');
+             const professionalPrice = document.getElementById('professional-price');
+             const enterprisePrice = document.getElementById('enterprise-price');
+             const toggleSlider = document.getElementById('toggle-slider');
+             
+             billingToggle.addEventListener('change', function() {
+                 if (this.checked) {
+                     // Yearly pricing (20% discount)
+                     basicPrice.textContent = '400';
+                     professionalPrice.textContent = '800';
+                     enterprisePrice.textContent = '1200';
+                     // Move slider to right
+                     toggleSlider.style.transform = 'translateX(28px)';
+                     toggleSlider.parentElement.classList.add('bg-primary-600');
+                     toggleSlider.parentElement.classList.remove('bg-gray-300');
+                 } else {
+                     // Monthly pricing
+                     basicPrice.textContent = '500';
+                     professionalPrice.textContent = '1000';
+                     enterprisePrice.textContent = '1500';
+                     // Move slider to left
+                     toggleSlider.style.transform = 'translateX(0)';
+                     toggleSlider.parentElement.classList.remove('bg-primary-600');
+                     toggleSlider.parentElement.classList.add('bg-gray-300');
+                 }
+             });
+         });
+     </script>
 </body>
 </html>
