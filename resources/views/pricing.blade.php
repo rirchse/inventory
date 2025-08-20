@@ -74,6 +74,45 @@
                         color: #10b981;
                         font-weight: bold;
                     }
+                    
+                    /* Language Dropdown Styles */
+                    .language-dropdown {
+                        transition: all 0.2s ease-in-out;
+                    }
+                    
+                    #language-menu {
+                        transition: all 0.2s ease-in-out;
+                    }
+                    
+                    #language-menu.visible {
+                        opacity: 1;
+                        visibility: visible;
+                        transform: scale(1);
+                    }
+                    
+                    #language-menu:not(.visible) {
+                        opacity: 0;
+                        visibility: hidden;
+                        transform: scale(0.95);
+                    }
+                    
+                    /* Ensure dropdown is always on top */
+                    #language-dropdown {
+                        position: relative;
+                        z-index: 9999;
+                    }
+                    
+                    /* Force dropdown menu to be above everything */
+                    #language-menu {
+                        position: absolute;
+                        z-index: 9999 !important;
+                        pointer-events: auto;
+                    }
+                    
+                    /* When visible, ensure it's clickable */
+                    #language-menu.visible {
+                        pointer-events: auto !important;
+                    }
                 </style>
 </head>
 <body class="bg-gray-50 font-sans">
