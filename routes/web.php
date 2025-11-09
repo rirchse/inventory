@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function()
 	//user routes
 	Route::resource('/user', 'UserCtrl');
 	Route::resource('/category', 'CategoryCtrl');
+	Route::resource('/brand', 'BrandCtrl');
 
 	Route::resource('/sub_category', 'SubCategoryCtrl');
 	Route::get('/get_sub_cats/{catid}', 'SubCategoryCtrl@subCats');
