@@ -1,13 +1,13 @@
 @extends('dashboard')
-@section('title', 'View Returned Orders')
+@section('title', 'View Sale Returns')
 @section('content')
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>Returned Orders</h1>
+      <h1>Sale Returns</h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-        <li class="active">All Returned Orders</li>
+        <li class="active">All Sale Returns</li>
       </ol>
     </section>
 
@@ -17,8 +17,10 @@
         <div class="col-md-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">List of Reurned Orders</h3>
-              
+              <h3 class="box-title">List of Sale Returns</h3>
+              <div class="pull-right toolbar-icon">
+                <a href="{{route('sale-return.create')}}" title="Order Add to Return" class="label label-danger"><i class="fa fa-arrow-left"></i> Add to Return</a>
+              </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
@@ -34,7 +36,7 @@
                   <th width="110">Action</th>
                 </tr>
 
-                @foreach($returns as $return)
+                @foreach($sale_returns as $return)
 
                 <tr>
                   <td>{{$return->order_no}}</td>
