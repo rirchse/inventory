@@ -3,7 +3,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Auth\LoginController;
+use Mail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,6 +17,10 @@ use App\Http\Controllers\Auth\LoginController;
 |
 */
 
+// api login test
+Route::get('api-login', function(){
+  return view('auth.api-login');
+});
 
 Route::get('/', function () {
 	// return view('layouts.homes.index');
@@ -91,7 +97,7 @@ Route::middleware(['auth'])->group(function()
   Route::resource('/sale-return', 'SaleReturnCtrl');
   Route::controller(SaleReturnCtrl::class)->group(function()
   {
-    //
+    Route::get('/get-sale/{id}', 'getSale')->name('sale-return.get-sale');
   });
 
   Route::controller(ProductCtrl::class)->group(function()

@@ -3,7 +3,7 @@
 @section('content')
 
     <section class="content-header">
-      <h1>View {{$type != '' ?$type:'All'}} Orders</h1>
+      <h1>View {{$type != '' ? $type:'All'}} Orders</h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Orders</a></li>
         <li class="active">All Orders</li>
