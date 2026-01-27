@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Auth\LoginController;
 use Mail;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
