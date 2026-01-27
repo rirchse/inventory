@@ -27,10 +27,12 @@ Route::get('/', function () {
 	// return view('layouts.homes.index');
 	return redirect('/login');
 });
+
 Route::get('/login', function()
 {
 	return view('auth.login');
 })->name('auth.login');
+
 Route::post('/login', [LoginController::class, 'loginPost'])->name('login.post');
 Route::get('/signup', 'HomeCtrl@signup');
 
@@ -123,7 +125,6 @@ Route::middleware(['auth'])->group(function()
 	Route::get('/return/{id}/order', 'OrderReturnCtrl@getReturn');
 	Route::post('/return', 'OrderReturnCtrl@storeReturn')->name('return.store');
 	Route::get('/return/{id}/delete', 'OrderReturnCtrl@delete');	
-	
 });
 
 // cache clear
