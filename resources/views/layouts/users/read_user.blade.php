@@ -89,17 +89,3 @@
   </section><!-- /.content -->
    
 @endsection
-@section('scripts')
-<script>
-  function getUser()
-  {
-    $.ajax({
-      url: "/api/me",
-      method: "GET",
-      headers: { Authorization: "Bearer " + localStorage.getItem("access_token") },
-      success: function(res) {
-        console.log("User:", res);
-      }
-    });
-  }
-</script>

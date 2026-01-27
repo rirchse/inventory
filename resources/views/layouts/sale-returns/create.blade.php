@@ -99,7 +99,7 @@
               <div class="col-xs-6 col-sm-4">
                   <div class="form-group">
                       <label for="invoice_no">Invoice Number(*):</label>
-                      <input class="form-control" type="text" name="invoice_no" required onkeyup="getInvoice(this)" autofocus>
+                      <input class="form-control" type="text" name="invoice_no" required onkeyup="getSale(this)" autofocus>
                   </div>
               </div>
                 <div class="col-xs-12 col-sm-4">
@@ -139,7 +139,7 @@
                 <div class="col-xs-12 col-md-4">
                     <div class="form-group">
                         <label for="item[]">Product Name:</label>
-                        <input type="text" name="item[]" class="form-control" required id="item" onchange="getUnits(this)" list="items" data-id="" autocomplete="off">
+                        <input type="text" name="item[]" class="form-control" required onkeyup="getItem(this)" id="item" onchange="getUnits(this)" list="items" data-id="" autocomplete="off">
                     </div>
                 </div>
                 <div class="col-xs-4 col-md-2">
@@ -251,7 +251,7 @@
       fields.innerHTML = '<div class="col-xs-12 col-md-4">'+
                     '<div class="form-group">'+
                         '<label for="itemname[]">Product Name:</label>'+
-                        '<input type="text" name="item[]" class="form-control" required id="item" onchange="getUnits(this)" list="items" data-id="" autocomplete="off">'+
+                        '<input type="text" name="item[]" class="form-control" required onkeyup="getItem(this)" id="item" onchange="getUnits(this)" list="items" data-id="" autocomplete="off">'+
                     '</div>'+
                 '</div>'+
                 '<div class="col-xs-4 col-md-2">'+
@@ -325,27 +325,7 @@
         p.parentNode.removeChild(p);
     }
 
-    /** ------------------- Search Customer by ajax --------------- **/
-
-    function writeCustomerData(data)
-    {
-      const mobile = document.getElementById('mobile');
-      const name = document.getElementById('name');
-      const address = document.getElementById('address');
-      const email = document.getElementById('email');
-
-      if(data.customer){
-        mobile.value = data.customer.contact;
-        name.value = data.customer.full_name;
-        email.value = data.customer.email;
-        address.value = data.customer.address;
-      }
-      else{
-        // alert('Customer not found. Please create a new customer.');
-        console.log('404 customer not found!');
-        return false;
-      }
-    }
+    /** ----------------------------- Search Customer by ajax --------------- **/
 
     function getCustomer(e){
       const mobile = document.getElementById('mobile');
@@ -639,26 +619,6 @@
     function getInvoices(e)
     {
       //
-    }
-
-    function getInvoice(e)
-    {
-      const items = document.getElementById('items');
-      $.ajax({
-        type: 'GET',
-        url: '{{route("sale-return.get-sale", "")}}/'+e.value,
-        success: function(data){
-          writeCustomerData(data);
-          var names = '';
-          data.sold_items.forEach((val) => {
-              names += '<option value="'+val.name+'" data-id="'+val.id+'">';
-          });
-          items.innerHTML = names;
-        },
-        error: function(data){
-          console.error(data);
-        }
-      });
     }
     //select 2
     $(function(){$('.select2').select2();});

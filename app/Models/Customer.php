@@ -29,9 +29,4 @@ class Customer extends Model
     'status',
     'created_by',
   ];
-
-  public function sale()
-  {
-    return $this->hasOne(Sale::class, 'customer_id');
-  }
 }

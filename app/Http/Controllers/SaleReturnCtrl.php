@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\SaleReturn;
-use App\Models\Sale;
 
 class SaleReturnCtrl extends Controller
 {
@@ -63,19 +62,5 @@ class SaleReturnCtrl extends Controller
     public function destroy(string $id)
     {
         //
-    }
-
-    // ajax call
-    public function getSale($sale_id)
-    {
-      $sale = Sale::find($sale_id);
-      $sold_items = $sale->soldItems;
-      $customer = $sale->customer;
-
-      return response()->json([
-        'sale' => $sale,
-        'sold_items' => $sold_items,
-        'customer' => $customer,
-      ], 200);
     }
 }

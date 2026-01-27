@@ -206,8 +206,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ route('category.index') }}"><i class="fa fa-object-group"></i> View Categories</a></li>
-            <li><a href="{{ route('brand.index') }}"><i class="fa fa-circle-o"></i> View Brands</a></li>
+            <li><a href="#"><i class="fa fa-object-group"></i> View Categories</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> View Brands</a></li>
             <li><a href="#"><i class="fa fa-circle-o"></i> View Models</a></li>
           </ul>
         </li>

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\AuthController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,18 +13,6 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-Route::post('login', [AuthController::class, 'login']);
-
-Route::get('api-user', function(){
-  return view('layouts.users.api-user');
-});
-
-Route::middleware('auth:api')->group(function () {
-    Route::get('me', [AuthController::class, 'me']);
-    Route::post('logout', [AuthController::class, 'logout']);
-    Route::post('refresh', [AuthController::class, 'refresh']);
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
 });
