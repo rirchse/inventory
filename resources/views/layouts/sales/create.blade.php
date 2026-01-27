@@ -10,7 +10,11 @@
 </section>
 <style>
 
+    hr.m-0 {
+        margin: 5px;
+    }
     @media only screen and (max-width: 767px){
+    
         .order-wrap .row .col-xs-6:nth-child(even) {
             padding-left: 7.5px;
         }
@@ -50,6 +54,19 @@
         .ul-status {
             padding: 0;
             margin: 0;
+        }
+            .row.mobile-reorder {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .row.mobile-reorder > .col-md-6:first-child {
+            order: 2;
+        }
+        .row.mobile-reorder > .col-md-6:last-child {
+            order: 1;
+        }
+        .row.mobile-reorder > .col-md-6 {
+            flex: 0 0 100%;
         }
     }
 
@@ -164,7 +181,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+             <div class="row">
               <div class="col-xs-6 col-xs-offset-3">
                 <button type="button" class="btn btn-primary btn-block" onclick="addItem()">
                   <i class="fa fa-plus"></i>&nbsp; &nbsp; Add More Item
@@ -174,94 +191,100 @@
             <!-- product item end -->
             <!-- add new item button -->
             <hr>
-            <div class="row review-order">
-                <div class="col-xs-12">
-                    <h4 class="text-muted text-center mt-0">Summary</h4>
-                </div>
-                <div class="col-xs-12">
-                    <hr>
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <p class="m-0 text-primary">Sub-Total (tk): </p>
-                        </div>
-                        <div class="col-xs-4">
-                            <input type="number" class="form-control" name="sub_total" id="sub-total" value="0" readonly />
+            <div class="row mobile-reorder">
+              <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="shipping_address">Shipping Address (Optional):</label>
+                            <textarea class="form-control" name="shipping_address" id="shipping_address"></textarea>
                         </div>
                     </div>
-                    <hr class="m-0">
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <p class="m-0 text-primary">Discount (tk): </p>
-                        </div>
-                        <div class="col-xs-4">
-                            <input type="text" class="form-control" name="discount" id="discount" value="0" onkeyup="calcTotal()">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="note">Note (Optional):</label>
+                            <textarea class="form-control" name="note" id="note"></textarea>
                         </div>
                     </div>
-                    <hr class="m-0">
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <p class="m-0 text-primary">Shipping (tk): </p>
-                        </div>
-                        <div class="col-xs-4">
-                            <input type="text" class="form-control" name="shipping" id="shipping" value="0" onkeyup="calcTotal()">
-                        </div>
-                    </div>
-                    <hr class="m-0">
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <p class="m-0 text-primary"><strong>Grand Total (tk): </strong></p>
-                        </div>
-                        <div class="col-xs-4">
-                          <input type="number" class="form-control" name="grand_total" id="grand-total" value="0" readonly />
-                        </div>
-                    </div>
-                    <hr class="m-0">
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <p class="m-0 text-primary">Paid (tk): </p>
-                        </div>
-                        <div class="col-xs-4">
-                            <input type="text" class="form-control" name="paid" id="paid" value="0" onkeyup="calcTotal()">
-                        </div>
-                    </div>
-                    <hr class="m-0">
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <p class="m-0 text-primary">Due (tk): </p>
-                        </div>
-                        <div class="col-xs-4">
-                          <input type="number" class="form-control" name="due" id="due" value="0" readonly />
+                    <div class="col-xs-12 col-md-4">
+                        <div class="form-group">
+                            <label for="status">Status:</label>
+                            <br>
+                            <select name="status" id="status" class="form-control">
+                              <option value="">Select One</option>
+                              <option value="Paid">Paid</option>
+                              <option value="Due">Due</option>
+                            </select>
                         </div>
                     </div>
                 </div>
+                <hr>
+              </div>
+              <div class="col-md-6">
+                <div class="row review-order">
+                    <div class="col-xs-12">
+                        <h4 class="text-muted text-center mt-0">Summary</h4>
+                    </div>
+                    <div class="col-xs-12">
+                        <hr>
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <p class="m-0 text-primary">Sub-Total (tk): </p>
+                            </div>
+                            <div class="col-xs-4">
+                                <input type="number" class="form-control" name="sub_total" id="sub-total" value="0" readonly />
+                            </div>
+                        </div>
+                        <hr class="m-0">
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <p class="m-0 text-primary">Discount (tk): </p>
+                            </div>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control" name="discount" id="discount" value="0" onkeyup="calcTotal()">
+                            </div>
+                        </div>
+                        <hr class="m-0">
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <p class="m-0 text-primary">Shipping (tk): </p>
+                            </div>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control" name="shipping" id="shipping" value="0" onkeyup="calcTotal()">
+                            </div>
+                        </div>
+                        <hr class="m-0">
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <p class="m-0 text-primary"><strong>Grand Total (tk): </strong></p>
+                            </div>
+                            <div class="col-xs-4">
+                              <input type="number" class="form-control" name="grand_total" id="grand-total" value="0" readonly />
+                            </div>
+                        </div>
+                        <hr class="m-0">
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <p class="m-0 text-primary">Paid (tk): </p>
+                            </div>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control" name="paid" id="paid" value="0" onkeyup="calcTotal()">
+                            </div>
+                        </div>
+                        <hr class="m-0">
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <p class="m-0 text-primary">Due (tk): </p>
+                            </div>
+                            <div class="col-xs-4">
+                              <input type="number" class="form-control" name="due" id="due" value="0" readonly />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+              </div>
             </div>
-            <hr>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <label for="shipping_address">Shipping Address (Optional):</label>
-                        <textarea class="form-control" name="shipping_address" id="shipping_address"></textarea>
-                    </div>
-                </div>
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <label for="note">Note (Optional):</label>
-                        <textarea class="form-control" name="note" id="note"></textarea>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-md-4">
-                    <div class="form-group">
-                        <label for="status">Status:</label>
-                        <br>
-                        <select name="status" id="status" class="form-control">
-                          <option value="">Select One</option>
-                          <option value="Paid">Paid</option>
-                          <option value="Due">Due</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <hr>
             <div class="row">
                 <div class="col-xs-12">
                     <button type="submit" class="btn btn-primary btn-block" >
