@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\SaleReturn;
-use App\Models\Sale;
+use App\Models\Brand;
 
-class SaleReturnCtrl extends Controller
+class BrandCtrl extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-      $sale_returns = SaleReturn::orderBy('id', 'DESC')->paginate(25);
-      return view('layouts.sale-returns.index', compact('sale_returns'));
+        $brands = Brand::latest()->get();
+        dd($brands);
+        return view('layouts.brands.index', compact('brands'));
     }
 
     /**
@@ -22,7 +22,7 @@ class SaleReturnCtrl extends Controller
      */
     public function create()
     {
-      return view('layouts.sale-returns.create');
+        return view('layouts.brands.create');
     }
 
     /**
@@ -63,19 +63,5 @@ class SaleReturnCtrl extends Controller
     public function destroy(string $id)
     {
         //
-    }
-
-    // ajax call
-    public function getSale($sale_id)
-    {
-      $sale = Sale::find($sale_id);
-      $sold_items = $sale->soldItems;
-      $customer = $sale->customer;
-
-      return response()->json([
-        'sale' => $sale,
-        'sold_items' => $sold_items,
-        'customer' => $customer,
-      ], 200);
     }
 }

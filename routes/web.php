@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Auth\LoginController;
+use Mail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,6 +17,10 @@ use App\Http\Controllers\Auth\LoginController;
 |
 */
 
+// api login test
+Route::get('api-login', function(){
+  return view('auth.api-login');
+});
 
 Route::get('/', function () {
 	return view('home');
@@ -112,6 +117,7 @@ Route::middleware(['auth'])->group(function()
 	//user routes
 	Route::resource('/user', 'UserCtrl');
 	Route::resource('/category', 'CategoryCtrl');
+	Route::resource('/brand', 'BrandCtrl');
 
 	Route::resource('/sub_category', 'SubCategoryCtrl');
 	Route::get('/get_sub_cats/{catid}', 'SubCategoryCtrl@subCats');
@@ -148,7 +154,7 @@ Route::middleware(['auth'])->group(function()
   Route::resource('/sale-return', 'SaleReturnCtrl');
   Route::controller(SaleReturnCtrl::class)->group(function()
   {
-    //
+    Route::get('/get-sale/{id}', 'getSale')->name('sale-return.get-sale');
   });
 
   Route::controller(ProductCtrl::class)->group(function()

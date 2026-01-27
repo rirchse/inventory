@@ -25,4 +25,15 @@ class Sale extends Model
     'vat',
     'tax',
   ];
+
+  public function customer()
+  {
+    return $this->belongsTo(Customer::class);
+  }
+
+  public function soldItems()
+  {
+    return $this->hasMany(SaleItem::class, 'sale_id');
+  }
+  
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable
 {
@@ -75,12 +76,5 @@ class User extends Authenticatable
     public function authRole()
     {
         return $this->roles()->where('user_id', $this->id)->first();
-    }
-
-    public function subcategories()
-    {
-        return $this->hasMany(Subcategory::class);
-    }
-
-    
+    }    
 }
