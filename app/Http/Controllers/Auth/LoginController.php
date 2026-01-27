@@ -49,7 +49,7 @@ class LoginController extends Controller
 
         if(Auth::attempt(['email' => $email, 'password' => $password], $remember = true))
         {
-          return redirect()->route('home');
+          return redirect()->route('dashboard');
         }
         else
         {

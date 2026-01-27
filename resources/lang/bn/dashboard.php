@@ -1,0 +1,145 @@
+<?php
+
+return [
+    'page_title' => 'ড্যাশবোর্ড - দোকান ইনভেন্টরি ম্যানেজমেন্ট সিস্টেম',
+    'app_name' => 'দোকান ইনভেন্টরি',
+    'dashboard' => 'ড্যাশবোর্ড',
+    'welcome_back' => 'স্বাগতম',
+    'welcome_message' => 'আজ আপনার ব্যবসায় কী ঘটছে তা এখানে দেখুন।',
+    
+    // Navigation
+    'home' => 'হোম',
+    'about' => 'আমাদের সম্পর্কে',
+    'pricing' => 'মূল্য',
+    'contact' => 'যোগাযোগ',
+    'logout' => 'লগআউট',
+    
+    // Stats Cards
+    'total_orders' => 'মোট অর্ডার',
+    'total_sales' => 'মোট বিক্রয়',
+    'total_products' => 'মোট পণ্য',
+    'total_customers' => 'মোট গ্রাহক',
+    'new_orders' => 'নতুন অর্ডার',
+    'confirmed_orders' => 'নিশ্চিত অর্ডার',
+    'completed_orders' => 'সম্পন্ন অর্ডার',
+    'cancelled_orders' => 'বাতিল অর্ডার',
+    'pending_orders' => 'অপেক্ষমান অর্ডার',
+    'processing_orders' => 'প্রক্রিয়াকরণ অর্ডার',
+    
+    // Charts
+    'sales_analytics' => 'বিক্রয় বিশ্লেষণ',
+    'sales_overview' => 'বিক্রয় সংক্ষিপ্ত',
+    'revenue_chart' => 'আয় চার্ট',
+    'orders_chart' => 'অর্ডার চার্ট',
+    'monthly_sales' => 'মাসিক বিক্রয়',
+    'weekly_sales' => 'সাপ্তাহিক বিক্রয়',
+    'daily_sales' => 'দৈনিক বিক্রয়',
+    
+    // Recent Activity
+    'recent_activity' => 'সাম্প্রতিক কার্যক্রম',
+    'recent_orders' => 'সাম্প্রতিক অর্ডার',
+    'recent_sales' => 'সাম্প্রতিক বিক্রয়',
+    'recent_customers' => 'সাম্প্রতিক গ্রাহক',
+    'no_recent_activity' => 'কোন সাম্প্রতিক কার্যক্রম নেই',
+    
+    // Quick Actions
+    'quick_actions' => 'দ্রুত পদক্ষেপ',
+    'add_product' => 'পণ্য যোগ করুন',
+    'create_order' => 'অর্ডার তৈরি করুন',
+    'add_customer' => 'গ্রাহক যোগ করুন',
+    'view_reports' => 'রিপোর্ট দেখুন',
+    'manage_inventory' => 'ইনভেন্টরি পরিচালনা করুন',
+    
+    // Status
+    'status' => 'অবস্থা',
+    'order_id' => 'অর্ডার আইডি',
+    'customer_name' => 'গ্রাহকের নাম',
+    'amount' => 'পরিমাণ',
+    'date' => 'তারিখ',
+    'actions' => 'কর্ম',
+    'view' => 'দেখুন',
+    'view_all' => 'সব দেখুন',
+    'edit' => 'সম্পাদনা করুন',
+    'delete' => 'মুছুন',
+    
+    // Time Periods
+    'today' => 'আজ',
+    'yesterday' => 'গতকাল',
+    'this_week' => 'এই সপ্তাহ',
+    'this_month' => 'এই মাস',
+    'this_year' => 'এই বছর',
+    'last_week' => 'গত সপ্তাহ',
+    'last_month' => 'গত মাস',
+    'last_year' => 'গত বছর',
+    
+    // Performance Metrics
+    'performance_metrics' => 'কর্মক্ষমতা মেট্রিক্স',
+    'growth_rate' => 'বৃদ্ধির হার',
+    'conversion_rate' => 'রূপান্তরের হার',
+    'average_order_value' => 'গড় অর্ডার মূল্য',
+    'customer_satisfaction' => 'গ্রাহক সন্তুষ্টি',
+    'inventory_turnover' => 'ইনভেন্টরি টার্নওভার',
+    
+    // Notifications
+    'notifications' => 'বিজ্ঞপ্তি',
+    'new_notifications' => 'নতুন বিজ্ঞপ্তি',
+    'mark_all_read' => 'সব পঠিত হিসেবে চিহ্নিত করুন',
+    'no_notifications' => 'কোন নতুন বিজ্ঞপ্তি নেই',
+    
+    // Footer
+    'footer_description' => 'দোকান ইনভেন্টরির মাধ্যমে বৃদ্ধি এবং সাফল্যের জন্য ডিজাইন করা উদ্ভাবনী ইনভেন্টরি ম্যানেজমেন্ট সমাধানের মাধ্যমে বাংলাদেশে স্থানীয় ব্যবসায়ীদের ক্ষমতায়ন।',
+    'services' => 'সেবাসমূহ',
+    'inventory_management' => 'ইনভেন্টরি ব্যবস্থাপনা',
+    'sales_tracking' => 'বিক্রয় ট্র্যাকিং',
+    'purchase_management' => 'ক্রয় ব্যবস্থাপনা',
+    'reporting_analytics' => 'রিপোর্টিং এবং বিশ্লেষণ',
+    'quick_links' => 'দ্রুত লিংক',
+    'contact_info' => 'যোগাযোগের তথ্য',
+    'address' => 'ঢাকা, বাংলাদেশ',
+    'phone' => '+৮৮০ ১২৩৪-৫৬৭৮৯০',
+    'email' => 'info@inventory.com',
+    'copyright' => 'ইনভেন্টরি ম্যানেজমেন্ট সিস্টেম। সর্বস্বত্ব সংরক্ষিত।',
+    'built_for_bangladesh' => 'বাংলাদেশের জন্য ❤️ দিয়ে নির্মিত',
+    
+    // Menu Items
+    'sales' => 'বিক্রয়',
+    'payments' => 'পেমেন্ট',
+    'customers' => 'গ্রাহক',
+    'purchase' => 'ক্রয়',
+    'suppliers' => 'সরবরাহকারী',
+    'products' => 'পণ্য',
+    'categories' => 'বিভাগ',
+    'reports' => 'রিপোর্ট',
+    'accounts' => 'অ্যাকাউন্ট',
+    'settings' => 'সেটিংস',
+    
+    // Submenu Items
+    'pos' => 'পয়েন্ট অফ সেল',
+    'view_all_sales' => 'সব বিক্রয় দেখুন',
+    'view_daily_sales' => 'দৈনিক বিক্রয় দেখুন',
+    'new_sales' => 'নতুন বিক্রয়',
+    'confirmed_sales' => 'নিশ্চিত বিক্রয়',
+    'completed_sales' => 'সম্পন্ন বিক্রয়',
+    'cancelled_sales' => 'বাতিল বিক্রয়',
+    'returned_sales' => 'ফেরত বিক্রয়',
+    'view_payments' => 'পেমেন্ট দেখুন',
+    'bkash_payments' => 'বিকাশ পেমেন্ট',
+    'rocket_payments' => 'রকেট পেমেন্ট',
+    'nagad_payments' => 'নগদ পেমেন্ট',
+    'cash_payments' => 'নগদ পেমেন্ট',
+    'view_customers' => 'গ্রাহক দেখুন',
+    'view_purchase_list' => 'ক্রয় তালিকা দেখুন',
+    'purchase_returns' => 'ক্রয় ফেরত',
+    'view_suppliers' => 'সরবরাহকারী দেখুন',
+    'view_products' => 'পণ্য দেখুন',
+    'view_categories' => 'বিভাগ দেখুন',
+    'view_brands' => 'ব্র্যান্ড দেখুন',
+    'view_models' => 'মডেল দেখুন',
+    'sales_report' => 'বিক্রয় রিপোর্ট',
+    'stock_report' => 'স্টক রিপোর্ট',
+    'create_user' => 'ব্যবহারকারী তৈরি করুন',
+    'view_users' => 'ব্যবহারকারী দেখুন',
+    'update_profile' => 'প্রোফাইল আপডেট করুন',
+    'change_password' => 'পাসওয়ার্ড পরিবর্তন করুন',
+    'toggle_dark_mode' => 'ডার্ক মোড টগল',
+];
