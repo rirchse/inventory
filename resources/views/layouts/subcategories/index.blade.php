@@ -4,19 +4,19 @@ $source = new SourceCtrl;
 @endphp
 
 @extends('dashboard')
-@section('title', 'View All Brand')
+@section('title', 'View All Subcategory')
 @section('content')
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>All Brand</h1>
+      <h1>All Subcategory</h1>
       <ol class="breadcrumb">
         <li>
           <a href="#">
             <i class="fa fa-dashboard"></i> Dashboard
           </a>
         </li>
-        <li class="active">All Brand</li>
+        <li class="active">All Subcategory</li>
       </ol>
     </section>
 
@@ -26,9 +26,9 @@ $source = new SourceCtrl;
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">List of Brand</h3>
+              <h3 class="box-title">List of Subcategory</h3>
               <div class="col-md-12 text-right toolbar-icon">
-                <a href="{{route('brand.create')}}" title="Add brand" class="label label-info"><i class="fa fa-plus"></i></a>
+                <a href="{{route('subcategory.create')}}" title="Add subcategory" class="label label-info"><i class="fa fa-plus"></i></a>
               </div>
             </div>
             <!-- /.box-header -->
@@ -41,24 +41,23 @@ $source = new SourceCtrl;
                   <th>Created On</th>
                   <th width="110">Action</th>
                 </tr>
-
-                @foreach($brands as $brand)
+                @foreach($subcategories as $subcat)
                 <tr>
-                  <td>{{$brand->id}}</td>
-                  <td>{{$brand->name}}</td>
+                  <td>{{$subcat->id}}</td>
+                  <td>{{$subcat->name}}</td>
                   <td>
-                    @if($brand->status == 'Active')
+                    @if($subcat->status == 'Active')
                     <span class="label label-success">Active</span>
                     @else
                     <span class="label label-warning">Inactive</span>
                     @endif
                   </td>
-                  <td>{{ $source->dtformat($brand->created_at) }}</td>
+                  <td>{{ $source->dtformat($subcat->created_at) }}</td>
                   <td>
-                    <a href="{{route('brand.show', $brand->id)}}" class="label label-info" title="brand Details">
+                    <a href="{{route('subcategory.show', $subcat->id)}}" class="label label-info" title="Subcategory Details">
                       <i class="fa fa-file-text"></i>
                     </a>
-                    <a href="{{route('brand.edit', $brand->id)}}" class="label label-warning" title="Edit this brand">
+                    <a href="{{route('subcategory.edit', $subcat->id)}}" class="label label-warning" title="Edit this brand">
                       <i class="fa fa-edit"></i>
                     </a>
                   </td>

@@ -43,19 +43,24 @@ class LoginController extends Controller
 
     public function loginPost(Request $request)
     {
-        $data = $request->all();
-        $email = $request->email;
-        $password = $request->password;
+      $this->validate($request, [
+        'email' => 'required|string',
+        'password' => 'required|string'
+      ]);
 
-        if(Auth::attempt(['email' => $email, 'password' => $password], $remember = true))
-        {
-          return redirect()->route('home');
-        }
-        else
-        {
-          Session::flash('error', 'Username & Password doesn\'t match.');
-          return back();
-        }
+      $data = $request->all();
+      $email = $request->email;
+      $password = $request->password;
+
+      if(Auth::attempt(['email' => $email, 'password' => $password], $remember = true))
+      {
+        return redirect()->route('home');
+      }
+      else
+      {
+        Session::flash('error', 'Username & Password doesn\'t match.');
+        return back();
+      }
     }
 
     public function logout(Request $request): RedirectResponse

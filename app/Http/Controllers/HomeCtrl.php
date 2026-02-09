@@ -9,13 +9,14 @@ class HomeCtrl extends Controller
 {
     public function signup(Request $request)
     {
-        return view('home');
+        return view('auth.register');
     }
     /**
      * Create a new controller instance.
      *
      * @return void
      */
+    
     // public function __construct()
     // {
     //     $this->middleware('auth');

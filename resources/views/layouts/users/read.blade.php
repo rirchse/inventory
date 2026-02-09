@@ -21,9 +21,6 @@
           <div class="col-md-12 text-right toolbar-icon">
             <a href="{{route('user.index')}}" title="View {{Session::get('_types')}} users" class="label label-success"><i class="fa fa-list"></i></a>
             <a href="{{route('user.edit',$user->id)}}" class="label label-warning" title="Edit this User"><i class="fa fa-edit"></i></a>
-            {{-- <a href="#" title="Print" class="label label-info"><i class="fa fa-print"></i></a> --}}
-            
-            {{-- <a href="{{route('user.delete',$user->id)}}" class="label label-danger" onclick="return confirm('Are you sure want to delete this account!');" title="Delete this account"><i class="fa fa-close"></i></a> --}}
             
           </div>
           <div class="col-md-12">
@@ -31,13 +28,12 @@
                 <tbody>
                   <tr>
                     <th>User Permission:</th>
-                    <td>{{$user_role->name}} [{{$user_role->description}}]</td>
+                    <td>{{$user->role->name}} [{{$user->role->description}}]</td>
                   </tr>
                   <tr>
                     <th>Name:</th>
                     <td>{{$user->name}}</td>
                   </tr>
-                  
                   <tr>
                     <th>Email:</th>
                     <td>{{$user->email}}</td>
@@ -45,16 +41,15 @@
                   <tr>
                     <th>Contact:</th>
                     <td>{{$user->contact}}</td>
-                  </tr>              
-                
-                   <tr>
+                  </tr>
+                  <tr>
                     <th>Status:</th>
                     <td>
-                      @if($user->status == 0)
-                      <span class="label label-warning">Unverified</span>
-                      @elseif($user->status == 1)
+                      @if($user->status == 'Active')
                       <span class="label label-success">Active</span>
-                      @elseif($user->status == 2)
+                      @elseif($user->status == 'Unverified')
+                      <span class="label label-warning">Unverified</span>
+                      @else
                       <span class="label label-danger">Disabled</span>
                       @endif
                     </td>
@@ -71,7 +66,9 @@
                     <th>Photo:</th>
                     <td>
                       @if($user->image)
-                      <a href="/img/user/{{$user->image}}" target="_blank" title="View large image"><img src="/img/user/{{$user->image}}" width=100 style="border: 5px solid #eee"></a>
+                      <a href="/img/user/{{$user->image}}" target="_blank" title="View large image">
+                        <img src="/img/user/{{$user->image}}" width=100 style="border: 5px solid #eee">
+                      </a>
                       @else
                       No image
                       @endif
@@ -81,8 +78,6 @@
             </table>
           </div>
           <div class="clearfix"></div>
-
-          <p><a href="{{route('user.delete',$user->id)}}" onclick="return confirm('Are sure you want to permanently delete this user?')" class="text-danger" style="padding:15px" title="Permanently Remove?"><i class="fa fa-remove"></i></a></p>
         </div>
       </div><!-- /.box -->
     </div><!--/.col (left) -->

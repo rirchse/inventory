@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Unit extends Model
+class Subcategory extends Model
 {
   protected $fillable = [
     'shop_id',
     'name',
-    'symbol',
     'details',
-    'status'
+    'status',
+    'created_by'
   ];
+
 }

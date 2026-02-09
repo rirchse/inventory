@@ -28,7 +28,7 @@ class UserCtrl extends Controller
     public function index()
     {
         $users = User::orderBy('id','desc')->get();
-        return view('layouts.users.view_users',compact('users'));
+        return view('layouts.users.index',compact('users'));
     }
 
     /**
@@ -39,7 +39,7 @@ class UserCtrl extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view('layouts.users.create_new_user', compact('roles'));
+        return view('layouts.users.create', compact('roles'));
     }
 
     /**
@@ -88,8 +88,11 @@ class UserCtrl extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        $user_role = DB::table('role_user')->leftJoin('roles', 'roles.id', 'role_user.role_id')->where('role_user.user_id', $id)->first();
-        return view('layouts.users.read_user', compact('user', 'user_role'));
+        $user_role = DB::table('role_user')
+        ->leftJoin('roles', 'roles.id', 'role_user.role_id')
+        ->where('role_user.user_id', $id)
+        ->first();
+        return view('layouts.users.read', compact('user', 'user_role'));
     }
 
     /**
@@ -102,8 +105,10 @@ class UserCtrl extends Controller
     {
         $user = User::find($id);
         $roles = Role::all();
-        $user_role = DB::table('role_user')->leftJoin('roles', 'roles.id', 'role_user.role_id')->where('role_user.user_id', $user->id)->first();
-        return view('layouts.users.edit_user_account', compact('user', 'roles', 'user_role'));
+        $user_role = DB::table('role_user')
+        ->leftJoin('roles', 'roles.id', 'role_user.role_id')
+        ->where('role_user.user_id', $user->id)->first();
+        return view('layouts.users.edit', compact('user', 'roles', 'user_role'));
     }
 
     /**
@@ -178,26 +183,29 @@ class UserCtrl extends Controller
     public function updatePassword(Request $request)
     {
         $this->validate($request, [
-            'current_password' => 'required|min:8|max:32',
-            'password'         => 'required|min:8|max:32|confirmed'
-            ]);
+          'current_password' => 'required|min:8|max:32',
+          'password'         => 'required|min:8|max:32|confirmed'
+        ]);
 
         $user = User::find(Auth::id());
 
         function passverify($curr, $dbpass){
-            return password_verify($curr, $dbpass);
+          return password_verify($curr, $dbpass);
         }
 
-        if(password_verify($request->current_password, $user->password) === false){
-            Session::flash('error', 'Invalid password provided.');
-            return redirect('/change_password');
-        }else{
-            $user = User::find(Auth::id());
-            $user->password = bcrypt($request->password);
-            $user->save();
+        if(password_verify($request->current_password, $user->password) === false)
+        {
+          Session::flash('error', 'Invalid password provided.');
+          return redirect('/change_password');
+        }
+        else
+        {
+          $user = User::find(Auth::id());
+          $user->password = bcrypt($request->password);
+          $user->save();
 
-            Session::flash('success', 'Password successfully updated.');
-            return redirect('/change_password');
+          Session::flash('success', 'Password successfully updated.');
+          return redirect('/change_password');
         }
     }
 }

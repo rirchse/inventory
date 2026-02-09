@@ -1,11 +1,11 @@
 @extends('dashboard')
-@section('title', 'Create New Brand')
+@section('title', 'Create New Subcategory')
 @section('content')
  <section class="content-header">
-      <h1>Create Brand</h1>
+      <h1>Create Subcategory</h1>
       <ol class="breadcrumb">
-        <li><a href="{{ route('brand.index') }}"><i class="fa fa-dashboard"></i> Brands</a></li>
-        <li class="active">Create Brand</li>
+        <li><a href=""><i class="fa fa-dashboard"></i> Subcategorys</a></li>
+        <li class="active">Create Subcategory</li>
       </ol>
     </section>
 
@@ -15,9 +15,9 @@
         <div class="col-md-6"> <!-- general form elements -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 style="color: #800" class="box-title">Brand Details</h3>
+              <h3 style="color: #800" class="box-title">Subcategory Details</h3>
             </div>
-            <form method="POST" action="{{ route('brand.store') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('subcategory.store') }}" enctype="multipart/form-data">
               @csrf
             <div class="box-body">
               <div class="form-group">

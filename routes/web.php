@@ -17,6 +17,10 @@ use Mail;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//password generate
+Route::get('hash-password/{password}', function($pass){
+  return bcrypt($pass);
+});
 
 // api login test
 Route::get('api-login', function(){
@@ -28,20 +32,25 @@ Route::get('/', function () {
 	return redirect('/login');
 });
 
-Route::get('/login', function()
+Route::controller(AuthController::class)->group(function()
 {
-	return view('auth.login');
-})->name('auth.login');
+  Route::get('/login', function()
+  {
+    return view('auth.login');
+  })->name('login');
+  Route::get('/register', 'create')->name('register.create');
+  Route::post('/register', 'register')->name('register.store');
+});
 
 Route::post('/login', [LoginController::class, 'loginPost'])->name('login.post');
-Route::get('/signup', 'HomeCtrl@signup');
+// Route::get('/signup', 'HomeCtrl@signup')->name('register');
 
 Route::middleware(['auth'])->group(function()
 {
 	Route::get('/home', 'HomeCtrl@index')->name('home');
 	Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-  //======================= CASTOM ROUTE ====================
+  //======================= CASTOM ROUTE ====================//
 	Route::get('/user/delete/{id}','UserCtrl@destroy')->name('user.delete');
 	Route::get('/category/delete/{id}','CategoryCtrl@destroy')->name('category.delete');
 	Route::get('/sub_category/delete/{id}','SubCategoryCtrl@destroy')->name('sub_category.delete');
@@ -59,11 +68,13 @@ Route::middleware(['auth'])->group(function()
 	Route::get('/change_password', 'UserCtrl@changePassword')->name('user.password.change');
 	Route::put('/change_password', 'UserCtrl@updatePassword')->name('user.change.password');
 
-	//========================== CASTOM ROUTE END  ===================
+	//========================== CASTOM ROUTE END  ===================//
 	
 	//user routes
+	Route::resource('/profile', 'ProfileCtrl');
 	Route::resource('/user', 'UserCtrl');
 	Route::resource('/category', 'CategoryCtrl');
+	Route::resource('/subcategory', 'SubcategoryCtrl');
 	Route::resource('/brand', 'BrandCtrl');
 
 	Route::resource('/sub_category', 'SubCategoryCtrl');
@@ -73,17 +84,22 @@ Route::middleware(['auth'])->group(function()
 	Route::resource('/product', 'ProductCtrl');
 	Route::resource('/vendor', 'SupplierCtrl');
 	Route::resource('/customer', 'CustomerCtrl');
+	Route::resource('/unit', 'UnitCtrl');
+	Route::resource('/shop', 'ShopCtrl');
 
-  Route::controller(UnitCtrl::class)->group(function(){
+  Route::controller(UnitCtrl::class)->group(function()
+  {
     Route::get('/units/get-unit', 'getUnits')->name('unit.get-unit');
   });
 
-  Route::controller(ProductUnitCtrl::class)->group(function(){
+  Route::controller(ProductUnitCtrl::class)->group(function()
+  {
     Route::get('/product-units/get-product-unit/{p?}/{u?}', 'getUnitPrice')->name('product-unit.get-unit');
     Route::post('/product-unit-convert', 'unitConverter')->name('product-unit.convert');
   });
 
-  Route::controller(CustomerCtrl::class)->group(function(){
+  Route::controller(CustomerCtrl::class)->group(function()
+  {
     Route::get('/customers/get-customer/{mobile}', 'getCustomer')->name('customer.get-customer');
   });
 	
@@ -128,7 +144,8 @@ Route::middleware(['auth'])->group(function()
 });
 
 // cache clear
-Route::get('reboot', function () {
+Route::get('reboot', function ()
+{
   Artisan::call('cache:clear');
   Artisan::call('view:clear');
   Artisan::call('route:clear');

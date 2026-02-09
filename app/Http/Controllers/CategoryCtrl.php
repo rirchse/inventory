@@ -2,32 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
+use App\Models\Category;
 use File;
 use Auth;
 use Session;
 
-// use App\Category;
 class CategoryCtrl extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+      $this->middleware('auth');
     }
 
-/**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $categories = Category::latest()->get();
-        return view('layouts.categories.view_category', compact('categories'));
+      $user = Auth::user();
+
+      $categories = Category::where('shop_id', $user->shop_id)->latest()->get();
+      return view('layouts.categories.index', compact('categories'));
     }
 
     /**
@@ -37,7 +37,7 @@ class CategoryCtrl extends Controller
      */
     public function create()
     {
-        return view('layouts.categories.create_new_category');
+        return view('layouts.categories.create');
     }
 
     /**
@@ -48,21 +48,30 @@ class CategoryCtrl extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'name'  => 'required|unique:categories'
+        $data = $request->validate([
+          'name'  => 'required|string',
+          'status'  => 'nullable|string',
+          'details'  => 'nullable|string'
         ]);
 
-        $cat = new Category;
-        $cat->name        = $request->name;
-        $cat->details     = $request->details;
-        $cat->status      = $request->status? 1 : 0;
-        $cat->created_by  = Auth::id();
-        $cat->save();
+        if(isset($data['_token']))
+        {
+          unset($data['_token']);
+        }
 
-        $last_cat_id = Category::orderBy('id', 'DESC')->first()->id;
-        Session::flash('success', 'Category Successfully Saved');
+        $data['shop_id']  = Auth::user()->shop_id;
+        $data['created_by']  = Auth::id();
 
-        return redirect()->route('category.show', $last_cat_id);
+        try {
+          Category::create($data);
+        
+          Session::flash('success', 'Category Successfully Saved');
+        }
+        catch(\Exception $e)
+        {
+          return $e->getMessage();
+        }
+        return redirect()->route('category.index');
     }
 
     /**
@@ -74,7 +83,7 @@ class CategoryCtrl extends Controller
     public function show($id)
     {
      $category = Category::find($id);
-     return view('layouts.categories.read_category', compact('category'));
+     return view('layouts.categories.read', compact('category'));
  }
 
     /**
@@ -86,7 +95,7 @@ class CategoryCtrl extends Controller
     public function edit($id)
     {
         $category =Category::find($id);
-        return view('layouts.categories.edit_category', compact('category'));
+        return view('layouts.categories.edit', compact('category'));
     }
 
     /**
@@ -105,8 +114,8 @@ class CategoryCtrl extends Controller
 
         $category->updated_by  = Auth::id();
 
-        //multipul image uplode to use this puction======================
-        if($request->image >0){
+        //multiple image upload to use this function
+        if($request->image > 0){
 
             if (File::exists('img/category/' .$category->image)) {
                 File::delete('img/category/' .$category->image);
@@ -133,19 +142,11 @@ class CategoryCtrl extends Controller
     public function destroy($id)
     {
         $category = Category::find($id);
-            // if (!is_null($category)) {
-
-            //       //delete all the districts for the category
-            //     $posts = Post::where('category_id', $category->id)->get();
-            //     foreach ($posts as $post) {
-            //         $post->delete();
-            //     }
-            //     $category->delete();
-            // }
         if (File::exists('img/category/' .$category->image)) {
             File::delete('img/category/' .$category->image);
         }
         $category->delete();
+
         Session::flash('success', 'Category Successfully Delete');
         return redirect()->route('category.index');
     }

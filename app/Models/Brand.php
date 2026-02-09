@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Brand extends Model
 {
+    protected $fillable = [
+      'category_id',
+      'shop_id',
+      'name',
+      'details',
+      'status',
+      'created_by'
+    ];
+
     public function categories()
     {
     	return $this->belongsToMany(Category::class);

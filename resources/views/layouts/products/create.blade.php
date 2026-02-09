@@ -62,9 +62,9 @@
                   <label for="cat">Category</label>
                   <select id="cat" class="form-control" required>
                     <option value="">Select One</option>
-                    <option value="">Select One</option>
-                    <option value="">Select One</option>
-                    <option value="">Select One</option>
+                    @foreach($categories as $cat)
+                    <option value="{{$cat->id}}">{{$cat->name}}</option>
+                    @endforeach
                   </select>
                 </div>
               </div>
@@ -73,18 +73,16 @@
                   <label>Sub Category</label>
                   <select class="form-control" required>
                     <option value="">Select One</option>
-                    <option value="">Select One</option>
-                    <option value="">Select One</option>
-                    <option value="">Select One</option>
+                    @foreach($brands as $brand)
+                    <option value="{{$brand->id}}">{{$brand->name}}</option>
+                    @endforeach
                   </select>
                 </div>
               </div>
-              <div class="col-md-3 col-xs-6">
+              {{-- <div class="col-md-3 col-xs-6">
                 <div class="form-group">
                   <label>Model</label>
                   <select class="form-control" required>
-                    <option value="">Select One</option>
-                    <option value="">Select One</option>
                     <option value="">Select One</option>
                     <option value="">Select One</option>
                   </select>
@@ -96,11 +94,9 @@
                   <select class="form-control" name="product_type">
                     <option value="">Select One</option>
                     <option value="">Select One</option>
-                    <option value="">Select One</option>
-                    <option value="">Select One</option>
                   </select>
                 </div>
-              </div>
+              </div> --}}
               <div class="col-md-6 col-xs-6">
                 <!-- SKU -->
                 <div class="form-group">
@@ -175,13 +171,6 @@
                   </div>
                   <div class="col-xs-12">
                     <hr>
-                  </div>
-                  <div class="col-xs-12 col-md-5">
-                    <div class="form-group">
-                      <button type="button" class="btn btn-primary btn-sm btn-block" onclick="addUnit()">
-                        <i class="fa fa-plus"></i> 
-                        Add New Product</button>
-                    </div>
                   </div>
                 </div>
               </div> <!-- end single product unit wrapping col-12 -->

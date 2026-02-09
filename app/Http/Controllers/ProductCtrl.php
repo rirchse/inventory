@@ -41,11 +41,12 @@ class ProductCtrl extends Controller
      */
     public function create()
     {
-        $units      = Unit::all();
-        $brands     = Brand::all();
-        $categories = Category::all();
-        
-        return view('layouts.products.create', compact('units', 'categories','brands'));
+      $user = auth()->user();
+      $units      = Unit::where('shop_id', $user->shop_id)->get();
+      $brands     = Brand::where('shop_id', $user->shop_id)->get();
+      $categories = Category::where('shop_id', $user->shop_id)->get();
+      
+      return view('layouts.products.create', compact('units', 'categories','brands'));
     }
 
     /**

@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+      'shop_id', 'role_id', 'name', 'contact', 'email', 'password', 'created_by'
     ];
 
     /**
@@ -38,6 +38,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function role()
+    {
+      return $this->belongsTo(Role::class);
+    }
+
     public function roles()
     {
       return $this->belongsToMany(Role::class);
@@ -49,8 +54,9 @@ class User extends Authenticatable
 
     public function authorizeRoles($roles)
     {
-      if (is_array($roles)) {
-          return $this->hasAnyRole($roles) || false;
+      if(is_array($roles))
+      {
+        return $this->hasAnyRole($roles) || false;
       }
       return $this->hasRole($roles) || false;
     }

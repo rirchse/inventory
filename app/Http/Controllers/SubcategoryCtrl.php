@@ -3,20 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Subcategory;
 use Auth;
 use Session;
 
-class BrandCtrl extends Controller
+class SubcategoryCtrl extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $brands = Brand::latest()->paginate(25);
-        return view('layouts.brands.index', compact('brands'));
+        $subcategories = Subcategory::latest()->paginate(25);
+        return view('layouts.subcategories.index', compact('subcategories'));
     }
 
     /**
@@ -29,7 +29,7 @@ class BrandCtrl extends Controller
       ->where('status', 'Active')
       ->get();
       
-      return view('layouts.brands.create', compact('categories'));
+      return view('layouts.subcategories.create', compact('categories'));
     }
 
     /**
@@ -53,10 +53,10 @@ class BrandCtrl extends Controller
       $data['created_by'] = Auth::user()->id;
 
       try {
-        $brand = Brand::create($data);
+        $subcategory = Subcategory::create($data);
 
-        Session::flash('success', 'New Brand created');
-        return redirect()->route('brand.index');
+        Session::flash('success', 'New subcategory created');
+        return redirect()->route('subcategory.index');
       }
       catch(\Exception $e)
       {
@@ -71,8 +71,8 @@ class BrandCtrl extends Controller
      */
     public function show(string $id)
     {
-      $brand = Brand::find($id);
-      return view('layouts.brands.read', compact('brand'));
+      $subcategory = Subcategory::find($id);
+      return view('layouts.subcategories.read', compact('subcategory'));
     }
 
     /**
@@ -85,8 +85,8 @@ class BrandCtrl extends Controller
       ->where('status', 'Active')
       ->get();
 
-      $brand = Brand::find($id);
-      return view('layouts.brands.edit', compact('brand', 'categories'));
+      $subcategory = Subcategory::find($id);
+      return view('layouts.subcategories.edit', compact('categories', 'subcategory'));
     }
 
     /**
@@ -110,10 +110,10 @@ class BrandCtrl extends Controller
       $data['created_by'] = Auth::user()->id;
 
       try {
-        $brand = Brand::where('id', $id)->update($data);
+        $subcategory = Subcategory::where('id', $id)->update($data);
 
-        Session::flash('success', 'New Brand created');
-        return redirect()->route('brand.index');
+        Session::flash('success', 'New subcategory created');
+        return redirect()->route('subcategory.index');
       }
       catch(\Exception $e)
       {

@@ -1,11 +1,14 @@
 @extends('login')
 @section('title', 'Login')
 @section('content')
-<script src='https://www.google.com/recaptcha/api.js' async defer></script>
 <style>
     .checkbox{padding-left: 25px}
+    .invalid-feedback{
+    color:red;
+  }
 </style>
 
+@include('partials.messages')
 <div class="main-wrapper" stlye="width:100%;">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
@@ -22,13 +25,23 @@
             @csrf
             <div class="form-group has-feedback has-float-label">
               <label for="email">Email Address</label>
-              <input type='email' name="email" class='form-control' required>
+              <input type='email' name="email" class='form-control' @error('email') is-invalid @enderror value="{{ old('email') }}" autocomplete="email" autofocus>
               <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+              @error('email')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+              @enderror
             </div>
             <div class="form-group has-feedback has-float-label">
               <label for="password">Password</label>
-              <input type="password" name="password" class="form-control" required>
+              <input type="password" name="password" class="form-control"  @error('password') is-invalid @enderror value="{{ old('password') }}" autocomplete="password" autofocus>
               <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+              @error('password')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+              @enderror
             </div>
             <div class="row">
               <div class="col-xs-12">
@@ -46,6 +59,12 @@
               <!-- /.col -->
               <div class="col-xs-4">
                 <button type="submit" class="btn btn-primary btn-submit">Login</button>
+                
+                @if (Route::has('password.request'))
+                  <a class="btn btn-link" href="{{ route('password.request') }}">
+                      {{ __('Forgot Your Password?') }}
+                  </a>
+                @endif
               </div>
               <!-- /.col -->
             </div>

@@ -89,12 +89,16 @@
           <img src="/img/{{$user->image?'user/'. $user->image:'avatar.png'}}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info" style="text-align:right">
-          <p>{{ $user->name }}</p>
-          <a href="#"><i class="fa fa-circle text-success"></i>
-            
-            {{ Auth::user()->authRole()->name }}
-
-          </a><br>
+          <p>
+            <a href="{{route('profile.show', auth()->id())}}">
+              {{ $user->name }}
+            </a>
+          </p>
+          <a href="{{route('profile.show', auth()->id())}}">
+            <i class="fa fa-circle text-success"></i>
+            {{ Auth::user()->role->name }}
+          </a>
+          <br>
         </div>
       </div>
       <!-- search form -->
@@ -121,11 +125,6 @@
           <ul class="treeview-menu">
             <li><a href="{{ route('sale.create') }}"><i class="fa fa-pencil"></i> POS</a></li>
             <li><a href="{{ route('sale.index') }}"><i class="fa fa-list"></i> View All Sales</a></li>
-            <li><a href="/sale/All/Daily"><i class="fa fa-calendar"></i> View Daily Sales</a></li>
-            <li><a href="/sale/New/view"><i class="fa fa-circle-o"></i> New  Sales</a></li>
-            <li><a href="/sale/Confirmed/view"><i class="fa fa-circle-o"></i> Confirmed Sales</a></li>
-            <li><a href="/sale/Completed/view"><i class="fa fa-circle-o"></i> Completed Sales</a></li>
-            <li><a href="/sale/Cancelled/view"><i class="fa fa-circle-o"></i> Cancelled Sales</a></li>
             <li><a href="{{route('sale-return.index')}}"><i class="fa fa-undo"></i> Returned Sales</a></li>
           </ul>
         </li>
@@ -200,15 +199,39 @@
 
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-object-ungroup"></i> <span>Categories</span>
+            <i class="fa fa-object-ungroup"></i> 
+            <span>Categories</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ route('category.index') }}"><i class="fa fa-object-group"></i> View Categories</a></li>
-            <li><a href="{{ route('brand.index') }}"><i class="fa fa-circle-o"></i> View Brands</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> View Models</a></li>
+            <li>
+              <a href="{{ route('category.index') }}">
+                <i class="fa fa-object-group"></i> View Categories
+              </a>
+            </li>
+            <li>
+              <a href="{{ route('subcategory.index') }}">
+                <i class="fa fa-object-group"></i> View Subcategory
+              </a>
+            </li>
+            <li>
+              <a href="{{ route('category.index') }}">
+                <i class="fa fa-object-group"></i> View Group/Class
+              </a>
+            </li>
+            <li>
+              <a href="{{ route('brand.index') }}">
+                <i class="fa fa-circle-o"></i> View Brands/Manufacturer
+              </a>
+            </li>
+            {{-- Product Variant/SKU --}}
+            <li>
+              <a href="{{route('unit.index')}}">
+                <i class="fa fa-circle-o"></i> View Units
+              </a>
+            </li>
           </ul>
         </li>
         
@@ -225,6 +248,12 @@
           </ul>
         </li>
 
+        <li>
+          <a href="{{ route('shop.show', auth()->id()) }}">
+            <i class="fa fa-bank"></i> Shop
+          </a>
+        </li>
+
         @if(Auth::user()->authorizeRoles(['SuperAdmin', 'Admin']))
 
         <li class="treeview">
@@ -235,8 +264,16 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ route('user.create') }}"><i class="fa fa-user-plus"></i> Create User</a></li>
-            <li><a href="{{ route('user.index') }}"><i class="fa fa-users"></i> View Users</a></li>
+            <li>
+              <a href="{{ route('user.create') }}">
+                <i class="fa fa-user-plus"></i> Create User
+              </a>
+            </li>
+            <li>
+              <a href="{{ route('user.index') }}">
+                <i class="fa fa-users"></i> View Users
+              </a>
+            </li>
           </ul>
         </li>
 
