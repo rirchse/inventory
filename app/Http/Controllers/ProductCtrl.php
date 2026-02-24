@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Role;
 use App\Models\Category;
+use App\Models\Subcategory;
 use App\Models\Brand;
 use App\Models\ModelNumber;
 use App\Models\Unit;
@@ -42,11 +43,13 @@ class ProductCtrl extends Controller
     public function create()
     {
       $user = auth()->user();
-      $units      = Unit::where('shop_id', $user->shop_id)->get();
-      $brands     = Brand::where('shop_id', $user->shop_id)->get();
       $categories = Category::where('shop_id', $user->shop_id)->get();
+      $subcategories = Subcategory::where('shop_id', $user->shop_id)->get();
+      $brands     = Brand::where('shop_id', $user->shop_id)->get();
+      $units      = Unit::where('shop_id', $user->shop_id)->get();
+      // dd($units);
       
-      return view('layouts.products.create', compact('units', 'categories','brands'));
+      return view('layouts.products.create', compact('categories','subcategories', 'brands', 'units'));
     }
 
     /**
@@ -57,61 +60,65 @@ class ProductCtrl extends Controller
      */
     public function store(Request $request)
     {
-        // $this->validate($request, [
-        //     'name'         => 'required|max:255',
-        //     'category'     => 'required',
-        //     'brand'        => 'required',
-        //     'sku'    => 'required',
-        //     'mrp_price'    => 'required',
-        //     'vendor'       => 'required',
-        //     'stock'        => 'required',
-        //     'buying_date'  => 'required',
-        // ]);
-        
-        $data = $request->all();
-        // dd($data);
+      $user = auth()->user();
+      $data = $request->validate([
+        'name'         => 'required|string',
+        'category'     => 'nullable|numeric',
+        'subcategory'  => 'nullable|numeric',
+        'brand'        => 'nullable|numeric',
+        'sku'          => 'nullable|string',
+        'barcode'      => 'nullable|string',
+        'unit'         => 'nullable|array',
+        'price'        => 'nullable|array',
+        'quantity'     => 'nullable|array',
+        'alert_quantity' => 'nullable|array',
+        'convert_base_unit' => 'nullable|array',
+        'is_base_unit' => 'nullable|array',
+        'description'  => 'nullable|string',
+        'is_active'    => 'nullable|string',
+      ]);
 
-        try {
+      // dd($data);
 
-          $product = new Product;
-          $product->shop_id = 0;
-          $product->name = $data['name'];
-          $product->sku = $data['sku'];
-          $product->barcode = $data['barcode'];
-          $product->description = $data['description'];
-          $product->status = $data['is_active'];
-          $product->save();
+      try {
+        $product = new Product;
+        $product->shop_id = $user->shop_id;
+        $product->name = $data['name'];
+        $product->sku = $data['sku'];
+        $product->barcode = $data['barcode'];
+        $product->description = $data['description'];
+        $product->status = $data['is_active'];
+        $product->save();
 
-          for($p = 0; $p < count($request->unit); $p++)
-          {
-            $productUnit = ProductUnit::create([
-              'product_id' => $product->id,
-              'unit_name' => $request->unit[$p],
-              'unit_symbol' => null,
-              'price' => $request->price[$p],
-              'convert_base_unit' => $request->convert_base_unit[$p],
-              'is_base_unit' => is_array($request->is_base_unit) && isset($request->is_base_unit[$p]) ? 'Yes': null
-            ]);
-
-            //insert into stock
-            Stock::insert([
-              'shop_id' => null,
-              'product_id' => $product->id,
-              'product_unit_id' => $productUnit->id,
-              'unit_name' => $request->unit[$p],
-              'quantity' => $request->quantity[$p] ?? 0,
-            ]);
-
-          }
-        }
-        catch(\Exception $e)
+        for($p = 0; $p < count($request->unit); $p++)
         {
-          return $e->getMessage();
-        }
-        
-        Session::flash('success', 'New Product successfully created!');
+          $productUnit = ProductUnit::create([
+            'product_id' => $product->id,
+            'unit_name' => $request->unit[$p],
+            'unit_symbol' => null,
+            'price' => $request->price[$p],
+            'convert_base_unit' => $request->convert_base_unit[$p],
+            'is_base_unit' => is_array($request->is_base_unit) && isset($request->is_base_unit[$p]) ? 'Yes': null
+          ]);
 
-        return redirect()->route('product.index');
+          //insert into stock
+          Stock::insert([
+            'shop_id' => $user->shop_id,
+            'product_id' => $product->id,
+            'product_unit_id' => $productUnit->id,
+            'unit_name' => $request->unit[$p],
+            'quantity' => $request->quantity[$p] ?? 0,
+          ]);
+
+        }
+      }
+      catch(\Exception $e)
+      {
+        return $e->getMessage();
+      }
+      
+      Session::flash('success', 'New Product successfully created!');
+      return redirect()->route('product.index');
     }
 
     /**
@@ -123,7 +130,7 @@ class ProductCtrl extends Controller
     public function show($id)
     {
         $product = Product::find($id);
-        return view('layouts.products.read',compact('product'));
+        return view('layouts.products.read', compact('product'));
     }
 
     /**
@@ -134,11 +141,10 @@ class ProductCtrl extends Controller
      */
     public function edit($id)
     {
-        $vendors           = Supplier::all();
-        $subcategories     = Brand::all();
-        $categories        = Category::all();
-        $product           = Product::find($id);
-        return view('layouts.products.edit',compact('vendors','categories','subcategories','product'));
+      $subcategories     = Brand::all();
+      $categories        = Category::all();
+      $product           = Product::find($id);
+      return view('layouts.products.edit',compact('vendors','categories','subcategories','product'));
     }
 
     /**

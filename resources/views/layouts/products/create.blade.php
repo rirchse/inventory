@@ -73,6 +73,17 @@
                   <label>Sub Category</label>
                   <select class="form-control" required>
                     <option value="">Select One</option>
+                    @foreach($subcategories as $subcat)
+                    <option value="{{$subcat->id}}">{{$subcat->name}}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3 col-xs-6">
+                <div class="form-group">
+                  <label>Brand:</label>
+                  <select class="form-control">
+                    <option value="">Select One</option>
                     @foreach($brands as $brand)
                     <option value="{{$brand->id}}">{{$brand->name}}</option>
                     @endforeach
@@ -80,15 +91,6 @@
                 </div>
               </div>
               {{-- <div class="col-md-3 col-xs-6">
-                <div class="form-group">
-                  <label>Model</label>
-                  <select class="form-control" required>
-                    <option value="">Select One</option>
-                    <option value="">Select One</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-3 col-xs-6">
                 <div class="form-group">
                   <label>Type/Color</label>
                   <select class="form-control" name="product_type">

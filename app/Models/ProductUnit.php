@@ -11,7 +11,7 @@ class ProductUnit extends Model
     'product_unit_id', 
     'unit_name', 
     'unit_symbol', 
-    'unit_price', 
+    'price', 
     'base_unit', 
     'is_base_unit'
   ];

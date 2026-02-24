@@ -29,7 +29,8 @@ class UnitCtrl extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+    { 
+      $user = auth()->user();
       $data = $request->validate([
         'name' => 'required|string',
         'symbol' => 'nullable|string',
@@ -41,6 +42,7 @@ class UnitCtrl extends Controller
       {
         unset($data['_token']);
       }
+      $data['shop_id'] = $user->shop_id;
 
       try {
         Unit::create($data);

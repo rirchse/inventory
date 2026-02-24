@@ -20,38 +20,38 @@
           <h3 class="box-title">Edit Subcategory</h3>
         </div>
         <div class="col-md-12 text-right toolbar-icon">
-          <a href="{{route('subcat.show', $subcat->id)}}" class="label label-info" title="subcat Details"><i class="fa fa-file-text"></i></a>
-          <a href="{{route('subcat.index')}}" title="View" class="label label-success"><i class="fa fa-list"></i></a>
+          <a href="{{route('subcategory.show', $subcategory->id)}}" class="label label-info" title="subcategory Details"><i class="fa fa-file-text"></i></a>
+          <a href="{{route('subcategory.index')}}" title="View" class="label label-success"><i class="fa fa-list"></i></a>
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form action="{{route('subcat.update', $subcat->id)}}" method="POST">
+        <form action="{{route('subcategory.update', $subcategory->id)}}" method="POST">
           @csrf
           @method('PUT')
         <div class="box-body">
           <div class="form-group">
-            <label for="subcat" class="control-label"> Name: </label>
-            <input type="text" name="name" id="name" value="{{ old('name', $subcat->name) }}" class="form-control">
+            <label for="subcategory" class="control-label"> Name: </label>
+            <input type="text" name="name" id="name" value="{{ old('name', $subcategory->name) }}" class="form-control">
           </div>
           <div class="form-group">
             <label for="category" class="control-label">Category:</label>
             <select name="category_id" id="category" class="form-control">
               <option value="">Select One</option>
               @foreach($categories as $cat)
-                <option value="{{$cat->id}}" {{$cat->id == $subcat->category_id ? 'selected' : ''}}>{{$cat->name}}</option>
+                <option value="{{$cat->id}}" {{$cat->id == $subcategory->category_id ? 'selected' : ''}}>{{$cat->name}}</option>
               @endforeach
             </select>
           </div>
           
           <div class="form-group">
             <label for="details" class="control-label"> Details:</label>
-            <textarea name="details" id="details" class="form-control" rows="4" cols="45">{{ $subcat->details }}</textarea>
+            <textarea name="details" id="details" class="form-control" rows="4" cols="45">{{ $subcategory->details }}</textarea>
           </div>
           <div class="form-group">
             <label for="status" class="control-label" >
                 Status
             </label>
-            <input type="checkbox" name="status" id="status" value="Active" {{$subcat->status == 'Active' ? 'checked' : ''}}>
+            <input type="checkbox" name="status" id="status" value="Active" {{$subcategory->status == 'Active' ? 'checked' : ''}}>
           </div>
           
         </div>
