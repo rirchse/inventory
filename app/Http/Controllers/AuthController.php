@@ -46,8 +46,7 @@ class AuthController extends Controller
         'contact_person' => $data['contact_person'],
         'contact' => $data['contact'],
         'domain' => $data['website'],
-        'status' => 'Active',
-        'created_by' => 0
+        'status' => 'Active'
       ]);
 
       $user = User::create([
