@@ -1,12 +1,17 @@
+@php
+use \App\Http\Controllers\SourceCtrl;
+$source = new SourceCtrl;
+@endphp
+
 @extends('dashboard')
-@section('title', 'View All Orders')
+@section('title', 'View All Sales')
 @section('content')
 
     <section class="content-header">
-      <h1>View {{$type != '' ? $type:'All'}} Orders</h1>
+      <h1>View Sales</h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Orders</a></li>
-        <li class="active">All Orders</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Sales</a></li>
+        <li class="active">All Sales</li>
       </ol>
     </section>
 
@@ -16,7 +21,7 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">List of Orders</h3>
+              <h3 class="box-title">List of Sales</h3>
               <div class="box-tools">
                 <div class="input-group input-group-sm" style="width: 200px;">
                   <input type="text" id="search_sales" name="table_search" class="form-control pull-right" placeholder="Search">
@@ -35,37 +40,33 @@
                   <th>Customer Name</th>
                   <th>Mobile</th>
                   <th>Address</th>
-                  <th>Grand Total</th>
-                  <th>Paid</th>
-                  <th>Due</th>
+                  <th>Grand Total Tk.</th>
+                  <th>Paid Tk.</th>
+                  <th>Due Tk.</th>
                   <th>Sales Date</th>
                   <th>Sold By</th>
                   <th>Status</th>
                   <th width="120">Action</th>
                 </tr>
 
-                <tbody  id="ordersTable">
+                <tbody id="ordersTable">
 
                 @foreach($sales as $sale)
                 <tr>
                   <td>{{$sale->order_no}}</td>
-                  <td>{{$sale->full_name}}</td>
+                  <td>{{$sale->customer ? $sale->customer->name : ''}}</td>
                   <td>{{$sale->contact}}</td>
-                  <td>{{$sale->shipping_address??$sale->address}}</td>
-                  <td>{{$sale->gtotal}} tk</td>
-                  <td>{{$sale->paid}} tk</td>
-                  <td>{{$sale->due}} tk</td>
-                  <td>{{date('d M Y', strtotime($sale->sales_date))}}</td>
+                  <td>{{$sale->shipping_address}}</td>
+                  <td>{{$sale->grand_total}}</td>
+                  <td>{{$sale->paid}}</td>
+                  <td>{{$sale->due}}</td>
+                  <td>{{$source->dformat($sale->sales_date)}}</td>
                   <td>{{App\Models\User::find($sale->sold_by)?App\Models\User::find($sale->sold_by)->name:''}}</td>
                   <td>
-                    @if($sale->status == 0)
-                    <span class="label label-info">Pending</span>
-                    @elseif($sale->status == 1)
-                    <span class="label label-warning">Confirmed</span>
-                    @elseif($sale->status == 2)
-                    <span class="label label-success">Completed</span>
-                    @elseif($sale->status == 3)
-                    <span class="label label-danger">Cancelled</span>
+                    @if($sale->due)
+                    <span class="label label-warning">Due</span>
+                    @else
+                    <span class="label label-info">{{$sale->status}}</span>
                     @endif
                   </td>
                   <td>

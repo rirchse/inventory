@@ -30,34 +30,9 @@ class SaleCtrl extends Controller
      */
     public function index()
     {
-        return $this->viewSalesByType('All', 'view');
-    }
-
-    public function viewSalesByType($type, $daily)
-    {
-        $status = [];
-        if($type == 'All'){
-            $status = [0, 1, 2, 3, 4];
-        }elseif($type == 'New'){
-            $status = [0];
-        }elseif($type == 'Confirmed'){
-            $status = [1];
-        }elseif($type == 'Completed'){
-            $status = [2];
-        }elseif($type == 'Cancelled'){
-            $status = [3];
-        }
-
-        $sales = [];
-        if($daily == 'Daily'){
-            $sales = Sale::leftJoin('customers', 'customers.id', 'sales.customer_id')
-            ->select('sales.*', 'customers.full_name', 'customers.contact', 'customers.address')->whereIn('sales.status', $status)->orderBy('sales.id','DESC')->where('sales_date', 'like', '%'.date('Y-m-d').'%')->paginate(20);
-        }else{
-            $sales = Sale::leftJoin('customers', 'customers.id', 'sales.customer_id')
-            ->select('sales.*', 'customers.full_name', 'customers.contact', 'customers.address')->whereIn('sales.status', $status)->orderBy('sales.id','DESC')->paginate(20);
-        }
-        
-        return view('layouts.sales.view_sale', compact('sales', 'type', 'daily'));
+      $user = auth()->user();
+      $sales = Sale::orderBy('id', 'DESC')->paginate(25);
+      return view('layouts.sales.index', compact('sales'));
     }
     
     public function create()
@@ -79,56 +54,48 @@ class SaleCtrl extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'customer_name'     => 'required',
-            'mobile'            => 'required',
-            'address'           => 'nullable',
-            'email'             => 'nullable|email',
-            'sales_date'        => 'required',
-            'order_no'          => 'nullable|numeric',
-            'sub_total'         => 'required|numeric',
-            'discount'          => 'numeric',
-            'shipping'          => 'numeric',
-            'grand_total'    => 'required|numeric',
-            'paid'              => 'numeric',
-            'due'               => 'numeric',
-            'sold_by'           => 'nullable|string',
-            'status'            => 'nullable',
-            'shipping_address'  => 'nullable|string',
-            'note'              => 'nullable|string',
-            'item' => 'required|array',
-            'unit' => 'required|array',
-            'price' => 'required|array',
-            'qty' => 'required|array',
-            'total' => 'required|array',
+            'customer_name'   => 'required',
+            'mobile'          => 'required',
+            'address'         => 'nullable',
+            'email'           => 'nullable|email',
+            'sales_date'      => 'required',
+            'order_no'        => 'nullable|numeric',
+            'sub_total'       => 'required|numeric',
+            'discount'        => 'numeric',
+            'shipping'        => 'numeric',
+            'grand_total'     => 'required|numeric',
+            'paid'            => 'numeric',
+            'due'             => 'numeric',
+            'sold_by'         => 'nullable|string',
+            'status'          => 'nullable',
+            'shipping_address' => 'nullable|string',
+            'note'            => 'nullable|string',
+            'item'            => 'required|array',
+            'unit'            => 'required|array',
+            'price'           => 'required|array',
+            'qty'             => 'required|array',
+            'total'           => 'required|array',
         ]);
+        
+        $customer = Customer::updateOrCreate(
+          [
+            'contact' => $request->mobile
+          ],
+          [
+            'name' => $request->customer_name,
+            'contact' => $request->mobile,
+            'address' => $request->address,
+            'email' => $request->email,
+          ]
+        );
 
-        // dd($request->all());
-
-        $customer_id = 0;
-
-        $exist_customer = Customer::where('contact', $request->mobile)->first();
-        if($exist_customer == null)
-        {
-          $new_customer = Customer::updateOrCreate(
-            [
-              'contact' => $request->mobile
-            ],
-            [
-              'full_name' => $request->customer_name,
-              'contact' => $request->contact,
-              'address' => $request->address,
-              'email' => $request->email,
-            ]
-          );
-
-          $customer_id = $new_customer->id;
-          
-        }
+        $shop_id = auth()->user()->shop_id;
 
         try {
           $sale = Sale::create([
+            'shop_id' => $shop_id,
             'order_no' => $request->order_no,
-            'customer_id' => $customer_id,
+            'customer_id' => $customer->id,
             'sub_total' => $request->sub_total,
             'discount' => $request->discount,
             'shipping' => $request->shipping,
@@ -145,6 +112,7 @@ class SaleCtrl extends Controller
           for($i = 0; count($request->item) > $i; $i++)
           {
             $item = SaleItem::create([
+              'shop_id' => $shop_id,
               'sale_id' => $sale->id,
               'product_id' => $request->item_id[$i],
               'name' => $request->item[$i],
