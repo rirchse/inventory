@@ -216,11 +216,11 @@
                 <i class="fa fa-object-group"></i> View Subcategory
               </a>
             </li>
-            {{-- <li>
-              <a href="{{ route('category.index') }}">
-                <i class="fa fa-object-group"></i> View Group/Class
+            <li>
+              <a href="{{ route('group.index') }}">
+                <i class="fa fa-object-group"></i> View Group
               </a>
-            </li> --}}
+            </li>
             <li>
               <a href="{{ route('brand.index') }}">
                 <i class="fa fa-circle-o"></i> View Brands/Manufacturer
