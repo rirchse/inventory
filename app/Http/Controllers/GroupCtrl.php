@@ -20,7 +20,7 @@ class GroupCtrl extends Controller
         $user = auth()->user();
         $groups = Group::latest()
         ->where('shop_id', $user->shop_id)
-        ->paginate(2);
+        ->paginate(25);
         return view('layouts.groups.index', compact('groups'));
     }
 

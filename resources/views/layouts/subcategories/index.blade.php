@@ -55,11 +55,19 @@ $source = new SourceCtrl;
                   <td>{{ $source->dtformat($subcat->created_at) }}</td>
                   <td>
                     <a href="{{route('subcategory.show', $subcat->id)}}" class="label label-info" title="Subcategory Details">
-                      <i class="fa fa-file-text"></i>
+                      <i class="fa fa-file-text-o"></i>
                     </a>
                     <a href="{{route('subcategory.edit', $subcat->id)}}" class="label label-warning" title="Edit this brand">
                       <i class="fa fa-edit"></i>
                     </a>
+                    <form action="{{ route('subcategory.destroy', $subcat->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="label label-danger" style="border:none; cursor:pointer;" 
+                                onclick="return confirm('Are you sure?')">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </form>
                   </td>
                 </tr>
                 @endforeach
@@ -68,6 +76,7 @@ $source = new SourceCtrl;
             <!-- /.box-body -->
             <div class="box-footer clearfix">
               <div class="pagination-sm no-margin pull-right">
+                {!! $subcategories->links() !!}
               </div>
             </div>
           </div> <!-- /.box -->

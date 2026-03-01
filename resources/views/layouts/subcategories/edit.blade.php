@@ -14,7 +14,7 @@
 <!-- Main content -->
 <section class="content">
   <div class="row"> <!-- left column -->
-    <div class="col-md-6"> <!-- general form elements -->
+    <div class="col-md-12"> <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border">
           <h3 class="box-title">Edit Subcategory</h3>
@@ -22,6 +22,14 @@
         <div class="col-md-12 text-right toolbar-icon">
           <a href="{{route('subcategory.show', $subcategory->id)}}" class="label label-info" title="subcategory Details"><i class="fa fa-file-text"></i></a>
           <a href="{{route('subcategory.index')}}" title="View" class="label label-success"><i class="fa fa-list"></i></a>
+          <form action="{{ route('group.destroy', $subcategory->id) }}" method="POST" style="display:inline;">
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="label label-danger" style="border:none; cursor:pointer;" 
+                      onclick="return confirm('Are you sure?')">
+                  <i class="fa fa-trash"></i>
+              </button>
+          </form>
         </div>
         <!-- /.box-header -->
         <!-- form start -->
@@ -36,7 +44,7 @@
           <div class="form-group">
             <label for="category" class="control-label">Category:</label>
             <select name="category_id" id="category" class="form-control">
-              <option value="">Select One</option>
+              <option value="">Select Category</option>
               @foreach($categories as $cat)
                 <option value="{{$cat->id}}" {{$cat->id == $subcategory->category_id ? 'selected' : ''}}>{{$cat->name}}</option>
               @endforeach

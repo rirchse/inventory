@@ -15,7 +15,10 @@ class SubcategoryCtrl extends Controller
      */
     public function index()
     {
-        $subcategories = Subcategory::latest()->paginate(25);
+        $user = auth()->user();
+        $subcategories = Subcategory::latest()
+        ->where('shop_id', $user->shop_id)
+        ->paginate(25);
         return view('layouts.subcategories.index', compact('subcategories'));
     }
 
@@ -38,7 +41,7 @@ class SubcategoryCtrl extends Controller
     public function store(Request $request)
     {
       $data = $request->validate([
-        'category_id' => 'nullable|string',
+        'category_id' => 'nullable|numeric',
         'name' => 'required|string',
         'details' => 'nullable|string',
         'status' => 'nullable|string'
@@ -100,7 +103,7 @@ class SubcategoryCtrl extends Controller
         'details' => 'nullable|string',
         'status' => 'nullable|string'
       ]);
-
+      $data['status'] = $request->has('status') ? 'Active' : 'Inactive';
       if(isset($data['_token']))
       {
         unset($data['_token']);
@@ -112,7 +115,7 @@ class SubcategoryCtrl extends Controller
       try {
         $subcategory = Subcategory::where('id', $id)->update($data);
 
-        Session::flash('success', 'New subcategory created');
+        Session::flash('success', 'Subcategory data updated');
         return redirect()->route('subcategory.index');
       }
       catch(\Exception $e)
@@ -126,8 +129,10 @@ class SubcategoryCtrl extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Subcategory $subcategory)
     {
-        //
+        $subcategory->delete();
+        Session::flash('Success', 'The subcategory has been deleted!');
+        return redirect()->route('subcategory.index');
     }
 }

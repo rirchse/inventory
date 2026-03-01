@@ -6,7 +6,7 @@
       <h1>Subcategory Details</h1>
       <ol class="breadcrumb">
         <li>
-          <a href="#"><i class="fa fa-dashboard"></i>Subcategoris </a>
+          <a href="{{route('subcategory.index')}}"><i class="fa fa-dashboard"></i>Subcategoris </a>
         </li>
         <li class="active">Details</li>
       </ol>
@@ -15,7 +15,7 @@
     <!-- Main content -->
   <section class="content">
     <div class="row"><!-- left column -->
-      <div class="col-md-8"><!-- general form elements -->
+      <div class="col-md-12"><!-- general form elements -->
         <div class="box box-primary">
           <div class="box-header with-border">
             <h4 class="box-title">Subcategory Information</h4>
@@ -23,6 +23,14 @@
           <div class="col-md-12 text-right toolbar-icon">
             <a href="{{route('subcategory.index')}}" title="View" class="label label-success"><i class="fa fa-list"></i></a>
             <a href="{{route('subcategory.edit', $subcategory->id)}}" class="label label-warning" title="Edit this subcategory"><i class="fa fa-edit"></i></a>
+            <form action="{{ route('subcategory.destroy', $subcategory->id) }}" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="label label-danger" style="border:none; cursor:pointer;" 
+                        onclick="return confirm('Are you sure?')">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </form>
           </div>
           <div class="col-md-12">
             <table class="table">

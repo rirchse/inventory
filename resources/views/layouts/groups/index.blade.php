@@ -66,7 +66,7 @@ $source = new SourceCtrl;
                           <td>{{ $source->dtformat($group->created_at) }}</td>
                           <td>
                               <a href="{{route('group.show', $group->id)}}" class="label label-info" title="Details">
-                                  <i class="fa fa-file-text"></i>
+                                  <i class="fa fa-file-text-o"></i>
                               </a>
                               <a href="{{route('group.edit', $group->id)}}" class="label label-warning" title="Edit">
                                   <i class="fa fa-edit"></i>
