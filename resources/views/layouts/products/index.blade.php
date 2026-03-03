@@ -25,21 +25,24 @@ $source = new SourceCtrl;
                 <a href="{{route('product.create')}}" class="btn btn-sm btn-info">
                   <i class="fa fa-plus"></i> Add
                 </a>
-                <div class="input-group input-group-sm" style="float:right; width: 150px;margin-left:15px">
+                {{-- <div class="input-group input-group-sm" style="float:right; width: 150px;margin-left:15px">
                   <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
 
                   <div class="input-group-btn">
                     <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                   </div>
-                </div>
+                </div> --}}
               </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
               <table id="example1" class="table table-bordered table-hover">
                 <tr>
-                  <th>Id</th>
+                  <th>ID</th>
                   <th>Name</th>
+                  <th>Category</th>
+                  <th>Sub Category</th>
+                  <th>Brand</th>
                   <th>SKU</th>                  
                   <th>Barcode</th>
                   <th>Units</th>
@@ -52,6 +55,9 @@ $source = new SourceCtrl;
                 <tr>
                   <td>{{$product->id}}</td>
                   <td>{{$product->name}}</td>
+                  <td>{{$product->category?$product->category->name :''}}</td>
+                  <td>{{$product->subcategory ? $product->subcategory->name : ''}}</td>
+                  <td>{{$product->brand ? $product->brand->name : ''}}</td>
                   <td>{{$product->sku}}</td>
                   <td>{{$product->barcode}}</td>
                   <td>

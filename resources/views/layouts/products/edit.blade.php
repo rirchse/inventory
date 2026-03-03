@@ -6,7 +6,7 @@
     Product
 </h1>
 <ol class="breadcrumb">
-    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="{{route('product.index')}}"><i class="fa fa-dashboard"></i> Products</a></li>
     <li class="active">Edit Product</li>
 </ol>
 </section>
@@ -14,7 +14,7 @@
 <section class="content">
   <div class="row">
     <!-- left column -->
-    <div class="col-md-10">
+    <div class="col-md-12">
       <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border">
@@ -30,7 +30,6 @@
       <form action="{{route('product.update', $product->id)}}" method="POSt" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-      </form>
       <div class="box-body">
         <div class="col-md-6">
            <div class="form-group label-floating">
@@ -38,13 +37,13 @@
                 for="name"
                 class="control-label"
             >
-                Product Name: *
+                Product Name:
             </label>
             <input
                 type="text"
                 name="name"
                 id="name"
-                value="{{ $product->title }}"
+                value="{{ $product->name }}"
                 class="form-control"
             >
         </div>
@@ -53,12 +52,12 @@
                 for="category"
                 class="control-label"
             >
-                Category: *
+                Category:
             </label>
-            <select name="category" class="form-control" >
+            <select name="category_id" class="form-control" >
                 <option value="">Select Category</option>
                 @foreach($categories as $category)
-                <option value="{{$category->id}}"{{ $product->cat_id == $category->id ? 'selected' : ''}}>{{$category->name}}</option>
+                <option value="{{$category->id}}"{{ $product->category_id == $category->id ? 'selected' : ''}}>{{$category->name}}</option>
                 @endforeach
             </select>
         </div>
@@ -69,24 +68,10 @@
             >
                 Sub Category:
             </label>
-            <select name="sub_cat" class="form-control" >
+            <select name="subcategory_id" class="form-control" >
                 <option value="">Select SubCategory</option>
                 @foreach($subcategories as $subcategory)
-                <option value="{{$subcategory->id}}"  {{ $product->sub_cat_id == $subcategory->id ? 'selected' : ''}}>{{$subcategory->name}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group label-floating">
-            <label
-                for="vendor"
-                class="control-label"
-            >
-                Vendor:
-            </label>
-            <select name="vendor" class="form-control" >
-                <option value="">Select Vendor</option>
-                @foreach($vendors as $vendor)
-                <option value="{{$vendor->id}}"  {{ $product->vendor == $vendor->id ? 'selected' : ''}}>{{$vendor->name}}</option>
+                <option value="{{$subcategory->id}}"  {{ $product->subcategory_id == $subcategory->id ? 'selected' : ''}}>{{$subcategory->name}}</option>
                 @endforeach
             </select>
         </div>
@@ -95,110 +80,49 @@
                 for="brand"
                 class="control-label"
             >
-                Brand: *
+                Brand:
             </label>
-            <input list="brand" name="brand" class="form-control" value="{{$product->brand}}">
-            <datalist id="brand">
-                <option value="Non Brand">
-                <option value="waltone">
-                <option value="sony">
-                <option value="RFL">                
-            </datalist>            
+            <select name="brand_id" class="form-control" >
+                <option value="">Select Brand</option>
+                @foreach($brands as $brand)
+                <option value="{{$brand->id}}"  {{ $product->brand_id == $brand->id ? 'selected' : ''}}>{{$brand->name}}</option>
+                @endforeach
+            </select>
         </div>
-        <div class="form-group label-floating">
-            <label
-                for="serial_no"
-                class="control-label"
-            >
-                Serial Number:
-            </label>
-            <input
-                type="text"
-                name="serial_no"
-                id="serial_no"
-                value="{{ old('serial_no', null) }}"
-                class="form-control"
-            >
-        </div>
-        <div class="form-group label-floating">
+        {{-- <div class="form-group label-floating">
             <label
                 for="stock"
                 class="control-label"
             >
-                Stock: *
+                Stock:
             </label>
             <input
                 type="number"
                 name="stock"
                 id="stock"
-                value="{{ old('stock', null) }}"
+                value="{{ $productstock->quantity }}"
                 class="form-control"
             >
-        </div>  
+        </div>   --}}
     </div>
     <div class="col-md-6">
-        <div class="form-group label-floating">
+        {{-- <div class="form-group label-floating">
             <label
                 for="mrp_price"
                 class="control-label"
             >
-                MRP Price: *
+                Unit Price:
             </label>
             <input
                 type="number"
-                name="mrp_price"
+                name="unitprice"
                 id="mrp_price"
-                value="{{ old('mrp_price', null) }}"
+                value="{{$productunit->price}}"
                 class="form-control"
             >
-        </div>
-        <div class="form-group label-floating">
-            <label
-                for="credit_price"
-                class="control-label"
-            >
-                Credit Price:
-            </label>
-            <input
-                type="number"
-                name="credit_price"
-                id="credit_price"
-                value="{{ old('credit_price', null) }}"
-                class="form-control"
-            >
-        </div>
-        <div class="form-group label-floating">
-            <label
-                for="cash_price"
-                class="control-label"
-            >
-                Cash price:
-            </label>
-            <input
-                type="number"
-                name="cash_price"
-                id="cash_price"
-                value="{{ old('cash_price', null) }}"
-                class="form-control"
-            >
-        </div>      
-        <div class="form-group label-floating">
-            <label
-                for="buying_price"
-                class="control-label"
-            >
-                Buying Price:
-            </label>
-            <input
-                type="number"
-                name="buying_price"
-                id="buying_price"
-                value="{{ old('buying_price', null) }}"
-                class="form-control"
-            >
-        </div>
+        </div> --}}
 
-        <div class="form-group label-floating">
+        {{-- <div class="form-group label-floating">
             <label
                 for="buying_date"
                 class="control-label"
@@ -212,7 +136,7 @@
                 value="{{ old('buying_date', null) }}"
                 class="form-control"
             >
-        </div>
+        </div> --}}
         <div class="form-group label-floating">
             <label
                 for="details"
@@ -221,11 +145,11 @@
                 Details:
             </label>
             <textarea
-                name="details"
+                name="description"
                 id="details"
                 class="form-control"
                 rows="2"
-            >{{ old('details', null) }}</textarea>
+            >{{ $product->description }}</textarea>
         </div>
         <div class="form-group label-floating">
             <b>Status:</b><br>
@@ -235,7 +159,8 @@
             >
                 Active:
             </label>
-            <input type="checkbox" value="1">
+            <input type="checkbox" name="status" id="status" value="1" {{ $product->status == '1' ? 'checked' : '' }}>
+
         </div>
 
 

@@ -12,17 +12,17 @@ class Product extends Model
   }
     public function category()
     {
-    	return $this->hasOne('App\Category');
+    	return $this->belongsTo(Category::class);
     }
 
     public function subcategory()
     {
-    	return $this->hasOne('App\Subcategory');
+    	return $this->belongsTo(Subcategory::class);
     }
 
-    public function vendors()
+    public function brand()
     {
-    	return $this->hasOne('App\Vendor');
+    	return $this->belongsTo(Brand::class);
     }
 
     public function stocks()

@@ -31,7 +31,8 @@ class ProductCtrl extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('id','desc')->paginate(25);
+      $user = auth()->user();
+        $products = Product::where('shop_id', $user->shop_id)->orderBy('id','desc')->paginate(25);
         return view('layouts.products.index',compact('products'));
     }
 
@@ -43,10 +44,17 @@ class ProductCtrl extends Controller
     public function create()
     {
       $user = auth()->user();
-      $categories = Category::where('shop_id', $user->shop_id)->get();
-      $subcategories = Subcategory::where('shop_id', $user->shop_id)->get();
-      $brands     = Brand::where('shop_id', $user->shop_id)->get();
-      $units      = Unit::where('shop_id', $user->shop_id)->get();
+      $categories = Category::where('shop_id', $user->shop_id)
+      ->where('status', 'Active')
+      ->get();
+      $subcategories = Subcategory::where('shop_id', $user->shop_id)
+      ->where('status', 'Active')
+      ->get();
+      $brands     = Brand::where('shop_id', $user->shop_id)
+      ->where('status', 'Active')
+      ->get();
+      $units      = Unit::where('shop_id', $user->shop_id)
+      ->get();
       // dd($units);
       
       return view('layouts.products.create', compact('categories','subcategories', 'brands', 'units'));
@@ -63,9 +71,9 @@ class ProductCtrl extends Controller
       $user = auth()->user();
       $data = $request->validate([
         'name'         => 'required|string',
-        'category'     => 'nullable|numeric',
-        'subcategory'  => 'nullable|numeric',
-        'brand'        => 'nullable|numeric',
+        'category_id'     => 'nullable|numeric',
+        'subcategory_id'  => 'nullable|numeric',
+        'brand_id'        => 'nullable|numeric',
         'sku'          => 'nullable|string',
         'barcode'      => 'nullable|string',
         'unit'         => 'nullable|array',
@@ -78,12 +86,15 @@ class ProductCtrl extends Controller
         'is_active'    => 'nullable|string',
       ]);
 
-      // dd($data);
+      //dd($data);
 
       try {
         $product = new Product;
         $product->shop_id = $user->shop_id;
         $product->name = $data['name'];
+        $product->category_id = $data['category_id'];
+        $product->subcategory_id = $data['subcategory_id'];
+        $product->brand_id = $data['brand_id'];
         $product->sku = $data['sku'];
         $product->barcode = $data['barcode'];
         $product->description = $data['description'];
@@ -129,8 +140,12 @@ class ProductCtrl extends Controller
      */
     public function show($id)
     {
-        $product = Product::find($id);
-        return view('layouts.products.read', compact('product'));
+        $user = auth()->user();
+        $product = Product::where('id', $id)->where('shop_id', $user->shop_id)->first();
+        //$product = Product::find($id);
+        $productunit = ProductUnit::latest()->where('product_id', $id)->first();
+        $productstock = Stock::latest()->where('product_id', $id)->first();
+        return view('layouts.products.read', compact('product', 'productunit', 'productstock'));
     }
 
     /**
@@ -141,10 +156,16 @@ class ProductCtrl extends Controller
      */
     public function edit($id)
     {
-      $subcategories     = Brand::all();
-      $categories        = Category::all();
-      $product           = Product::find($id);
-      return view('layouts.products.edit',compact('vendors','categories','subcategories','product'));
+      $user = auth()->user();
+      $brands            = Brand::where('shop_id', $user->shop_id)->where('status', 'Active')->get();
+      $subcategories     = Subcategory::where('shop_id', $user->shop_id)->where('status', 'Active')->get();
+      $categories        = Category::where('shop_id', $user->shop_id)->where('status', 'Active')->get();
+      $productstock      = Stock::latest()->where('product_id', $id)->first();
+      $productunit       = ProductUnit::latest()->where('product_id', $id)->first();
+
+      //$product           = Product::find($id);
+      $product           = Product::where('id', $id)->where('shop_id', $user->shop_id)->first();
+      return view('layouts.products.edit',compact('categories','subcategories','brands', 'productstock', 'productunit', 'product'));
     }
 
     /**
@@ -157,31 +178,26 @@ class ProductCtrl extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name'         => 'required|max:255',
-            'category'     => 'required',            
-            'brand'        => 'required',            
-            'mrp_price'        => 'required',            
-            'mrp_price'   => 'required',            
-            'stock'        => 'required',            
-            'buying_date'  => 'required',            
+            'name'         => 'required|string',
+            'category_id'     => 'nullable|numeric',
+            'subcategory_id'  => 'nullable|numeric',
+            'brand_id'        => 'nullable|numeric', 
+            // 'stock'        => 'nullable|numeric', 
+            // 'unitprice'        => 'nullable|numeric', 
+            'description'  => 'nullable|string',
+            'is_active'    => 'nullable|string'
         ]);
 
         $product = Product::find($id);
-        $product->name         = $request->name;
-        $product->vendor       = $request->vendor;
-        $product->cat_id       = $request->category;
-        $product->sub_cat_id   = $request->sub_cat;
-        $product->brand        = $request->brand;
-        $product->credit_price = $request->credit_price;
-        $product->cash_price   = $request->cash_price;
-        $product->mrp_price    = $request->mrp_price;
-        $product->serial_no    = $request->serial_no;
-        $product->stock        = $request->stock;
-        $product->buying_date  = $request->buying_date;
-        $product->details      = $request->details;
-        $product->buying_price = $request->buying_price;
-        $product->status       = $request->status ?? 0;
-        $product->updated_by   = Auth::id();
+        $product->name            = $request->name;
+        $product->category_id     = $request->category_id;
+        $product->subcategory_id  = $request->subcategory_id;
+        $product->brand_id        = $request->brand_id;
+        // $product->unitprice    = $request->unitprice;
+        // $product->stock           = $request->stock;
+        $product->description     = $request->description;
+        $product->status          = $request->status ?? 0;
+        $product->updated_by      = Auth::id();
         
         // if($request->image >0){
         //     if (File::exists('img/product' .$product->image)) {
@@ -197,9 +213,9 @@ class ProductCtrl extends Controller
         //     }
         $product->save(); 
         // Toastr::success('product Successfully Saved' , 'Success');
-        Session::flash('success', 'New Product successfully Update!');
+        Session::flash('success', 'The product successfully updated!');
 
-        return redirect()->route('products.index');
+        return redirect()->route('product.index');
     }
 
     /**
@@ -217,7 +233,7 @@ class ProductCtrl extends Controller
           }
           $product->delete();
       Session::flash('Success','This Product Successfully delete');
-      return redirect()->route('products.index');
+      return redirect()->route('product.index');
     }
 
     public function getProducts($value = null)

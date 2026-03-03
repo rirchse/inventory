@@ -33,7 +33,7 @@
 <section class="content-header">
   <h1>Add a Product</h1>
   <ol class="breadcrumb">
-    <li><a href="#"><i class="fa fa-dashboard"></i> Products</a></li>
+    <li><a href="{{ route('product.index')}}"><i class="fa fa-dashboard"></i> Products</a></li>
     <li class="active">Add Product</li>
 </ol>
 </section>
@@ -41,10 +41,10 @@
 <!-- Main content -->
 <section class="content">
   <div class="row"> <!-- left column -->
-    <div class="col-md-8"> <!-- general form elements -->
+    <div class="col-md-12"> <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 style="color: #800" class="box-title">Product Details</h3>
+            <h3 style="color: #800" class="box-title">Add New Product</h3>
         </div>
         <div class="box-body">
           <form action="{{ route('product.store') }}" method="POST">
@@ -60,8 +60,8 @@
               <div class="col-md-3 col-xs-6">
                 <div class="form-group">
                   <label for="cat">Category</label>
-                  <select id="cat" class="form-control" required>
-                    <option value="">Select One</option>
+                  <select id="cat" name="category_id" class="form-control" required>
+                    <option value="">Select Category</option>
                     @foreach($categories as $cat)
                     <option value="{{$cat->id}}">{{$cat->name}}</option>
                     @endforeach
@@ -70,9 +70,9 @@
               </div>
               <div class="col-md-3 col-xs-6">
                 <div class="form-group">
-                  <label>Sub Category</label>
-                  <select class="form-control" required>
-                    <option value="">Select One</option>
+                  <label>Sub Subcategory</label>
+                  <select class="form-control" name="subcategory_id">
+                    <option value="">Select Subcategory</option>
                     @foreach($subcategories as $subcat)
                     <option value="{{$subcat->id}}">{{$subcat->name}}</option>
                     @endforeach
@@ -82,8 +82,8 @@
               <div class="col-md-3 col-xs-6">
                 <div class="form-group">
                   <label>Brand:</label>
-                  <select class="form-control">
-                    <option value="">Select One</option>
+                  <select class="form-control" name="brand_id">
+                    <option value="">Select Brand</option>
                     @foreach($brands as $brand)
                     <option value="{{$brand->id}}">{{$brand->name}}</option>
                     @endforeach
@@ -121,7 +121,7 @@
                     <div class="form-group">
                       <label for="unit">Unit</label>
                       <select name="unit[]" id="unit" class="form-control" step="0.01" required>
-                        <option value="">Select One</option>
+                        <option value="">Select Unit</option>
                         @foreach($units as $unit)
                         <option value="{{$unit->symbol}}">{{$unit->name}}</option>
                         @endforeach

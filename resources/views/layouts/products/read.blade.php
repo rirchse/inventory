@@ -5,7 +5,7 @@
     <section class="content-header">
       <h1>Product Details</h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Products</a></li>
+        <li><a href="{{route('product.index')}}"><i class="fa fa-dashboard"></i> Products</a></li>
         <li class="active">Details</li>
       </ol>    
     </section>
@@ -13,7 +13,7 @@
     <!-- Main content -->
   <section class="content">
     <div class="row"><!-- left column -->
-      <div class="col-md-8"><!-- general form elements -->
+      <div class="col-md-12"><!-- general form elements -->
         <div class="box box-primary">
           <div class="box-header with-border">
             <h4 class="box-title">Product Information</h4>
@@ -27,6 +27,9 @@
             
           </div>
           <div class="col-md-12">
+            {{-- @php
+                dd($productstock, $product)
+            @endphp --}}
             <table class="table">
                 <tbody>
                   <tr>
@@ -35,25 +38,33 @@
                   </tr>
                   <tr>
                     <th>Category:</th>
-                    <td>{{$product->cat_id?App\Models\Category::find($product->cat_id)->name:''}}</td>
+                    <td>{{$product->category_id?App\Models\Category::find($product->category_id)->name:''}}</td>
                   </tr>
                   <tr>
                     <th>Sub Category:</th>
-                    <td>{{$product->sub_cat_id?App\Models\Brand::find($product->sub_cat_id)->name:''}}</td>
+                    <td>{{$product->subcategory_id?App\Models\Subcategory::find($product->subcategory_id)->name:''}}</td>
                   </tr>
-                  <tr>
+                  {{-- <tr>
                     <th>Vendor:</th>
                     <td>{{$product->vendor?App\Models\Supplier::find($product->vendor)->name:''}}</td>
-                  </tr>
+                  </tr> --}}
                 <tr>
                     <th>Brand:</th>
-                    <td>{{$product->brand}}</td>
+                    <td>{{$product->brand_id?App\Models\Brand::find($product->brand_id)->name:''}}</td>
                   </tr>
                 <tr>
-                    <th>MRP Price:</th>
-                    <td>{{$product->mrp_price}}</td>
-                  </tr>
+                    <th>Unit name:</th>
+                    <td>{{$productunit->unit_name}}</td>
+                </tr>
                 <tr>
+                    <th>Unit Price:</th>
+                    <td>{{$productunit->price}}</td>
+                </tr>
+                <tr>
+                    <th>Stock:</th>
+                    <td>{{$productstock->quantity}}</td>
+                </tr>
+                {{-- <tr>
                     <th>Credit Price:</th>
                     <td>{{$product->credit_price}}</td>
                   </tr>
@@ -69,17 +80,17 @@
                 <tr>
                     <th>Serial No:</th>
                     <td>{{$product->serial_no}}</td>
-                  </tr>
+                  </tr> --}}
                   <tr>
                     <th>Details:</th>
-                    <td>{{$product->details}}</td>
+                    <td>{{$product->description}}</td>
                   </tr>
                 
                    <tr>
                     <th>Status:</th>
                     <td>
                       @if($product->status == 0)
-                      <span class="label label-warning">Unactive</span>
+                      <span class="label label-warning">Inactive</span>
                       @elseif($product->status == 1)
                       <span class="label label-success">Active</span>
                       @elseif($product->status == 2)
@@ -88,10 +99,10 @@
                     </td>
                   </tr>
                   
-                  <tr>
+                  {{-- <tr>
                     <th>Product Buying Date:</th>
                     <td>{{date('d M Y h:i:s A',strtotime($product->buying_date) )}} </td>
-                  </tr>
+                  </tr> --}}
                   <tr>
                     <th>Record Created On:</th>
                     <td>{{date('d M Y h:i:s A',strtotime($product->created_at) )}} </td>
