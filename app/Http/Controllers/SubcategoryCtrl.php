@@ -27,9 +27,8 @@ class SubcategoryCtrl extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
         $subcategories = Subcategory::latest()
-        ->where('shop_id', $user->shop_id)
+        ->where('shop_id', $this->user->shop_id)
         ->paginate(25);
         return view('layouts.subcategories.index', compact('subcategories'));
     }
@@ -39,8 +38,7 @@ class SubcategoryCtrl extends Controller
      */
     public function create()
     {
-      $user = auth()->user();
-      $categories = Category::where('shop_id', $user->shop_id)
+      $categories = Category::where('shop_id', $this->user->shop_id)
       ->where('status', 'Active')
       ->get();
       
@@ -64,8 +62,8 @@ class SubcategoryCtrl extends Controller
         unset($data['_token']);
       }
 
-      $data['shop_id'] = Auth::user()->shop_id;
-      $data['created_by'] = Auth::user()->id;
+      $data['shop_id'] = $this->user->shop_id;
+      $data['created_by'] = $this->user->id;
 
       try {
         $subcategory = Subcategory::create($data);
@@ -95,8 +93,7 @@ class SubcategoryCtrl extends Controller
      */
     public function edit(string $id)
     {
-      $user = auth()->user();
-      $categories = Category::where('shop_id', $user->shop_id)
+      $categories = Category::where('shop_id', $this->user->shop_id)
       ->where('status', 'Active')
       ->get();
 
@@ -121,8 +118,8 @@ class SubcategoryCtrl extends Controller
         unset($data['_token']);
       }
 
-      $data['shop_id'] = Auth::user()->shop_id;
-      $data['created_by'] = Auth::user()->id;
+      $data['shop_id'] = $this->user->shop_id;
+      $data['created_by'] = $this->user->id;
 
       try {
         $subcategory = Subcategory::where('id', $id)->update($data);
