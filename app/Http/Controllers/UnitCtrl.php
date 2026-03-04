@@ -9,7 +9,7 @@ use Session;
 class UnitCtrl extends Controller
 {
     protected $user;
-    
+
     public function __construct()
     {
       $this->middleware(function ($request, $next)
@@ -39,20 +39,15 @@ class UnitCtrl extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    { 
-      $user = auth()->user();
+    {
       $data = $request->validate([
         'name' => 'required|string',
         'symbol' => 'nullable|string',
-        'status' => 'nullable|string',
-        'details' => 'nullable|string'
+        'details' => 'nullable|string',
+        'status' => 'nullable|string'
       ]);
 
-      if(isset($data['_token']))
-      {
-        unset($data['_token']);
-      }
-      $data['shop_id'] = $user->shop_id;
+      $data['shop_id'] = $this->user->shop_id;
 
       try {
         Unit::create($data);
@@ -63,6 +58,7 @@ class UnitCtrl extends Controller
       {
         return $e->getMessage();
       }
+      return back();
     }
 
     /**
@@ -70,11 +66,12 @@ class UnitCtrl extends Controller
      */
     public function show(string $id)
     {
-      $user = auth()->user();
-      $unit = Unit::where('shop_id', $user->shop_id)->find($id);
-      if ($unit){
+      $unit = Unit::where('shop_id', $this->user->shop_id)->find($id);
+      if($unit)
+      {
        return view('layouts.units.read', compact('unit'));
       }
+
       Session::flash('error', 'Invalid request');
       return back();
     }
@@ -84,8 +81,7 @@ class UnitCtrl extends Controller
      */
     public function edit(string $id)
     {
-      $user = auth()->user();
-      $unit = Unit::where('shop_id', $user->shop_id)->find($id);
+      $unit = Unit::where('shop_id', $this->user->shop_id)->find($id);
       return view('layouts.units.edit', compact('unit'));
     }
 
@@ -101,16 +97,6 @@ class UnitCtrl extends Controller
         'status' => 'nullable|string'
       ]);
 
-      // if(isset($data['_token']))
-      // {
-      //   unset($data['_token']);
-      // }
-
-      // if(isset($data['_method']))
-      // {
-      //   unset($data['_method']);
-      // }
-
       try {
         Unit::where('id', $id)->update($data);
         Session::flash('success', 'The unit successfully updated.');
@@ -120,6 +106,7 @@ class UnitCtrl extends Controller
       {
         return $e->getMessage();
       }
+      return back();
     }
 
     /**
@@ -129,7 +116,9 @@ class UnitCtrl extends Controller
     {
       $unit = Unit::find($id);
       $unit->delete();
-      return Session::flash('success', 'The unit successfully deleted!');
+
+      Session::flash('success', 'The unit successfully deleted!');
+      return back();
     }
 
     public function getUnits()

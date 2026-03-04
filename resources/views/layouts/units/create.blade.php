@@ -34,7 +34,7 @@
               </div>
               <div class="form-group label-floating">
                 <label for="status" class="control-label">Status:</label>
-                <input type="checkbox" name="status" id="">
+                <input type="checkbox" name="status" value="Active">
               </div>
 
             <button type="submit" class="btn btn-primary pull-right">Save</button>
