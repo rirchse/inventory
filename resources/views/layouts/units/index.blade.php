@@ -48,9 +48,9 @@
                   <td>{{$unit->symbol}}</td>
                   <td>{{$unit->details}}</td>
                   <td>
-                    @if($unit->status == 1)
+                    @if($unit->status == "Active")
                     <span class="label label-success">Active</span>
-                    @elseif($unit->status == 0)
+                    @else
                     <span class="label label-warning">Inactive</span>
                     @endif
                   </td>

@@ -40,12 +40,11 @@
 
           <div class="form-group label-floating">
             <label for="details" class="control-label">Details</label>
-            <textarea name="details" id="details" class="form-control" rows="4" cols="45">{{ old('details', $unit->deteils) }}</textarea>
+            <textarea name="details" id="details" class="form-control" rows="4" cols="45">{{ $unit->details }}</textarea>
           </div>
           <div class="form-group label-floating">
             <label for="status" class="control-label">Status</label>
-            <input type="checkbox" name="status" id="status" value="1"
-                @checked (in_array('1', (array) old('status')))>
+            <input type="checkbox" name="status" id="status" value="Active" {{$unit->status == "Active" ? "checked" : ""}}>
           </div>
           
         </div>
