@@ -3,136 +3,168 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Category;
 use App\Models\Subcategory;
+use App\Models\Category;
+use App\Models\User;
 use Auth;
+use Image;
+use Toastr;
+use File;
+use DB;
 use Session;
 
-class SubcategoryCtrl extends Controller
+class SubCategoryCtrl extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $user = auth()->user();
-        $subcategories = Subcategory::latest()
-        ->where('shop_id', $user->shop_id)
-        ->paginate(25);
-        return view('layouts.subcategories.index', compact('subcategories'));
+        $sub_categoris = Subcategory::orderBy('id', 'DESC')->get();
+        return view('layouts.sub_categories.view_sub_category', compact('sub_categoris'));
+    }
+
+    /*sub categories by cat id*/
+    public function subCats($catid)
+    {
+        $subcats = Subcategory::where('parent_id', $catid)->get();
+        return response()->json([
+            'success' => $subcats,
+            'subcats' => $subcats
+            ]);
     }
 
     /**
      * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-      $user = auth()->user();
-      $categories = Category::where('shop_id', $user->shop_id)
-      ->where('status', 'Active')
-      ->get();
-      
-      return view('layouts.subcategories.create', compact('categories'));
+        $categoris = Category::all();
+        return view('layouts.sub_categories.create_sub_category', compact('categoris'));
     }
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-      $data = $request->validate([
-        'category_id' => 'nullable|numeric',
-        'name' => 'required|string',
-        'details' => 'nullable|string',
-        'status' => 'nullable|string'
-      ]);
+       $this->validate($request, [
+        'name'         => 'required|max:255',
+        'parent_id'    => 'required',            
+    ]);
 
-      if(isset($data['_token']))
-      {
-        unset($data['_token']);
-      }
 
-      $data['shop_id'] = Auth::user()->shop_id;
-      $data['created_by'] = Auth::user()->id;
+       $sub_categorys              = new Subcategory;
+       $sub_categorys->name        = $request->name;
+       $sub_categorys->parent_id   = $request->parent_id;
+       $sub_categorys->details     = $request->details;
+       $sub_categorys->status      = $request->status ?? 0;
+       $sub_categorys->created_by = Auth::id();
+       
+       if($request->image >0){
+        $image = $request->file('image');
+        $img = time() .'.'. $image->getClientOriginalExtension();
+        $location = public_path('img/category/sub_category/'.$img);
+        Image::make($image)->save($location);
+        $sub_categorys->image = $img;
 
-      try {
-        $subcategory = Subcategory::create($data);
-
-        Session::flash('success', 'New subcategory created');
-        return redirect()->route('subcategory.index');
-      }
-      catch(\Exception $e)
-      {
-        return $e->getMessage();
-      }
-
-      return back();
     }
+    $sub_categorys->save(); 
+    Session::flash('success', 'Sub-Category Successfully Save');
+    return redirect()->route('sub_categories.index');
+}
 
     /**
      * Display the specified resource.
+     *
+     * @param  \App\sub_category  $sub_category
+     * @return \Illuminate\Http\Response
      */
-    public function show(string $id)
+    public function show($id)
     {
-      $subcategory = Subcategory::find($id);
-      return view('layouts.subcategories.read', compact('subcategory'));
+        $categoris = Category::orderBy('name','asc')->get();
+        $sub_category = Subcategory::find($id);
+        return view('layouts.sub_categories.read_sub_category',compact('sub_category','categoris'));
     }
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param  \App\sub_category  $sub_category
+     * @return \Illuminate\Http\Response
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-      $user = auth()->user();
-      $categories = Category::where('shop_id', $user->shop_id)
-      ->where('status', 'Active')
-      ->get();
-
-      $subcategory = Subcategory::find($id);
-      return view('layouts.subcategories.edit', compact('categories', 'subcategory'));
+        $categoris = Category::all();
+        $sub_category =Subcategory::find($id);
+        return view('layouts.sub_categories.edit_sub_category',compact('sub_category','categoris'));
     }
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\sub_category  $sub_category
+     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, string $id)
-    {
-      $data = $request->validate([
-        'category_id' => 'nullable|string',
-        'name' => 'required|string',
-        'details' => 'nullable|string',
-        'status' => 'nullable|string'
-      ]);
-      $data['status'] = $request->has('status') ? 'Active' : 'Inactive';
-      if(isset($data['_token']))
-      {
-        unset($data['_token']);
-      }
+    public function update(Request $request, $id)
+    {$this->validate($request, [
+        'name'         => 'required|max:255',
+        'parent_id'    => 'required',            
+    ]);
+        $sub_categorys              = Subcategory::find($id);
+        $sub_categorys->name        = $request->name;
+        $sub_categorys->parent_id   = $request->parent_id;
+        $sub_categorys->details     = $request->details;
+        $sub_categorys->status      = $request->status ?? 0;
+        $sub_categorys->updated_by  = Auth::id();
+        
+        if($request->image >0){
+           if (File::exists('img/category/sub_category' .$categorys->image)) {
+            File::delete('img/category/sub_category' .$categorys->image);
+        }
 
-      $data['shop_id'] = Auth::user()->shop_id;
-      $data['created_by'] = Auth::user()->id;
+        $image = $request->file('image');
+        $img = time() .'.'. $image->getClientOriginalExtension();
+        $location = public_path('img/category/sub_category/'.$img);
+        Image::make($image)->save($location);
+        $sub_categorys->image = $img;
 
-      try {
-        $subcategory = Subcategory::where('id', $id)->update($data);
-
-        Session::flash('success', 'Subcategory data updated');
-        return redirect()->route('subcategory.index');
-      }
-      catch(\Exception $e)
-      {
-        return $e->getMessage();
-      }
-
-      return back();
     }
+    $sub_categorys->save(); 
+    Session::flash('success', 'Sub-Category Successfully Update');
+    return redirect()->route('sub_categories.index');
+}
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param  \App\sub_category  $sub_category
+     * @return \Illuminate\Http\Response
      */
-    public function destroy(Subcategory $subcategory)
+    public function destroy($id)
     {
-        $subcategory->delete();
-        Session::flash('Success', 'The subcategory has been deleted!');
-        return redirect()->route('subcategory.index');
+        
+        $sub_category = Subcategory::find($id);
+        
+        if (File::exists('img/category/sub_category/' .$sub_category->image)) {
+            File::delete('img/category/sub_category/' .$sub_category->image);
+        }
+        $sub_category->delete();
+        Session::flash('success', 'Sub-Category Successfully Delete');
+        return redirect()->route('sub_categories.index');
     }
+    
 }

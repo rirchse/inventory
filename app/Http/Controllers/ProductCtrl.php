@@ -111,7 +111,7 @@ class ProductCtrl extends Controller
             'convert_base_unit' => $request->convert_base_unit[$p],
             'is_base_unit' => is_array($request->is_base_unit) && isset($request->is_base_unit[$p]) ? 'Yes': null
           ]);
-
+          
           //insert into stock
           Stock::insert([
             'shop_id' => $user->shop_id,
@@ -161,11 +161,11 @@ class ProductCtrl extends Controller
       $subcategories     = Subcategory::where('shop_id', $user->shop_id)->where('status', 'Active')->get();
       $categories        = Category::where('shop_id', $user->shop_id)->where('status', 'Active')->get();
       $productstock      = Stock::latest()->where('product_id', $id)->first();
-      $productunit       = ProductUnit::latest()->where('product_id', $id)->first();
+      $units       = Unit::latest()->where('shop_id', $user->shop_id)->get();
 
       //$product           = Product::find($id);
       $product           = Product::where('id', $id)->where('shop_id', $user->shop_id)->first();
-      return view('layouts.products.edit',compact('categories','subcategories','brands', 'productstock', 'productunit', 'product'));
+      return view('layouts.products.edit',compact('categories','subcategories','brands', 'productstock', 'units', 'product'));
     }
 
     /**

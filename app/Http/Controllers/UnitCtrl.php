@@ -23,8 +23,7 @@ class UnitCtrl extends Controller
      */
     public function index()
     {
-      $user = auth()->user();
-      $units = Unit::where('shop_id', $user->shop_id)->orderBy('id', 'DESC')->paginate(25);
+      $units = Unit::where('shop_id', $this->user->shop_id)->orderBy('id', 'DESC')->paginate(25);
       return view('layouts.units.index', compact('units'));
     }
 
