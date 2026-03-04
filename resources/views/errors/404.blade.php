@@ -23,7 +23,7 @@
           </div>
           <br>
         	{{-- <h1 style="font-size:60px">404</h1> --}}
-          <h1> The page you requested cannot be found.</h1>
+          <h1>The page you requested cannot be found.</h1>
         	<h3 class="btn btn-default" onclick="window.history.back();">Back to Previous Page</h3>
             <h2>{{ $exception->getMessage() }}</h2>
         </div>

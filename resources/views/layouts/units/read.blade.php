@@ -63,7 +63,7 @@
           </div>
           <div class="clearfix"></div>
 
-          <p><a href="{{route('unit.delete',$unit->id)}}" onclick="return confirm('Are sure you want to permanently delete this unit?')" class="text-danger" style="padding:15px"><small>Permanently Remove?</small></a></p>
+          {{-- <p><a href="{{route('unit.delete',$unit->id)}}" onclick="return confirm('Are sure you want to permanently delete this unit?')" class="text-danger" style="padding:15px"><small>Permanently Remove?</small></a></p> --}}
         </div>
       </div><!-- /.box -->
     </div><!--/.col (left) -->

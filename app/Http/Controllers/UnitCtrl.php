@@ -13,7 +13,8 @@ class UnitCtrl extends Controller
      */
     public function index()
     {
-      $units = Unit::orderBy('id', 'DESC')->paginate(25);
+      $user = auth()->user();
+      $units = Unit::where('shop_id', $user->shop_id)->orderBy('id', 'DESC')->paginate(25);
       return view('layouts.units.index', compact('units'));
     }
 
@@ -60,13 +61,13 @@ class UnitCtrl extends Controller
      */
     public function show(string $id)
     {
-      $unit = Unit::find($id);
-      return response()->json(
-        [
-          'unit' => $unit
-        ],
-        200
-      );
+      $user = auth()->user();
+      $unit = Unit::where('shop_id', $user->shop_id)->find($id);
+      if ($unit){
+       return view('layouts.units.read', compact('unit'));
+      }
+      Session::flash('error', 'Invalid request');
+      return back();
     }
 
     /**
@@ -74,7 +75,8 @@ class UnitCtrl extends Controller
      */
     public function edit(string $id)
     {
-      $unit = Unit::find($id);
+      $user = auth()->user();
+      $unit = Unit::where('shop_id', $user->shop_id)->find($id);
       return view('layouts.units.edit', compact('unit'));
     }
 
@@ -85,22 +87,25 @@ class UnitCtrl extends Controller
     {
       $data = $request->validate([
         'name' => 'required|string',
-        'details' => 'nullable|string'
+        'symbol' => 'nullable|string',
+        'details' => 'nullable|string',
+        'status' => 'nullable|string'
       ]);
 
-      if(isset($data['_token']))
-      {
-        unset($data['_token']);
-      }
+      // if(isset($data['_token']))
+      // {
+      //   unset($data['_token']);
+      // }
 
-      if(isset($data['_method']))
-      {
-        unset($data['_method']);
-      }
+      // if(isset($data['_method']))
+      // {
+      //   unset($data['_method']);
+      // }
 
       try {
         Unit::where('id', $id)->update($data);
-        return Session::flash('success', 'The unit successfully updated.');
+        Session::flash('success', 'The unit successfully updated.');
+        return redirect()->route('unit.index');
       }
       catch(\Exception $e)
       {
