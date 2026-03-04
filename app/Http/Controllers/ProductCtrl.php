@@ -20,9 +20,17 @@ use Session;
 
 class ProductCtrl extends Controller
 {
-     public function __construct()
+    protected $user;
+
+    public function __construct()
     {
-        $this->middleware('auth');
+      $this->middleware('auth');
+
+      $this->middleware(function ($request, $next)
+      {
+        $this->user = auth()->user();
+        return $next($request);
+      });
     }
     /**
      * Display a listing of the resource.
@@ -31,9 +39,11 @@ class ProductCtrl extends Controller
      */
     public function index()
     {
-      $user = auth()->user();
-        $products = Product::where('shop_id', $user->shop_id)->orderBy('id','desc')->paginate(25);
-        return view('layouts.products.index',compact('products'));
+      $products = Product::where('shop_id', $this->user->shop_id)
+      ->latest()
+      ->paginate(25);
+
+      return view('layouts.products.index',compact('products'));
     }
 
     /**
@@ -43,19 +53,17 @@ class ProductCtrl extends Controller
      */
     public function create()
     {
-      $user = auth()->user();
-      $categories = Category::where('shop_id', $user->shop_id)
+      $categories = Category::where('shop_id', $this->user->shop_id)
       ->where('status', 'Active')
       ->get();
-      $subcategories = Subcategory::where('shop_id', $user->shop_id)
+      $subcategories = Subcategory::where('shop_id', $this->user->shop_id)
       ->where('status', 'Active')
       ->get();
-      $brands     = Brand::where('shop_id', $user->shop_id)
+      $brands = Brand::where('shop_id', $this->user->shop_id)
       ->where('status', 'Active')
       ->get();
-      $units      = Unit::where('shop_id', $user->shop_id)
+      $units = Unit::where('shop_id', $this->user->shop_id)
       ->get();
-      // dd($units);
       
       return view('layouts.products.create', compact('categories','subcategories', 'brands', 'units'));
     }
@@ -68,7 +76,6 @@ class ProductCtrl extends Controller
      */
     public function store(Request $request)
     {
-      $user = auth()->user();
       $data = $request->validate([
         'name'         => 'required|string',
         'category_id'     => 'nullable|numeric',
@@ -86,11 +93,9 @@ class ProductCtrl extends Controller
         'is_active'    => 'nullable|string',
       ]);
 
-      //dd($data);
-
       try {
         $product = new Product;
-        $product->shop_id = $user->shop_id;
+        $product->shop_id = $this->user->shop_id;
         $product->name = $data['name'];
         $product->category_id = $data['category_id'];
         $product->subcategory_id = $data['subcategory_id'];
@@ -114,7 +119,7 @@ class ProductCtrl extends Controller
 
           //insert into stock
           Stock::insert([
-            'shop_id' => $user->shop_id,
+            'shop_id' => $this->user->shop_id,
             'product_id' => $product->id,
             'product_unit_id' => $productUnit->id,
             'unit_name' => $request->unit[$p],
@@ -140,11 +145,16 @@ class ProductCtrl extends Controller
      */
     public function show($id)
     {
-        $user = auth()->user();
-        $product = Product::where('id', $id)->where('shop_id', $user->shop_id)->first();
-        //$product = Product::find($id);
-        $productunit = ProductUnit::latest()->where('product_id', $id)->first();
-        $productstock = Stock::latest()->where('product_id', $id)->first();
+        $product = Product::where('shop_id', $this->user->shop_id)
+        ->find();
+        
+        $productunit = ProductUnit::latest()
+        ->where('product_id', $id)->first();
+
+        $productstock = Stock::latest()
+        ->where('product_id', $id)
+        ->first();
+
         return view('layouts.products.read', compact('product', 'productunit', 'productstock'));
     }
 
@@ -157,15 +167,26 @@ class ProductCtrl extends Controller
     public function edit($id)
     {
       $user = auth()->user();
-      $brands            = Brand::where('shop_id', $user->shop_id)->where('status', 'Active')->get();
-      $subcategories     = Subcategory::where('shop_id', $user->shop_id)->where('status', 'Active')->get();
-      $categories        = Category::where('shop_id', $user->shop_id)->where('status', 'Active')->get();
-      $productstock      = Stock::latest()->where('product_id', $id)->first();
-      $productunit       = ProductUnit::latest()->where('product_id', $id)->first();
+      $brands = Brand::where('shop_id', $this->user->shop_id)
+      ->where('status', 'Active')
+      ->get();
+      $subcategories = Subcategory::where('shop_id', $this->user->shop_id)
+      ->where('status', 'Active')
+      ->get();
+      $categories = Category::where('shop_id', $this->user->shop_id)
+      ->where('status', 'Active')
+      ->get();
+      $productstock = Stock::latest()
+      ->where('product_id', $id)
+      ->first();
+      $productunit = ProductUnit::latest()
+      ->where('product_id', $id)
+      ->first();
 
-      //$product           = Product::find($id);
-      $product           = Product::where('id', $id)->where('shop_id', $user->shop_id)->first();
-      return view('layouts.products.edit',compact('categories','subcategories','brands', 'productstock', 'productunit', 'product'));
+      $product = Product::where('shop_id', $this->user->shop_id)
+      ->find();
+
+      return view('layouts.products.edit', compact('categories','subcategories','brands', 'productstock', 'productunit', 'product'));
     }
 
     /**
@@ -198,19 +219,6 @@ class ProductCtrl extends Controller
         $product->description     = $request->description;
         $product->status          = $request->status ?? 0;
         $product->updated_by      = Auth::id();
-        
-        // if($request->image >0){
-        //     if (File::exists('img/product' .$product->image)) {
-        //         File::delete('img/product' .$product->image);
-        //     }
-
-        //     $image = $request->file('image');
-        //     $img = time() .'.'. $image->getClientOriginalExtension();
-        //     $location = public_path('img/product/'.$img);
-        //     Image::make($image)->save($location);
-        //     $product->image = $img;
-
-        //     }
         $product->save(); 
         // Toastr::success('product Successfully Saved' , 'Success');
         Session::flash('success', 'The product successfully updated!');
@@ -253,6 +261,5 @@ class ProductCtrl extends Controller
       return response()->json([
         'item' => $products
       ], 200);
-    }
-    
+    }    
 }
