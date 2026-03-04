@@ -77,9 +77,12 @@ class SaleCtrl extends Controller
             'total'           => 'required|array',
         ]);
         
+        $shop_id = auth()->user()->shop_id;
+
         $customer = Customer::updateOrCreate(
           [
-            'contact' => $request->mobile
+            'contact' => $request->mobile,
+            'shop_id' => $shop_id,
           ],
           [
             'name' => $request->customer_name,
@@ -88,8 +91,6 @@ class SaleCtrl extends Controller
             'email' => $request->email,
           ]
         );
-
-        $shop_id = auth()->user()->shop_id;
 
         try {
           $sale = Sale::create([

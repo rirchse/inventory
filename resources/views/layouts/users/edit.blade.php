@@ -15,11 +15,15 @@
     <section class="content">
       <div class="row">
         <!-- left column -->
-        <div class="col-md-6">
+        <div class="col-md-12">
           <!-- general form elements -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Edit User Account <b>[{{$user_role->description}}]</b></h3>
+              {{-- @php
+                  dd($user)
+              @endphp --}}
+              <h3 class="box-title">Edit User Account</h3>
+              {{-- <h3 class="box-title">Edit User Account <b>[{{$user_role->description}}]</b></h3> --}}
             </div>
             <div class="col-md-12 text-right toolbar-icon">
               <a href="{{route('user.show',$user->id)}}" class="label label-info" title="User Details"><i class="fa fa-file-text"></i></a>
@@ -32,7 +36,7 @@
               @csrf
               @method('PUT')
               <div class="box-body">
-                <div class="form-group label-floating">
+                {{-- <div class="form-group label-floating">
                     <label
                         for="user_role"
                         class="control-label"
@@ -46,7 +50,7 @@
                         <option value="{{$role->id}}">{{$role->name.' ['.$role->description.']'}}</option>
                         @endforeach
                     </select>
-                </div>
+                </div> --}}
                 <div class="form-group">
                   <label
                       for="name"

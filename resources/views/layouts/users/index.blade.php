@@ -59,9 +59,9 @@ $source = new SourceCtrl;
                   <td>{{$user->contact}}</td>
                   <td>
                     @if($user->status == 1)
-                    <span class="label label-success">Verified</span>
+                    <span class="label label-success">Active</span>
                     @elseif($user->status == 0)
-                    <span class="label label-warning">Unverified</span>
+                    <span class="label label-warning">Inactive</span>
                     @elseif($user->status == 3)
                     <span class="label label-danger">Deleted</span>
                     @endif
@@ -89,7 +89,7 @@ $source = new SourceCtrl;
             <!-- /.box-body -->
             <div class="box-footer clearfix">
               <div class="pagination-sm no-margin pull-right">
-                {{-- {{$users->links()}} --}}
+                {{$users->links()}}
               </div>
             </div>
           </div>

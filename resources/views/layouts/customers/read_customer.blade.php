@@ -27,13 +27,16 @@
             <a href="{{route('customer.delete',$customer->id)}}" class="label label-danger" onclick="return confirm('Are you sure want to delete this account!');" title="Delete this account"><i class="fa fa-trash"></i></a>
             @endif
             
+            {{-- @php
+                dd($customer)
+            @endphp --}}
           </div>
           <div class="col-md-12">
             <table class="table">
               <tbody>
                 <tr>
                   <th width=150>Full Name:</th>
-                  <td>{{$customer->full_name}}</td>
+                  <td>{{$customer->name}}</td>
                 </tr>
                 <tr>
                   <th>Email:</th>
@@ -47,11 +50,11 @@
                   <th>Address:</th>
                   <td>{{$customer->address}}</td>
                 </tr>
-                <tr>
+                {{-- <tr>
                   <th>Details:</th>
                   <td>{{$customer->details}}</td>
-                </tr>
-                <tr>
+                </tr> --}}
+                {{-- <tr>
                   <th>Status:</th>
                   <td>
                     @if($customer->status == 0)
@@ -62,7 +65,7 @@
                     <span class="label label-danger">Disabled</span>
                     @endif
                   </td>
-                </tr>
+                </tr> --}}
                 <tr>
                   <th>Created On:</th>
                   <td>{{date('d M Y h:i:s A',strtotime($customer->created_at) )}} </td>
@@ -71,14 +74,14 @@
                   <th>Updated On:</th>
                   <td>{{date('d M Y h:i:s A',strtotime($customer->updated_at) )}} </td>
                 </tr>
-                <tr>
+                {{-- <tr>
                   <th>Created By:</th>
                   <td>{{App\Models\User::find($customer->created_by)?App\Models\User::find($customer->created_by)->name:'Unknown'}}</td>
-                </tr>
-                <tr>
+                </tr> --}}
+                {{-- <tr>
                   <th>Updated By:</th>
                   <td>{{App\Models\User::find($customer->updated_by)?App\Models\User::find($customer->updated_by)->name:''}}</td>
-                </tr>
+                </tr> --}}
                 {{-- <tr>
                   <th>Photo: </th>
                   <td><a href="/img/customer/{{$customer->image}}" target="_blank"><img src="/img/customer/{{$customer->image}}" width=60><br>View Large Photo</a></td>

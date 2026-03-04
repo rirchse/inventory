@@ -18,13 +18,16 @@
       <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Edit Product</h3>
+          <div class="col-xs-8">
+            <h3 class="box-title">Edit Product</h3>
+          </div>
+          <div class="col-xs-4 text-right toolbar-icon">
+            <a href="{{route('product.show',$product->id)}}" class="label label-info" title="product Details"><i class="fa fa-file-text"></i></a>
+            <a href="{{route('product.index')}}" title="View {{Session::get('_types')}} product" class="label label-success"><i class="fa fa-list"></i></a>
+            {{-- <a href="{{route('product.delete',$product->id)}}" class="label label-danger" title="Delete this account"><i class="fa fa-trash"></i></a> --}}
+          </div>
       </div>
-      <div class="col-md-12 text-right toolbar-icon">
-          <a href="{{route('product.show',$product->id)}}" class="label label-info" title="product Details"><i class="fa fa-file-text"></i></a>
-          <a href="{{route('product.index')}}" title="View {{Session::get('_types')}} product" class="label label-success"><i class="fa fa-list"></i></a>
-          {{-- <a href="{{route('product.delete',$product->id)}}" class="label label-danger" title="Delete this account"><i class="fa fa-trash"></i></a> --}}
-      </div>
+      
       <!-- /.box-header -->
       <!-- form start -->
       <form action="{{route('product.update', $product->id)}}" method="POSt" enctype="multipart/form-data">

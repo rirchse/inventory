@@ -13,7 +13,7 @@
     <!-- Main content -->
   <section class="content">
     <div class="row"><!-- left column -->
-      <div class="col-md-6"><!-- general form elements -->
+      <div class="col-md-12"><!-- general form elements -->
         <div class="box box-primary">
           <div class="box-header with-border">
             <h4 class="box-title">Account Information</h4>
@@ -45,10 +45,10 @@
                   <tr>
                     <th>Status:</th>
                     <td>
-                      @if($user->status == 'Active')
+                      @if($user->status == 1 )
                       <span class="label label-success">Active</span>
-                      @elseif($user->status == 'Unverified')
-                      <span class="label label-warning">Unverified</span>
+                      @elseif($user->status == 0 )
+                      <span class="label label-warning">Inactive</span>
                       @else
                       <span class="label label-danger">Disabled</span>
                       @endif

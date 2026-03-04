@@ -160,7 +160,7 @@
           </ul>
         </li>
 
-        <li class="treeview">
+        {{-- <li class="treeview">
           <a href="#">
             <i class="fa fa-list-ul"></i> <span>Purchase</span>
             <span class="pull-right-container">
@@ -171,9 +171,9 @@
             <li><a href="{{ route('purchase.index') }}"><i class="fa fa-list"></i> View Purchase List</a></li>
             <li><a href="#"><i class="fa fa-reply"></i> Purchase Returns</a></li>
           </ul>
-        </li>
+        </li> --}}
 
-        <li class="treeview">
+        {{-- <li class="treeview">
           <a href="#">
             <i class="fa fa-users"></i> <span>Suppliers</span>
             <span class="pull-right-container">
@@ -183,7 +183,7 @@
           <ul class="treeview-menu">
             <li><a href="{{ route('vendor.index') }}"><i class="fa fa-user"></i> View Suppliers</a></li>
           </ul>
-        </li>
+        </li> --}}
 
         <li class="treeview">
           <a href="#">
@@ -250,7 +250,7 @@
 
         <li>
           <a href="{{ route('shop.show', auth()->id()) }}">
-            <i class="fa fa-bank"></i> Shop
+            <i class="fa fa-bank"></i> <span>Shop</span>
           </a>
         </li>
 

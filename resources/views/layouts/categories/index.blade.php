@@ -24,8 +24,8 @@ $source = new SourceCtrl;
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">List of Category</h3>
-              <div class="col-md-12 text-right toolbar-icon">
+              <div class="col-xs-9"><h3 class="box-title">List of Category</h3></div>
+              <div class="col-xs-3 text-right toolbar-icon">
                 <a href="{{route('category.create')}}" title="Add Category" class="label label-info"><i class="fa fa-plus"></i></a>
               </div>
               
@@ -34,7 +34,7 @@ $source = new SourceCtrl;
             <div class="box-body table-responsive no-padding">
               <table id="example1" class="table table-bordered table-hover">
                 <tr>
-                  <th>Category Id</th>
+                  <th>Id</th>
                   <th>Name</th>
                   <th>Status</th>
                   <th>Details</th>
@@ -68,6 +68,7 @@ $source = new SourceCtrl;
             <!-- /.box-body -->
             <div class="box-footer clearfix">
               <div class="pagination-sm no-margin pull-right">
+                {!! $categories->links() !!}
               </div>
             </div>
           </div>

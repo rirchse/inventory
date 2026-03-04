@@ -15,7 +15,7 @@
     <!-- Main content -->
   <section class="content">
     <div class="row"><!-- left column -->
-      <div class="col-md-8"><!-- general form elements -->
+      <div class="col-md-12"><!-- general form elements -->
         <div class="box box-primary">
           <div class="box-header with-border">
             <h4 class="box-title">Brand Information</h4>

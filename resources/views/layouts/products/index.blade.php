@@ -20,20 +20,24 @@ $source = new SourceCtrl;
     <div class="col-xs-12">
       <div class="box">
         <div class="box-header">
-          <h3 class="box-title">List of Product</h3>
-              <div class="box-tools">
-                <a href="{{route('product.create')}}" class="btn btn-sm btn-info">
-                  <i class="fa fa-plus"></i> Add
-                </a>
-                {{-- <div class="input-group input-group-sm" style="float:right; width: 150px;margin-left:15px">
-                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+          <div class="col-xs-9">
+            <h3 class="box-title">List of Product</h3>
+          </div>
+          <div class="col-xs-3">
+            <div class="box-tools text-right">
+              <a href="{{route('product.create')}}" class="btn btn-sm btn-info">
+                <i class="fa fa-plus"></i> Add
+              </a>
+              {{-- <div class="input-group input-group-sm" style="float:right; width: 150px;margin-left:15px">
+                <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
 
-                  <div class="input-group-btn">
-                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                  </div>
-                </div> --}}
-              </div>
+                <div class="input-group-btn">
+                  <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                </div>
+              </div> --}}
             </div>
+          </div>
+        </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
               <table id="example1" class="table table-bordered table-hover">

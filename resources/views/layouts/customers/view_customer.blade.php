@@ -27,20 +27,22 @@
                   <th>#</th>
                   <th>Name</th>
                   <th>Contact</th>
-                  {{-- <th>Phone</th> --}}
+                  <th>Email</th>
                   <th>Address</th>
                   {{-- <th>Status</th> --}}
                   <th>First Order Date</th>
                   <th width="110">Action</th>
                 </tr>
-
+                {{-- @php
+                    dd($customers)
+                @endphp --}}
                 @foreach($customers as $customer)
 
                 <tr>
                   <td>{{$customer->id}}</td>
-                  <td>{{$customer->full_name}}</td>
+                  <td>{{$customer->name}}</td>
                   <td>{{$customer->contact}}</td>
-                  {{-- <td>{{$customer->phone}}</td> --}}
+                  <td>{{$customer->email}}</td>
                   <td>{{$customer->address}}</td>
                   {{-- <td>
                     @if($customer->status == 1)
@@ -74,7 +76,7 @@
             <!-- /.box-body -->
             <div class="box-footer clearfix">
               <div class="pagination-sm no-margin pull-right">
-                {{-- {{$customers->links()}} --}}
+                {{$customers->links()}}
               </div>
             </div>
           </div>

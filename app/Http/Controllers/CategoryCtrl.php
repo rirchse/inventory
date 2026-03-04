@@ -26,7 +26,7 @@ class CategoryCtrl extends Controller
     {
       $user = Auth::user();
 
-      $categories = Category::where('shop_id', $user->shop_id)->latest()->get();
+      $categories = Category::where('shop_id', $user->shop_id)->latest()->paginate(25);
       return view('layouts.categories.index', compact('categories'));
     }
 

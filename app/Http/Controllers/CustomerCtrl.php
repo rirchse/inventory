@@ -25,7 +25,8 @@ class CustomerCtrl extends Controller
      */
     public function index()
     {
-        $customers = Customer::latest()->get();
+        $user = auth()->user();
+        $customers = Customer::latest()->where('shop_id', $user->shop_id)->paginate(25);
         return view('layouts.customers.view_customer', compact('customers'));
     }
 

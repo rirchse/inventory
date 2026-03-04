@@ -27,7 +27,9 @@ class UserCtrl extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('id','desc')->get();
+        $user = auth()->user();
+        $users = User::where('shop_id', $user->shop_id)->orderBy('id','desc')->paginate(25);
+        //$users = User::orderBy('id','desc')->get();
         return view('layouts.users.index',compact('users'));
     }
 
@@ -150,7 +152,7 @@ class UserCtrl extends Controller
             $users->image = $img;
         }
         $users->save();
-        $users->roles()->updateExistingPivot($existrole->role_id, ['role_id' => $request->user_role]);
+        //$users->roles()->updateExistingPivot($existrole->role_id, ['role_id' => $request->user_role]);
 
         Session::flash('success', 'User Successfully Updated');
         return redirect('/user/'.$id);
