@@ -23,14 +23,14 @@
           <div class="col-md-12 text-right toolbar-icon">
             <a href="{{route('group.index')}}" title="View" class="label label-success"><i class="fa fa-list"></i></a>
             <a href="{{route('group.edit', $group->id)}}" class="label label-warning" title="Edit this group"><i class="fa fa-edit"></i></a>
-            <form action="{{ route('group.destroy', $group->id) }}" method="POST" style="display:inline;">
+            {{-- <form action="{{ route('group.destroy', $group->id) }}" method="POST" style="display:inline;">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="label label-danger" style="border:none; cursor:pointer;" 
                         onclick="return confirm('Are you sure you want to delete this group?')">
                     <i class="fa fa-trash"></i>
                 </button>
-            </form>
+            </form> --}}
           </div>
           <div class="col-md-12">
             <table class="table">

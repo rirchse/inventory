@@ -22,14 +22,14 @@
         <div class="col-md-12 text-right toolbar-icon">
           <a href="{{route('subcategory.show', $subcategory->id)}}" class="label label-info" title="subcategory Details"><i class="fa fa-file-text"></i></a>
           <a href="{{route('subcategory.index')}}" title="View" class="label label-success"><i class="fa fa-list"></i></a>
-          <form action="{{ route('group.destroy', $subcategory->id) }}" method="POST" style="display:inline;">
+          {{-- <form action="{{ route('group.destroy', $subcategory->id) }}" method="POST" style="display:inline;">
               @csrf
               @method('DELETE')
               <button type="submit" class="label label-danger" style="border:none; cursor:pointer;" 
                       onclick="return confirm('Are you sure?')">
                   <i class="fa fa-trash"></i>
               </button>
-          </form>
+          </form> --}}
         </div>
         <!-- /.box-header -->
         <!-- form start -->

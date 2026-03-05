@@ -10,12 +10,23 @@ use Session;
 
 class BrandCtrl extends Controller
 {
+    protected $user;
+
+    public function __construct()
+    {
+      $this->middleware(function ($request, $next)
+      {
+        $this->user = auth()->user();
+        return $next($request);
+      });
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $brands = Brand::latest()->paginate(25);
+        $brands = Brand::where('shop_id', $this->user->shop_id )->latest()->paginate(25);
         return view('layouts.brands.index', compact('brands'));
     }
 
@@ -24,8 +35,7 @@ class BrandCtrl extends Controller
      */
     public function create()
     {
-      $user = auth()->user();
-      $categories = Category::where('shop_id', $user->shop_id)
+      $categories = Category::where('shop_id', $this->user->shop_id)
       ->where('status', 'Active')
       ->get();
       
@@ -49,8 +59,8 @@ class BrandCtrl extends Controller
         unset($data['_token']);
       }
 
-      $data['shop_id'] = Auth::user()->shop_id;
-      $data['created_by'] = Auth::user()->id;
+      $data['shop_id'] = $this->user->shop_id;
+      $data['created_by'] = $this->user->id;
 
       try {
         $brand = Brand::create($data);
@@ -71,8 +81,12 @@ class BrandCtrl extends Controller
      */
     public function show(string $id)
     {
-      $brand = Brand::find($id);
-      return view('layouts.brands.read', compact('brand'));
+      $brand = Brand::where('shop_id', $this->user->shop_id )->find($id);
+      if ($brand){
+        return view('layouts.brands.read', compact('brand'));
+      }
+      Session::flash('error', 'Invalid request');
+      return back();
     }
 
     /**
@@ -80,13 +94,16 @@ class BrandCtrl extends Controller
      */
     public function edit(string $id)
     {
-      $user = auth()->user();
-      $categories = Category::where('shop_id', $user->shop_id)
+      $categories = Category::where('shop_id', $this->user->shop_id )
       ->where('status', 'Active')
       ->get();
 
-      $brand = Brand::find($id);
-      return view('layouts.brands.edit', compact('brand', 'categories'));
+      $brand = Brand::where('shop_id', $this->user->shop_id )->find($id);
+      if ($brand){
+        return view('layouts.brands.edit', compact('brand', 'categories'));
+      }
+      Session::flash('error', 'Invalid request');
+      return back();
     }
 
     /**
@@ -106,8 +123,8 @@ class BrandCtrl extends Controller
         unset($data['_token']);
       }
 
-      $data['shop_id'] = Auth::user()->shop_id;
-      $data['created_by'] = Auth::user()->id;
+      $data['shop_id'] = $this->user->shop_id;
+      $data['created_by'] = $this->user->id;
 
       try {
         $brand = Brand::where('id', $id)->update($data);

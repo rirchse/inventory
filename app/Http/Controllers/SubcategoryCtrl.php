@@ -84,8 +84,12 @@ class SubcategoryCtrl extends Controller
      */
     public function show(string $id)
     {
-      $subcategory = Subcategory::find($id);
-      return view('layouts.subcategories.read', compact('subcategory'));
+      $subcategory = Subcategory::where('shop_id', $this->user->shop_id)->find($id);
+      if ($subcategory){
+        return view('layouts.subcategories.read', compact('subcategory'));
+      }
+      Session::flash('error', 'Invalid request');
+      return back();
     }
 
     /**
@@ -97,8 +101,12 @@ class SubcategoryCtrl extends Controller
       ->where('status', 'Active')
       ->get();
 
-      $subcategory = Subcategory::find($id);
-      return view('layouts.subcategories.edit', compact('categories', 'subcategory'));
+      $subcategory = Subcategory::where('shop_id', $this->user->shop_id)->find($id);
+      if ($subcategory){
+        return view('layouts.subcategories.edit', compact('categories', 'subcategory'));
+      }
+      Session::flash('error', 'Invalid request');
+      return back();
     }
 
     /**

@@ -71,7 +71,6 @@ class UnitCtrl extends Controller
       {
        return view('layouts.units.read', compact('unit'));
       }
-
       Session::flash('error', 'Invalid request');
       return back();
     }
@@ -82,7 +81,11 @@ class UnitCtrl extends Controller
     public function edit(string $id)
     {
       $unit = Unit::where('shop_id', $this->user->shop_id)->find($id);
-      return view('layouts.units.edit', compact('unit'));
+      if ($unit){
+       return view('layouts.units.edit', compact('unit'));
+      }
+      Session::flash('error', 'Invalid request');
+      return back();
     }
 
     /**
@@ -123,7 +126,7 @@ class UnitCtrl extends Controller
 
     public function getUnits()
     {
-      $units = Unit::all();
+      $units = Unit::where('shop_id', $this->user->shop_id)->all();
       return response()->json([
         'units' => $units
       ], 200);

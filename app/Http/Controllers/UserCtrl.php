@@ -15,9 +15,15 @@ use DB;
 
 class UserCtrl extends Controller
 {
+    protected $user;
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware(function ($request, $next)
+        {
+            $this->user = auth()->user();
+            return $next($request);
+        });
     }
 
     /**
@@ -27,8 +33,7 @@ class UserCtrl extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
-        $users = User::where('shop_id', $user->shop_id)->orderBy('id','desc')->paginate(25);
+        $users = User::where('shop_id', $this->user->shop_id)->orderBy('id','desc')->paginate(25);
         //$users = User::orderBy('id','desc')->get();
         return view('layouts.users.index',compact('users'));
     }

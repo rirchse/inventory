@@ -12,9 +12,15 @@ use Session;
 
 class CategoryCtrl extends Controller
 {
+    protected $user;
     public function __construct()
     {
-      $this->middleware('auth');
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next)
+        {
+            $this->user = auth()->user();
+            return $next($request);
+        });
     }
 
     /**
@@ -24,9 +30,7 @@ class CategoryCtrl extends Controller
      */
     public function index()
     {
-      $user = Auth::user();
-
-      $categories = Category::where('shop_id', $user->shop_id)->latest()->paginate(25);
+      $categories = Category::where('shop_id', $this->user->shop_id)->latest()->paginate(25);
       return view('layouts.categories.index', compact('categories'));
     }
 
@@ -59,8 +63,8 @@ class CategoryCtrl extends Controller
           unset($data['_token']);
         }
 
-        $data['shop_id']  = Auth::user()->shop_id;
-        $data['created_by']  = Auth::id();
+        $data['shop_id']  = $this->user->shop_id;
+        $data['created_by']  = $this->user->id;
 
         try {
           Category::create($data);
@@ -82,9 +86,13 @@ class CategoryCtrl extends Controller
      */
     public function show($id)
     {
-     $category = Category::find($id);
-     return view('layouts.categories.read', compact('category'));
- }
+        $category = Category::where('shop_id', $this->user->shop_id )->find($id);
+        if ($category){
+            return view('layouts.categories.read', compact('category'));
+        }
+        Session::flash('error', 'Invalid request');
+        return back();
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -94,8 +102,12 @@ class CategoryCtrl extends Controller
      */
     public function edit($id)
     {
-        $category =Category::find($id);
-        return view('layouts.categories.edit', compact('category'));
+        $category =Category::where('shop_id', $this->user->shop_id )->find($id);
+        if ($category){
+            return view('layouts.categories.edit', compact('category'));
+        }
+        Session::flash('error', 'Invalid request');
+        return back();
     }
 
     /**

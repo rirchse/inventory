@@ -36,7 +36,8 @@ $source = new SourceCtrl;
               <table id="example1" class="table table-bordered table-hover">
                 <tr>
                   <th>Id</th>
-                  <th>Name</th>
+                  <th>Subcategory Name</th>
+                  <th>Parent Category</th>
                   <th>Status</th>
                   <th>Created On</th>
                   <th width="110">Action</th>
@@ -45,6 +46,7 @@ $source = new SourceCtrl;
                 <tr>
                   <td>{{$subcat->id}}</td>
                   <td>{{$subcat->name}}</td>
+                  <td>{{$subcat->category ? $subcat->category->name : '' }}</td>
                   <td>
                     @if($subcat->status == 'Active')
                     <span class="label label-success">Active</span>
@@ -60,14 +62,14 @@ $source = new SourceCtrl;
                     <a href="{{route('subcategory.edit', $subcat->id)}}" class="label label-warning" title="Edit this brand">
                       <i class="fa fa-edit"></i>
                     </a>
-                    <form action="{{ route('subcategory.destroy', $subcat->id) }}" method="POST" style="display:inline;">
+                    {{-- <form action="{{ route('subcategory.destroy', $subcat->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="label label-danger" style="border:none; cursor:pointer;" 
                                 onclick="return confirm('Are you sure?')">
                             <i class="fa fa-trash"></i>
                         </button>
-                    </form>
+                    </form> --}}
                   </td>
                 </tr>
                 @endforeach

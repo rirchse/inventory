@@ -14,5 +14,9 @@ class Subcategory extends Model
     'status',
     'created_by'
   ];
+  public function category()
+    {
+    	return $this->belongsTo(Category::class);
+    }
 
 }

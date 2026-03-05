@@ -68,6 +68,7 @@
             <!-- /.box-body -->
             <div class="box-footer clearfix">
               <div class="pagination-sm no-margin pull-right">
+                {!! $units->links() !!}
               </div>
             </div>
           </div>
