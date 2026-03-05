@@ -83,7 +83,7 @@ Route::middleware(['auth'])->group(function()
 
 	Route::resource('/purchase', 'PurchaseCtrl');
 	Route::resource('/product', 'ProductCtrl');
-	Route::resource('/vendor', 'SupplierCtrl');
+	Route::resource('/supplier', 'SupplierCtrl');
 	Route::resource('/customer', 'CustomerCtrl');
 	Route::resource('/unit', 'UnitCtrl');
 	Route::resource('/shop', 'ShopCtrl');

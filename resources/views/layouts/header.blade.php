@@ -181,7 +181,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ route('vendor.index') }}"><i class="fa fa-user"></i> View Suppliers</a></li>
+            <li><a href="{{ route('supplier.index') }}"><i class="fa fa-user"></i> View Suppliers</a></li>
           </ul>
         </li>
 

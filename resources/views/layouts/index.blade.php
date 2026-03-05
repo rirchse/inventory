@@ -30,7 +30,10 @@ foreach ($sales as $key => $value) {
     </section>
 
     <style type="text/css">
-    .home_items{padding: 30px;border: 1px solid #ddd}
+    .home_items{padding: 30px;border: 1px solid #ddd} 
+    @media only screen and (max-width: 767px){
+      .col-xs-12{ float: none; }
+    }
     </style>
 
     <!-- Main content -->
