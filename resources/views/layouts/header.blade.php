@@ -62,7 +62,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="/user/{{Auth::id()}}" class="btn btn-default btn-flat">Profile</a>
+                  <a href="{{route('profile.show', $user->id)}}" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
                   <form id="logout/-form" action="{{ route('logout') }}" method="POST">
@@ -86,17 +86,17 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="/img/{{$user->image?'user/'. $user->image:'avatar.png'}}" class="img-circle" alt="User Image">
+          <img src="{{$user->image ? $user->image : '/img/avatar.png'}}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info" style="text-align:right">
           <p>
-            <a href="{{route('profile.show', auth()->id())}}">
+            <a href="{{route('profile.show', $user->id)}}">
               {{ $user->name }}
             </a>
           </p>
-          <a href="{{route('profile.show', auth()->id())}}">
+          <a href="{{route('profile.show', $user->id)}}">
             <i class="fa fa-circle text-success"></i>
-            {{ Auth::user()->role->name }}
+            {{ $user->role ? $user->role->name : '' }}
           </a>
           <br>
         </div>
@@ -129,7 +129,7 @@
           </ul>
         </li>
        
-        <li class="treeview">
+        {{-- <li class="treeview">
           <a href="#">
             <i class="fa fa-money"></i>
             <span>Payments</span>
@@ -139,13 +139,8 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="/payment"><i class="fa fa-circle-o"></i> View Payments</a></li>
-            <li><a href="/payment/bKash/view"><i class="fa fa-circle-o"></i>bKash Payments</a></li>
-            <li><a href="/payment/Rocket/view"><i class="fa fa-circle-o"></i> Rocket Payments</a></li>
-            <li><a href="/payment/Nagad/view"><i class="fa fa-circle-o"></i>Nagad Payments</a></li>
-            <li><a href="/payment/Cash/view"><i class="fa fa-circle-o"></i>Cash Payments</a></li>
-            
           </ul>
-        </li>
+        </li> --}}
 
         <li class="treeview">
           <a href="#">
@@ -168,8 +163,12 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ route('purchase.index') }}"><i class="fa fa-list"></i> View Purchase List</a></li>
-            <li><a href="#"><i class="fa fa-reply"></i> Purchase Returns</a></li>
+            <li>
+              <a href="{{ route('purchase.index') }}"><i class="fa fa-list"></i> View Purchase List</a>
+            </li>
+            <li>
+              <a href="#"><i class="fa fa-reply"></i> Purchase Returns</a>
+            </li>
           </ul>
         </li>
 
@@ -181,7 +180,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ route('supplier.index') }}"><i class="fa fa-user"></i> View Suppliers</a></li>
+            <li>
+              <a href="{{ route('supplier.index') }}"><i class="fa fa-user"></i> View Suppliers</a>
+            </li>
           </ul>
         </li>
 
@@ -193,7 +194,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ route('product.index') }}"><i class="fa fa-cube"></i> View Products</a></li>
+            <li>
+              <a href="{{ route('product.index') }}"><i class="fa fa-cube"></i> View Products</a></li>
           </ul>
         </li>
 
