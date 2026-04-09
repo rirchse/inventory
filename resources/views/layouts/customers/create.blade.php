@@ -24,19 +24,11 @@
           @csrf
       <div class="box-body">
         <div class="col-md-6">
-            <h4>Personal Information:</h4>
             <div class="form-group label-floating">
-                <label
-                    for="full_name"
-                    class="control-label"
-                >
-                    Full Name of Customer: *
-                </label>
-                <input
-                    type="text"
-                    name="full_name"
-                    id="full_name"
-                    value="{{ old('full_name', null) }}"
+                <label for="name" class="control-label">Full Name of Customer: *</label>
+                <input type="text" name="name"
+                    id="name"
+                    value="{{ old('name', null) }}"
                     class="form-control"
                     placeholder="Customer Full Name"
                 >
@@ -57,23 +49,43 @@
                     placeholder="Mobile Number"
                 >
             </div>
-            <div class="form-group label-floating">
-                <label
-                    for="email"
-                    class="control-label"
-                >
-                    Email(Optional):
-                </label>
-                <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    value="{{ old('email', null) }}"
-                    class="form-control"
-                    placeholder="Email Address"
-                >
+            <div class="form-group">
+              <label for="balance">Balance:</label>
+                <input class="form-control" type="number" name="balance" placeholder="0.00" value="{{old('balance', null)}}" id="balance">
             </div>
-            <div class="form-group label-floating">
+            <div class="form-group">
+              <label for="">Balance Type</label>
+              <select class="form-control" name="balance_type" id="balance_type" onchange="balanceType(this)">
+                <option value="">Select One</option>
+                <option value="Due">Due</option>
+                <option value="Advance">Advance</option>
+              </select>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+              <label
+                  for="email"
+                  class="control-label"
+              >
+                  Email(Optional):
+              </label>
+              <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  value="{{ old('email', null) }}"
+                  class="form-control"
+                  placeholder="Email Address"
+              >
+          </div>
+          <div class="form-group">
+            <label for="address">Address:</label>
+            <textarea name="address" id="address" class="form-control" placeholder="Present Address" rows="4">{{ old('address', null) }}</textarea>
+          </div>
+        </div>
+            {{-- <div class="form-group label-floating">
                 <label
                     for="gender"
                     class="control-label"
@@ -109,10 +121,7 @@
                 >
             </div>
             <div class="form-group label-floating">
-                <label
-                    for="phone"
-                    class="control-label"
-                >
+                <label for="phone" class="control-label">
                     Home Phone:
                 </label>
                 <input
@@ -125,11 +134,9 @@
                 >
             </div>
             <div class="form-group label-floating">
-                <label
-                    for="date_of_birth"
-                    class="control-label"
-                >
-                    Date Of Barth:
+                <label for="date_of_birth"
+                    class="control-label">
+                    Date of Birth:
                 </label>
                 <input
                     type="date"
@@ -141,25 +148,10 @@
             </div>
             <div class="form-group label-floating">
                 <label
-                    for="present_address"
-                    class="control-label"
-                >
-                    Present Address:
-                </label>
-                <textarea
-                    name="present_address"
-                    id="present_address"
-                    class="form-control"
-                    placeholder="Present Address"
-                    rows="2"
-                >{{ old('present_address', null) }}</textarea>
-            </div>
-            <div class="form-group label-floating">
-                <label
                     for="permanent_address"
                     class="control-label"
                 >
-                    Permanent Address: *
+                    Permanent Address:
                 </label>
                 <textarea
                     name="permanent_address"
@@ -171,7 +163,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <h4>Profession Information:</h4>
+            <h4>Professional Information:</h4>
             <div class="form-group label-floating">
                 <label
                     for="profession"
@@ -212,7 +204,7 @@
                     for="referral"
                     class="control-label"
                 >
-                    Referral Name: *
+                    Referral Name:
                 </label>
                 <input
                     type="text"
@@ -260,11 +252,12 @@
                     class="control-label"
                 >
                     Status:
-                </label><br>
-                Active: {!! Form::checkbox('status', 1); !!}
+                </label>
+                <br>
+                <input type="checkbox" name="status" value="1">
             </div>
             <div class="form-group label-floating">
-                {{ Form::label('image', 'Photo:', ['class' => 'control-label']) }}
+                <label>Customer Image:</label>
                 <input
                     type="file"
                     name="image"
@@ -287,7 +280,7 @@
                     placeholder="Details about this customer"
                 >{{ old('details', null) }}</textarea>
             </div>
-        </div>
+        </div> --}}
         <div class="clearfix"></div>
 
         <div class="box-footer">
@@ -299,4 +292,30 @@
 </div> <!--/.col (left) -->
 </div> <!-- /.row -->
 </section> <!-- /.content -->
+<script>
+  function balanceType(e)
+  {
+    const balance = document.getElementById('balance');
+    const balance_type = document.getElementById('balance_type');
+    let type = balance_type.value;
+
+    let currentVal = balance.value;
+    if (currentVal !== "")
+    {
+        if (type === "Due") {
+            // If Due: Add (-) if it doesn't already start with it
+            if (!currentVal.startsWith("-")) {
+                balance.value = "-" + currentVal;
+            }
+        }
+        else if (type === "Advance")
+        {
+            // If Advance: Remove (-) if it exists at the start
+            if (currentVal.startsWith("-")) {
+                balance.value = currentVal.substring(1);
+            }
+        }
+    }
+  }
+</script>
 @endsection

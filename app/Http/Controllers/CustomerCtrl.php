@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\SmsCtrl;
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\Sms;
 use Auth;
 use Image;
 use Toastr;
@@ -15,7 +17,7 @@ class CustomerCtrl extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+      $this->middleware('auth');
     }
     
     /**
@@ -27,7 +29,7 @@ class CustomerCtrl extends Controller
     {
         $user = auth()->user();
         $customers = Customer::latest()->where('shop_id', $user->shop_id)->paginate(25);
-        return view('layouts.customers.view_customer', compact('customers'));
+        return view('layouts.customers.index', compact('customers'));
     }
 
     /**
@@ -37,7 +39,7 @@ class CustomerCtrl extends Controller
      */
     public function create()
     {
-        return view('layouts.customers.create_customer');
+        return view('layouts.customers.create');
     }
 
     /**
@@ -46,42 +48,38 @@ class CustomerCtrl extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
-     $this->validate($request, [
-        'full_name' => 'required|max:255',
-        'contact'   => 'required|regex:/(01)[0-9]{9}/|max:11',
-        'email'     => 'email|max:32|nullable',
-        'address'   => 'required|max:255',
-        'status'    => 'max:10',
-        'details'   => 'max:99999',
-    ]);
+      $user = auth()->user();
 
+      $data = $request->validate([
+          'name'      => 'required|max:255',
+          'balance'   => 'nullable',
+          'contact'   => 'required|regex:/(01)[0-9]{9}/|max:11',
+          'email'     => 'email|max:32|nullable',
+          'address'   => 'nullable|max:255',
+          'status'    => 'max:10',
+          'details'   => 'max:99999',
+      ]);
 
-     $customer = new Customer;
-     $customer->full_name  = $request->full_name;
-     $customer->email      = $request->email;
-     $customer->contact    = $request->contact;
-     $customer->address    = $request->address;
-     $customer->details    = $request->details;
-     $customer->status     = 1;
-     $customer->created_by = Auth::id();
+      $data['shop_id'] = $user->shop_id;
 
-     if($request->image >0){
-        $image = $request->file('image');
-        $img = time() .'.'. $image->getClientOriginalExtension();
-        $location = public_path('img/customer/'.$img);
-        Image::make($image)->save($location);
-        $customer->image = $img;
+    try {
+
+      $customer = Customer::create($data);
+ 
+      Session::flash('success', 'Customer Successfully Saved');
+      return redirect()->route('customer.show', $customer->id);
+    }
+    catch(\Exception $e)
+    {
+      return $e->getMessage();
     }
 
-    $customer->save(); 
-
-    $customer_id = Customer::orderBy('id', 'DESC')->first()->id;
-
-    Session::flash('success', 'Customer Successfully Saved');
-    return redirect()->route('customer.show',$customer_id);
-}
+    Session::flash('error', 'Unknown error!');
+    return back();
+  }
 
     /**
      * Display the specified resource.
@@ -91,8 +89,8 @@ class CustomerCtrl extends Controller
      */
     public function show($id)
     {
-        $customer = Customer::find($id);
-        return view('layouts.customers.read_customer',compact('customer'));
+      $customer = Customer::find($id);
+      return view('layouts.customers.read', compact('customer'));
     }
 
     /**
@@ -104,7 +102,7 @@ class CustomerCtrl extends Controller
     public function edit($id)
     {
         $customer = Customer::find($id);
-        return view('layouts.customers.edit_customer',compact('customer'));
+        return view('layouts.customers.edit',compact('customer'));
     }
 
     /**
@@ -116,28 +114,28 @@ class CustomerCtrl extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'full_name' => 'required|max:255',
-            'contact'   => 'required|regex:/(01)[0-9]{9}/|max:11',
-            'email'     => 'email|max:32|nullable',
-            'address'   => 'required|max:255',
-            'status'    => 'max:10',
-            'details'   => 'max:99999',
-        ]);
+      $data = $request->validate([
+        'balance'   => 'nullable',
+        'name'      => 'required|max:255',
+        'contact'   => 'required|regex:/(01)[0-9]{9}/|max:11',
+        'email'     => 'email|max:32|nullable',
+        'address'   => 'nullable|max:255',
+        'status'    => 'max:10',
+        'details'   => 'max:99999',
+        'balance_type' => 'nullable'
+      ]);
 
-
-        $customer = Customer::find($id);
-        $customer->full_name  = $request->full_name;
-        $customer->email      = $request->email;
-        $customer->contact    = $request->contact;
-        $customer->address    = $request->address;
-        $customer->details    = $request->details;
-        $customer->status     = 1;
-        $customer->created_by = Auth::id();
-        $customer->save();
-
+      try {
+        $customer = Customer::where('id', $id)->update($data);
         Session::flash('success', 'Customer information successfully updated.');
         return redirect('/customer/'.$id);
+      }
+      catch(\Exception $e)
+      {
+        return $e->getMessage();
+      }
+
+      return back();
     }
 
     /**
@@ -165,5 +163,42 @@ class CustomerCtrl extends Controller
         return response()->json([
             'customer' => $customer
         ]);
+    }
+
+    public function sendSMS($id)
+    {
+      $user = auth()->user();
+      $sms_source = new SmsCtrl;
+      $customer = Customer::find($id);
+      $balance = $customer->balance;
+      if($customer->balance < 0)
+      {
+        $balance = substr($customer->balance, 1);
+      }      
+      $message = $customer->name.', আপনার হিসাব '.$balance.' টাকা আলম জুয়েলার্স নাজিরপুর';
+      
+      //send sms by api request
+      $result = $sms_source->send('88'.$customer->contact, $message);
+      if($result->successful())
+      {
+        //update customer
+        Customer::where('id', $id)->update(['sms_sent_at' => now()]);
+
+        //keep a entry sms
+        Sms::create([
+            'shop_id' => $user->shop_id,
+            'customer_id' => $id,
+            'user_id' => $user->id,
+            'sms' => $message
+          ]);
+
+        Session::flash('success', 'SMS send successful to <b>'.$customer->name.'</b>');
+      }
+      else
+      {
+        return $result;
+      }
+
+      return back();
     }
 }

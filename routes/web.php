@@ -87,6 +87,7 @@ Route::middleware(['auth'])->group(function()
 	Route::resource('/customer', 'CustomerCtrl');
 	Route::resource('/unit', 'UnitCtrl');
 	Route::resource('/shop', 'ShopCtrl');
+	Route::resource('/sms', 'SmsCtrl');
 
   Route::controller(UnitCtrl::class)->group(function()
   {
@@ -102,6 +103,7 @@ Route::middleware(['auth'])->group(function()
   Route::controller(CustomerCtrl::class)->group(function()
   {
     Route::get('/customers/get-customer/{mobile}', 'getCustomer')->name('customer.get-customer');
+    Route::get('/customers/send-sms/{customer_id}', 'sendSMS')->name('customer.send-sms');
   });
 	
 	Route::post('/search/customer', 'CustomerCtrl@searchCustomer')->name('customer.search');

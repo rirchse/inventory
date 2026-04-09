@@ -1,3 +1,8 @@
+@php
+use \App\Http\Controllers\SourceCtrl;
+$source = new SourceCtrl;
+@endphp
+
 @extends('dashboard')
 @section('title', 'View All Customers')
 @section('content')
@@ -19,6 +24,11 @@
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">List of Customer Accounts</h3>
+            <div class="box-tools text-right">
+              <a href="{{route('customer.create')}}" class="btn btn-sm btn-info">
+                <i class="fa fa-plus"></i> Add
+              </a>
+            </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
@@ -29,13 +39,10 @@
                   <th>Contact</th>
                   <th>Email</th>
                   <th>Address</th>
-                  {{-- <th>Status</th> --}}
-                  <th>First Order Date</th>
-                  <th width="110">Action</th>
+                  <th>Balance Tk.</th>
+                  <th>SMS Date</th>
+                  <th width="130">Action</th>
                 </tr>
-                {{-- @php
-                    dd($customers)
-                @endphp --}}
                 @foreach($customers as $customer)
 
                 <tr>
@@ -44,29 +51,19 @@
                   <td>{{$customer->contact}}</td>
                   <td>{{$customer->email}}</td>
                   <td>{{$customer->address}}</td>
-                  {{-- <td>
-                    @if($customer->status == 1)
-                    <span class="label label-success">Verified</span>
-                    @elseif($customer->status == 0)
-                    <span class="label label-warning">Unverified</span>
-                    @elseif($customer->status == 3)
-                    <span class="label label-danger">Deleted</span>
-                    @endif
-                  </td> --}}
+                  <td class="{{$customer->balance < 0 ? 'text-red':''}}">{{$customer->balance}}</td>
 
-                  <td>{{ date('d M Y', strtotime($customer->created_at))}}</td>
+                  <td>{{ $source->dformat($customer->sms_sent_at)}}</td>
                   <td>
-                    <a href="{{route('customer.show',$customer->id)}}" class="label label-info" title="Customer details"><i class="fa fa-file-text"></i></a>
-                    <a href="{{route('customer.edit',$customer->id)}}" class="label label-warning" title="Edit this customer"><i class="fa fa-edit"></i></a>
-                    {{-- @if($customer->status == 1)
-                    <a href="/admin/customer_login/{{$customer->email}}" class="label label-success" title="Login to this account" target="_blank"><i class="fa fa-search-plus"></i></a>
-                    @endif
-                    @if($customer->status == 0)
-                    <a href="/admin/resend_email_verification/{{$customer->id}}" class="label label-primary" onclick="return confirm('Are you sure you want to resend email verification to this customer?')" title="Resend verification email."><i class="fa fa-envelope-o"></i></a>
-                    @endif
-                    @if($customer->status == 3)
-                    <a href="/admin/customer/{{$customer->id}}/restore" class="label label-success" title="Restore the account" onclick="return confirm('Are you sure you want to restore the account?')"><i class="fa fa-undo"></i></a>
-                    @endif --}}
+                    <a href="{{route('customer.show', $customer->id)}}" class="btn btn-sm btn-info" title="Customer details">
+                      <i class="fa fa-file-text"></i>
+                    </a>
+                    <a href="{{route('customer.edit', $customer->id)}}" class="btn btn-sm btn-warning" title="Edit this customer">
+                      <i class="fa fa-edit"></i>
+                    </a>
+                    <a href="{{route('customer.send-sms', $customer->id)}}" class="btn btn-sm btn-success" title="Send SMS" onclick="return confirm('Are you sure you want to send sms to this user?')">
+                      <i class="fa fa-send"></i>
+                    </a>
                   </td>
                 </tr>
 

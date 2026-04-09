@@ -21,7 +21,6 @@
         <div class="col-md-12 text-right toolbar-icon">
           <a href="{{route('customer.show',$customer->id)}}" class="label label-info" title="customer Details"><i class="fa fa-file-text"></i></a>
           <a href="{{route('customer.index')}}" title="View {{Session::get('_types')}} customers" class="label label-success"><i class="fa fa-list"></i></a>
-          {{-- <a href="{{route('customer.delete',$customer->id)}}" class="label label-danger" title="Delete this account"><i class="fa fa-trash"></i></a> --}}
         </div>
         <!-- /.box-header -->
         <!-- form start -->
@@ -31,17 +30,14 @@
         <div class="box-body">
         <div class="col-md-6">
             <div class="form-group label-floating">
-                <label
-                    for="full_name"
-                    class="control-label"
-                >
+                <label for="name" class="control-label">
                     Customer Name: *
                 </label>
                 <input
                     type="text"
-                    name="full_name"
-                    id="full_name"
-                    value="{{ old('full_name', $customer->full_name) }}"
+                    name="name"
+                    id="name"
+                    value="{{ old('name', $customer->name) }}"
                     class="form-control"
                     placeholder="Customer Full Name"
                 >
@@ -62,29 +58,28 @@
                     placeholder="Mobile Number"
                 >
             </div>
-            <div class="form-group label-floating">
-                <label
-                    for="email"
-                    class="control-label"
-                >
-                    Email (Optional):
-                </label>
-                <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    value="{{ old('email', $customer->email) }}"
-                    class="form-control"
-                    placeholder="example@email.com"
-                >
+            <div class="form-group">
+              <label for="balance">Balance:</label>
+                <input class="form-control" type="number" name="balance" placeholder="0.00" value="{{old('balance', $customer->balance)}}" id="balance">
+            </div>
+            <div class="form-group">
+              <label for="">Balance Type</label>
+              <select class="form-control" name="balance_type" id="balance_type" onchange="balanceType(this)">
+                <option value="">Select One</option>
+                <option value="Due" {{$customer->balance_type == 'Due'? 'selected' : ''}}>Due</option>
+                <option value="Advance" {{$customer->balance_type == 'Advance'? 'selected' : ''}}>Advance</option>
+              </select>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="form-group label-floating">
-                <label
-                    for="address"
-                    class="control-label"
-                >
+          <div class="form-group label-floating">
+              <label for="email" class="control-label">
+                  Email (Optional):
+              </label>
+              <input type="email" name="email" id="email" value="{{ old('email', $customer->email) }}" class="form-control" placeholder="example@email.com">
+          </div>
+            <div class="form-group">
+                <label for="address" class="control-label">
                     Address:
                 </label>
                 <textarea
@@ -92,7 +87,7 @@
                     id="address"
                     class="form-control"
                     placeholder="Present Address"
-                    rows="7"
+                    rows="4"
                 >{{ old('address', $customer->address) }}</textarea>
             </div>
         </div>
@@ -108,8 +103,32 @@
 
   </div>
   <!--/.col (left) -->
-</div>
-<!-- /.row -->
-</section>
-<!-- /.content -->
+</div> <!-- /.row -->
+</section> <!-- /.content -->
+<script>
+  function balanceType(e)
+  {
+    const balance = document.getElementById('balance');
+    const balance_type = document.getElementById('balance_type');
+    let type = balance_type.value;
+
+    let currentVal = balance.value;
+    if (currentVal !== "")
+    {
+        if (type === "Due") {
+            // If Due: Add (-) if it doesn't already start with it
+            if (!currentVal.startsWith("-")) {
+                balance.value = "-" + currentVal;
+            }
+        }
+        else if (type === "Advance")
+        {
+            // If Advance: Remove (-) if it exists at the start
+            if (currentVal.startsWith("-")) {
+                balance.value = currentVal.substring(1);
+            }
+        }
+    }
+  }
+</script>
 @endsection

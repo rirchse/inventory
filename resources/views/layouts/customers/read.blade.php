@@ -21,15 +21,11 @@
           <div class="col-md-12 text-right toolbar-icon">
             <a href="{{route('customer.index')}}" title="View {{Session::get('_types')}} customers" class="label label-success"><i class="fa fa-list"></i></a>
             <a href="{{route('customer.edit',$customer->id)}}" class="label label-warning" title="Edit this customer"><i class="fa fa-edit"></i></a>
-            {{-- <a href="#" title="Print" class="label label-info"><i class="fa fa-print"></i></a> --}}
 
             @if(Auth::user()->authorizeRoles(['SuperAdmin', 'Admin']))
             <a href="{{route('customer.delete',$customer->id)}}" class="label label-danger" onclick="return confirm('Are you sure want to delete this account!');" title="Delete this account"><i class="fa fa-trash"></i></a>
             @endif
             
-            {{-- @php
-                dd($customer)
-            @endphp --}}
           </div>
           <div class="col-md-12">
             <table class="table">
@@ -39,33 +35,21 @@
                   <td>{{$customer->name}}</td>
                 </tr>
                 <tr>
-                  <th>Email:</th>
-                  <td>{{$customer->email}}</td>
-                </tr>
-                <tr>
                   <th>Contact:</th>
                   <td>{{$customer->contact}}</td>
+                </tr>
+                <tr>
+                  <th>Email:</th>
+                  <td>{{$customer->email}}</td>
                 </tr>
                 <tr>
                   <th>Address:</th>
                   <td>{{$customer->address}}</td>
                 </tr>
-                {{-- <tr>
-                  <th>Details:</th>
-                  <td>{{$customer->details}}</td>
-                </tr> --}}
-                {{-- <tr>
-                  <th>Status:</th>
-                  <td>
-                    @if($customer->status == 0)
-                    <span class="label label-warning">Unverified</span>
-                    @elseif($customer->status == 1)
-                    <span class="label label-success">Active</span>
-                    @elseif($customer->status == 2)
-                    <span class="label label-danger">Disabled</span>
-                    @endif
-                  </td>
-                </tr> --}}
+                <tr>
+                  <th>Balance:</th>
+                  <th class="{{$customer->balance < 0 ? 'text-red':''}}">{{$customer->balance}}</th>
+                </tr>
                 <tr>
                   <th>Created On:</th>
                   <td>{{date('d M Y h:i:s A',strtotime($customer->created_at) )}} </td>

@@ -256,6 +256,12 @@
           </a>
         </li>
 
+        <li>
+          <a href="{{ route('sms.index') }}">
+            <i class="fa fa-send"></i> <span>SMS</span>
+          </a>
+        </li>
+
         @if(Auth::user()->authorizeRoles(['SuperAdmin', 'Admin']))
 
         <li class="treeview">
